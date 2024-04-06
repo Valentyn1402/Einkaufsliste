@@ -1,5 +1,9 @@
 from enum import Enum
 
+#class Ingredient(Enum):
+    #MILK = "Milch"
+    #OLIVE = "Olive"
+
 #Enums for categorizing recipes
 class Category(Enum):
     BREAKFAST = "Breakfast"
@@ -10,38 +14,6 @@ class Units(Enum):
     GRAMS = "g"
     MILLILITERS = "ml"
     UNITS = ""
-
-
-class Groceries:
-    def __init__(self, recipebook):
-        self.recipebook = recipebook
-
-    def print_recipes(self):
-        for recipe in self.recipebook:
-            print(recipe.name, recipe.category)
-
-    def choose_recipes(selfs):
-        choice = input("Choose recipes by typing the number: ")
-
-    def create_groceries(self):
-        print("Groceries")
-
-
-
-class RecipeBook:
-    def __init__(self):
-        self.recipes = []
-
-    def add_recipe(self, recipe):
-        self.recipes.append(recipe)
-
-    def remove_recipe(self, recipe):
-        self.recipes.remove(recipe)
-        return recipe
-
-    def total_recipes(self):
-        for recipe in self.recipes:
-            print(recipe.name, ": ",  recipe.category.value)
 
 
 class Recipe:
@@ -55,84 +27,84 @@ class Recipe:
         #self.recipe_book.add_recipe(self)
 
 
-    #def __str__(self):
+    def custom_sort_key(self):
+        if self.category == Category.BREAKFAST:
+            return 0
+        else:
+            return 1
 
+class RecipeBook:
+    def __init__(self):
+        #super().__init__()
+        self.number = 1
+        self.recipes = []
+        self.grocery_list = []
+        self.enum_recipes = {}
 
-recipe_book = RecipeBook()
+    def add_recipe(self, recipe):
+        self.recipes.append(recipe)
 
-nalesniki = Recipe("Naleśniki", Category.BREAKFAST,
-(("Mehl", 500, Units.GRAMS),
-    ("Milch", 200, Units.MILLILITERS),
-    ("Eier", 2, Units.UNITS),
-    ("Zucker", 200, Units.GRAMS),
-    ("Salz", 4, Units.GRAMS)
-))
+    def remove_recipe(self, recipe):
+        self.recipes.remove(recipe)
+        return recipe
 
+    #Sorts recipes by category
+    def sort_recipes(self):
+        self.recipes.sort(key=lambda x: x.category.value)
 
+    def total_recipes(self):
+        index = len(self.recipes)
+        for index, item in enumerate(self.recipes, start=1):
+            print(f"{index}. {item.name}")
 
-spaghetti_carbonara = Recipe("Spaghetti Carbonara", Category.DINNER,
-                             (("Speck", 100, Units.GRAMS),
-                              ("Spaghetti", 200, Units.GRAMS),
-                              ("Parmiggano", 50, Units.GRAMS),
-                              ("Eier", 3, Units.UNITS)
-))
+    #Enumerate all the objects  in the recipe list to get an number -> recipe
+    def enumerate_recipes(self):
+        number = 1
+        for recipe in self.recipes:
+            self.enum_recipes[number] = recipe
+            number += 1
 
-garlic_pasta = Recipe("Garlic Pasta", Category.DINNER,
-                      (("Garlic", 3, Units.UNITS)
+        return self.enum_recipes
+    #
+    def print_breakfast_recipes(self):
+        for recipe in self.recipes:
+            if recipe.category == Category.BREAKFAST:
+                print(f"{self.number}. {recipe.name}")
+                self.number += 1
 
-))
+    def print_dinner_recipes(self):
+        for recipe in self.recipes:
+            if recipe.category == Category.DINNER:
+                print(f"{self.number}. {recipe.name}")
+                self.number += 1
 
-fried_rice = Recipe("Fried Rice", Category.DINNER,
-                    (
-    ("Reis", 200, Units.GRAMS),
-    ("Eier", 2, Units.UNITS),
-    ("Soja-Sauce", 40, Units.MILLILITERS),
-    ("Gemüse", ),
-    ("Salz", 5, Units.GRAMS)
-))
+    def sort_ingredients(self, ingredients):
+        print(ingredients)
 
-varsketukai = Recipe("Varsketukai", Category.BREAKFAST,
-                     (("Quark", 650, Units.GRAMS),
-                      ("Eier", 2, Units.UNITS),
-                      ("Zucker", 50, Units.GRAMS),
-                      ("Salz", 3, Units.GRAMS),
-                      ("Mehl", 312, Units.GRAMS),
-                      ("Butter", 500, Units.GRAMS),
-                      ("Schmand", 50, Units.GRAMS)
+    def generate_groceries(self):
+        grocery_list = {}
+        #Go through each recipe in the list
+        for recipe in self.recipes:
+            iterable_tuple = recipe.ingredients
 
-))
+            for ingredient, amount, unit in recipe.ingredients:
+                if ingredient not in grocery_list:
+                    grocery_list[ingredient] = [amount, unit]
+                else:
+                    add = grocery_list[ingredient][0]
+                    grocery_list[ingredient] = [add + amount, unit]
+        return grocery_list
 
-french_toast = Recipe("French Toast", Category.BREAKFAST,
-                       (
-    ("Toast", 4, Units.UNITS),
-    ("Eier", 2, Units.UNITS),
-    ("Milch", 100, Units.MILLILITERS),
-    ("Zimt", 5, Units.GRAMS),
-    ("Zucker", 50, Units.GRAMS)
-))
+    def __iter__(self):
+        return iter(self.recipes)
 
-mexican_rice = Recipe("Mecican Rice", Category.DINNER,
-    (("Rice", 2, Units.UNITS),
-     ("Bohnen", 200, Units.GRAMS),
-     ("Mais", 200, Units.GRAMS),
-     ("Passata", 200, Units.GRAMS)
-    )
-)
+class Groceries(RecipeBook):
+    def __init__(self):
+        super().__init__()
 
-fleisch_pasta = Recipe
+    def choose_recipes(self):
+        choice = input("Choose recipes by typing the number: ")
 
+    def create_groceries(self):
+        print("Groceries")
 
-
-chilli_can_carne = Recipe("Chilli Con Carne", Category.DINNER,
-    (("Bohnen", 250, Units.GRAMS),
-    ("Mais", 250, Units.GRAMS),
-    ("Cayanne-Pfeffer", 5, Units.GRAMS),
-    ("Tomaten-Passata", 200, Units.GRAMS),
-    ("Rind-")
-
-))
-
-recipe_book.add_recipe(chilli_can_carne)
-recipe_book.add_recipe(french_toast)
-recipe_book.add_recipe(varsketukai)
-recipe_book.total_recipes()
