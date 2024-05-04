@@ -1,0 +1,2 @@
+# Einkaufsliste
+Repo für Einkaufszettelgenerierung 
