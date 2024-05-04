@@ -6,6 +6,20 @@
 import Rezepte
 
 list_of_recipes = [
+    Rezepte.Recipe("Plovas", Rezepte.Category.DINNER,
+                   (("Fleisch", 500, Rezepte.Units.GRAMS),
+                    ("Reis", 200, Rezepte.Units.GRAMS),
+                    ("Karrotte", 2, Rezepte.Units.UNITS),
+                    ("Zwiebel", 1, Rezepte.Units.UNITS),
+                    ("Knbolauch", 1, Rezepte.Units.UNITS),
+                    ("Öl", 20, Rezepte.Units.MILLILITERS),
+                    ("Salz", 10, Rezepte.Units.GRAMS),
+                    ("Pfeffer", 4, Rezepte.Units.GRAMS),
+                    ("Paprika Gewürz", 10, Rezepte.Units.GRAMS),
+                    ("Lorbeerblätter", 2, Rezepte.Units.UNITS),
+                    ("Cumin", 10, Rezepte.Units.GRAMS)
+                    )),
+
     Rezepte.Recipe("Naleśniki", Rezepte.Category.BREAKFAST,
                    (("Mehl", 500, Rezepte.Units.GRAMS),
                     ("Milch", 200, Rezepte.Units.MILLILITERS),
@@ -23,6 +37,21 @@ list_of_recipes = [
                     ("Cheddar", 40, Rezepte.Units.GRAMS)
                     )),
 
+    Rezepte.Recipe("Eggs and Ham Sandwich", Rezepte.Category.BREAKFAST,
+                   (("English Muffins", 2, Rezepte.Units.UNITS),
+                    ("Bacon", 4, Rezepte.Units.UNITS),
+                    ("Cheddar", 40, Rezepte.Units.UNITS),
+                    ("Eier", 2, Rezepte.Units.UNITS),
+                    ("Salz", 2, Rezepte.Units.GRAMS)
+                   )),
+
+    Rezepte.Recipe("Overnight Oats", Rezepte.Category.BREAKFAST,
+                   (("Haferflocken", 50, Rezepte.Units.GRAMS),
+                    ("Milch", 100, Rezepte.Units.MILLILITERS),
+                    ("Joghurt", 50, Rezepte.Units.GRAMS),
+                    ("Beeren", 100, Rezepte.Units.GRAMS),
+                    ("Honig", 10, Rezepte.Units.GRAMS)
+                    )),
 
     Rezepte.Recipe("Spaghetti Carbonara", Rezepte.Category.DINNER,
              (("Speck", 100, Rezepte.Units.GRAMS),
@@ -66,7 +95,7 @@ list_of_recipes = [
                               ("Zucker", 50, Rezepte.Units.GRAMS)
                           )),
 
-    Rezepte.Recipe("Mecican Rice", Rezepte.Category.DINNER,
+    Rezepte.Recipe("Mexican Rice", Rezepte.Category.DINNER,
                           (("Rice", 2, Rezepte.Units.UNITS),
                            ("Bohnen", 200, Rezepte.Units.GRAMS),
                            ("Mais", 200, Rezepte.Units.GRAMS),
@@ -78,12 +107,23 @@ list_of_recipes = [
                                ("Mais", 250, Rezepte.Units.GRAMS),
                                ("Cayanne-Pfeffer", 5, Rezepte.Units.GRAMS),
                                ("Tomaten-Passata", 200, Rezepte.Units.GRAMS),
-                               ))
+                               ("Tomatenmark", 200, Rezepte.Units.GRAMS)
+                               )),
+
+    Rezepte.Recipe("Zirniu Sriuba", Rezepte.Category.DINNER,
+                   (("Erbsen", 200, Rezepte.Units.GRAMS),
+                    ("Kartoffel", 4, Rezepte.Units.UNITS),
+                    ("Karoten", 2, Rezepte.Units.UNITS),
+                    ("Zwiebel", 2, Rezepte.Units.UNITS),
+                    ("Brühe", 20, Rezepte.Units.GRAMS),
+                    ("Salz", 10, Rezepte.Units.GRAMS)
+                   ))
+
 
 ]
 
 def init_recipies(recipe_book):
-    for i in range(len(list_of_recipes)-1):
+    for i in range(len(list_of_recipes)):
         recipe_book.add_recipe(list_of_recipes[i])
 
 def sort_recipes(recipe_book):
@@ -111,7 +151,6 @@ if __name__ == '__main__':
     recipe_book = Rezepte.RecipeBook()
     #Initialize all Recipies
     init_recipies(recipe_book)
-
     #Sort the recipes by category
     recipe_book.sort_recipes()
 
