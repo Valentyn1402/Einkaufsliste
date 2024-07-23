@@ -4,119 +4,122 @@
 # Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
 
 import Rezepte
+from Rezepte import Recipe, Units, Category
+
+# %TODO: Create a YAML files which has all the recipes, easier to parse 
 
 list_of_recipes = [
-    Rezepte.Recipe("Plovas", Rezepte.Category.DINNER,
-                   (("Fleisch", 500, Rezepte.Units.GRAMS),
-                    ("Reis", 200, Rezepte.Units.GRAMS),
-                    ("Karrotte", 2, Rezepte.Units.UNITS),
-                    ("Zwiebel", 1, Rezepte.Units.UNITS),
-                    ("Knbolauch", 1, Rezepte.Units.UNITS),
-                    ("Öl", 20, Rezepte.Units.MILLILITERS),
-                    ("Salz", 10, Rezepte.Units.GRAMS),
-                    ("Pfeffer", 4, Rezepte.Units.GRAMS),
-                    ("Paprika Gewürz", 10, Rezepte.Units.GRAMS),
-                    ("Lorbeerblätter", 2, Rezepte.Units.UNITS),
-                    ("Cumin", 10, Rezepte.Units.GRAMS)
+    Recipe("Plovas", Category.DINNER,
+                   (("Fleisch", 500, Units.GRAMS),
+                    ("Reis", 200, Units.GRAMS),
+                    ("Karrotte", 2, Units.UNITS),
+                    ("Zwiebel", 1, Units.UNITS),
+                    ("Knbolauch", 1, Units.UNITS),
+                    ("Öl", 20, Units.MILLILITERS),
+                    ("Salz", 10, Units.GRAMS),
+                    ("Pfeffer", 4, Units.GRAMS),
+                    ("Paprika Gewürz", 10, Units.GRAMS),
+                    ("Lorbeerblätter", 2, Units.UNITS),
+                    ("Cumin", 10, Units.GRAMS)
                     )),
 
-    Rezepte.Recipe("Naleśniki", Rezepte.Category.BREAKFAST,
-                   (("Mehl", 500, Rezepte.Units.GRAMS),
-                    ("Milch", 200, Rezepte.Units.MILLILITERS),
-                    ("Eier", 2, Rezepte.Units.UNITS),
-                    ("Zucker", 200, Rezepte.Units.GRAMS),
-                    ("Salz", 4, Rezepte.Units.GRAMS)
+    Recipe("Naleśniki", Category.BREAKFAST,
+                   (("Mehl", 500, Units.GRAMS),
+                    ("Milch", 200, Units.MILLILITERS),
+                    ("Eier", 2, Units.UNITS),
+                    ("Zucker", 200, Units.GRAMS),
+                    ("Salz", 4, Units.GRAMS)
                     )),
 
-    Rezepte.Recipe("French Omlette", Rezepte.Category.BREAKFAST,
-                   (("Eier", 3, Rezepte.Units.UNITS),
-                    ("Schnittlauch", 2, Rezepte.Units.UNITS),
-                    ("Salz", 2, Rezepte.Units.GRAMS),
-                    ("Pfeffer", 2, Rezepte.Units.UNITS),
-                    ("Butter", 20, Rezepte.Units.GRAMS),
-                    ("Cheddar", 40, Rezepte.Units.GRAMS)
+    Recipe("French Omlette", Category.BREAKFAST,
+                   (("Eier", 3, Units.UNITS),
+                    ("Schnittlauch", 2, Units.UNITS),
+                    ("Salz", 2, Units.GRAMS),
+                    ("Pfeffer", 2, Units.UNITS),
+                    ("Butter", 20, Units.GRAMS),
+                    ("Cheddar", 40, Units.GRAMS)
                     )),
 
-    Rezepte.Recipe("Eggs and Ham Sandwich", Rezepte.Category.BREAKFAST,
-                   (("English Muffins", 2, Rezepte.Units.UNITS),
-                    ("Bacon", 4, Rezepte.Units.UNITS),
-                    ("Cheddar", 40, Rezepte.Units.UNITS),
-                    ("Eier", 2, Rezepte.Units.UNITS),
-                    ("Salz", 2, Rezepte.Units.GRAMS)
+    Recipe("Eggs and Ham Sandwich", Category.BREAKFAST,
+                   (("English Muffins", 2, Units.UNITS),
+                    ("Bacon", 4, Units.UNITS),
+                    ("Cheddar", 40, Units.UNITS),
+                    ("Eier", 2, Units.UNITS),
+                    ("Salz", 2, Units.GRAMS)
                    )),
 
-    Rezepte.Recipe("Overnight Oats", Rezepte.Category.BREAKFAST,
-                   (("Haferflocken", 50, Rezepte.Units.GRAMS),
-                    ("Milch", 100, Rezepte.Units.MILLILITERS),
-                    ("Joghurt", 50, Rezepte.Units.GRAMS),
-                    ("Beeren", 100, Rezepte.Units.GRAMS),
-                    ("Honig", 10, Rezepte.Units.GRAMS)
+    Recipe("Overnight Oats", Category.BREAKFAST,
+                   (("Haferflocken", 50, Units.GRAMS),
+                    ("Milch", 100, Units.MILLILITERS),
+                    ("Joghurt", 50, Units.GRAMS),
+                    ("Beeren", 100, Units.GRAMS),
+                    ("Honig", 10, Units.GRAMS)
                     )),
 
-    Rezepte.Recipe("Spaghetti Carbonara", Rezepte.Category.DINNER,
-             (("Speck", 100, Rezepte.Units.GRAMS),
-                      ("Spaghetti", 200, Rezepte.Units.GRAMS),
-                      ("Parmiggano", 50, Rezepte.Units.GRAMS),
-                      ("Eier", 3, Rezepte.Units.UNITS)
+    Recipe("Spaghetti Carbonara", Category.DINNER,
+             (("Speck", 100, Units.GRAMS),
+                      ("Spaghetti", 200, Units.GRAMS),
+                      ("Parmiggano", 50, Units.GRAMS),
+                      ("Eier", 3, Units.UNITS)
                       )),
 
-    Rezepte.Recipe("Garlic Pasta", Rezepte.Category.DINNER,
-                          (("Garlic", 3, Rezepte.Units.UNITS),
-                           ("Noodles", 200, Rezepte.Units.GRAMS),
-                           ("Reis Vinegar", 50, Rezepte.Units.MILLILITERS)
+    Recipe("Garlic Pasta", Category.DINNER,
+                          (("Garlic", 3, Units.UNITS),
+                           ("Noodles", 200, Units.GRAMS),
+                           ("Reis Vinegar", 50, Units.MILLILITERS)
                           )),
 
-    Rezepte.Recipe("Fried Rice", Rezepte.Category.DINNER,
+    Recipe("Fried Rice", Category.DINNER,
                    (
-                       ("Reis", 200, Rezepte.Units.GRAMS),
-                       ("Eier", 2, Rezepte.Units.UNITS),
-                       ("Soja-Sauce", 40, Rezepte.Units.MILLILITERS),
-                       ("Gemüse",40, Rezepte.Units.GRAMS),
-                       ("Salz", 5, Rezepte.Units.GRAMS)
+                       ("Reis", 200, Units.GRAMS),
+                       ("Eier", 2, Units.UNITS),
+                       ("Soja-Sauce", 40, Units.MILLILITERS),
+                       ("Gemüse",40, Units.GRAMS),
+                       ("Salz", 5, Units.GRAMS)
                    )),
 
-    Rezepte.Recipe("Varsketukai", Rezepte.Category.BREAKFAST,
-                             (("Quark", 650, Rezepte.Units.GRAMS),
-                              ("Eier", 2, Rezepte.Units.UNITS),
-                              ("Zucker", 50, Rezepte.Units.GRAMS),
-                              ("Salz", 3, Rezepte.Units.GRAMS),
-                              ("Mehl", 312, Rezepte.Units.GRAMS),
-                              ("Butter", 500, Rezepte.Units.GRAMS),
-                              ("Schmand", 50, Rezepte.Units.GRAMS)
+    Recipe("Varsketukai", Category.BREAKFAST,
+                             (("Quark", 650, Units.GRAMS),
+                              ("Eier", 2, Units.UNITS),
+                              ("Zucker", 50, Units.GRAMS),
+                              ("Salz", 3, Units.GRAMS),
+                              ("Mehl", 312, Units.GRAMS),
+                              ("Butter", 500, Units.GRAMS),
+                              ("Schmand", 50, Units.GRAMS)
                               )
                               ),
 
-    Rezepte.Recipe("French Toast", Rezepte.Category.BREAKFAST,
+    Recipe("French Toast", Category.BREAKFAST,
                           (
-                              ("Toast", 4, Rezepte.Units.UNITS),
-                              ("Eier", 2, Rezepte.Units.UNITS),
-                              ("Milch", 100, Rezepte.Units.MILLILITERS),
-                              ("Zimt", 5, Rezepte.Units.GRAMS),
-                              ("Zucker", 50, Rezepte.Units.GRAMS)
+                              ("Toast", 4, Units.UNITS),
+                              ("Eier", 2, Units.UNITS),
+                              ("Milch", 100, Units.MILLILITERS),
+                              ("Zimt", 5, Units.GRAMS),
+                              ("Zucker", 50, Units.GRAMS)
                           )),
 
-    Rezepte.Recipe("Mexican Rice", Rezepte.Category.DINNER,
-                          (("Rice", 2, Rezepte.Units.UNITS),
-                           ("Bohnen", 200, Rezepte.Units.GRAMS),
-                           ("Mais", 200, Rezepte.Units.GRAMS),
-                           ("Passata", 200, Rezepte.Units.GRAMS)
+    Recipe("Mexican Rice", Category.DINNER,
+                          (("Rice", 2, Units.UNITS),
+                           ("Bohnen", 200, Units.GRAMS),
+                           ("Mais", 200, Units.GRAMS),
+                           ("Passata", 200, Units.GRAMS)
                            )),
 
-    Rezepte.Recipe("Chilli Con Carne", Rezepte.Category.DINNER,
-                              (("Bohnen", 250, Rezepte.Units.GRAMS),
-                               ("Mais", 250, Rezepte.Units.GRAMS),
-                               ("Cayanne-Pfeffer", 5, Rezepte.Units.GRAMS),
-                               ("Tomaten-Passata", 200, Rezepte.Units.GRAMS),
-                               ("Tomatenmark", 200, Rezepte.Units.GRAMS)
+    Recipe("Chilli Con Carne", Category.DINNER,
+                              (("Bohnen", 250, Units.GRAMS),
+                               ("Mais", 250, Units.GRAMS),
+                               ("Cayanne-Pfeffer", 5, Units.GRAMS),
+                               ("Tomaten-Passata", 200, Units.GRAMS),
+                               ("Tomatenmark", 200, Units.GRAMS)
                                )),
 
-    Rezepte.Recipe("Zirniu Sriuba", Rezepte.Category.DINNER,
-                   (("Erbsen", 200, Rezepte.Units.GRAMS),
-                    ("Kartoffel", 4, Rezepte.Units.UNITS),
-                    ("Karoten", 2, Rezepte.Units.UNITS),
-                    ("Zwiebel", 2, Rezepte.Units.UNITS),
-                    ("Brühe", 20, Rezepte.Units.GRAMS),
-                    ("Salz", 10, Rezepte.Units.GRAMS)
+    Recipe("Zirniu Sriuba", Category.DINNER,
+                   (("Erbsen", 200, Units.GRAMS),
+                    ("Kartoffel", 4, Units.UNITS),
+                    ("Karoten", 2, Units.UNITS),
+                    ("Zwiebel", 2, Units.UNITS),
+                    ("Brühe", 20, Units.GRAMS),
+                    ("Salz", 10, Units.GRAMS)
                    ))
 
 

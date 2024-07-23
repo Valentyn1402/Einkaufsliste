@@ -19,9 +19,18 @@ class Ingredient(Enum):
     RICE = ""
     ONION = ""
     OIL = ""
-    SALT = ""
-    PEPPER = ""
+    SPICES = ""
+    GARLIC = ""
+    FLOUR = ""
+    EGGS = ""
+    SUGAR = ""
+    CHEESE = ""
 
+    def __init__(self, category: Enum, subcategory: str = None):
+        self._category = category
+        self._subcategory = subcategory
+
+#Ingredient class which can also have subcategory 
 
 class Recipe:
     #name
