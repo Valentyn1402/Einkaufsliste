@@ -6,8 +6,40 @@ from tkinter import ttk
 window = tk.Tk()
 window.title("Recipe Book")
 
+i = 0
+
+#define string variables for the entries 
+vars = [tk.StringVar() for var in range(10)]
+
+#define the entries in the window
+entries = [tk.Entry(window, textvariable=vars[i]) for i in range(5)]
+
+entries[0].grid(row = 0, column = 1, padx=5, pady=5)
+entries[1].grid(row = 3, column = 1, padx=5, pady=5)
+entries[2].grid(row = 4, column = 1, padx=5, pady=5)
+entries[3].grid(row = 5, column = 1, padx=5, pady=5)
+entries[4].grid(row = 6, column = 1, padx=5, pady=5)
+
+
+def get_state(entry):
+    pass
+
+def disable_entry(event, previous_state = entries[0]):
+    if current_entry == "disabled":
+        previous_state = current_entry
+        i += 1
+        current_entry = entries[i]
+    else:
+        current_entry = previous_state
+    current_entry.config(state="disabled")
+
+#after the button is pressed save the variable data in 
+#specific format and reset the inactive windows
 def handle_button_press():
     window.destroy()
+
+#bind Enter key to disable_entry function
+window.bind('<Return>', disable_entry) 
 
 #define the labels in the window
 tk.Label(window, text = "Enter the recipe name: ").grid(row=0, column=0, padx=5, pady=5)
@@ -20,17 +52,13 @@ tk.Label(window, text = "in ml").grid(row = 5, column = 2)
 tk.Label(window, text = "in units").grid(row = 6, column= 2)
 
 #define the entries in the window
-b0 = tk.Entry(window)
-b1 = tk.Entry(window)
-b2 = tk.Entry(window)
-b3 = tk.Entry(window)
-b4 = tk.Entry(window)
+entries = [tk.Entry(window, textvariable=vars[i]) for i in range(5)]
 
-b0.grid(row = 0, column = 1, padx=5, pady=5)
-b1.grid(row = 3, column = 1, padx=5, pady=5)
-b2.grid(row = 4, column = 1, padx=5, pady=5)
-b3.grid(row = 5, column = 1, padx=5, pady=5)
-b4.grid(row = 6, column = 1, padx=5, pady=5)
+entries[0].grid(row = 0, column = 1, padx=5, pady=5)
+entries[1].grid(row = 3, column = 1, padx=5, pady=5)
+entries[2].grid(row = 4, column = 1, padx=5, pady=5)
+entries[3].grid(row = 5, column = 1, padx=5, pady=5)
+entries[4].grid(row = 6, column = 1, padx=5, pady=5)
 
 #define a button 
 button = tk.Button(text="Next ingredient", command=handle_button_press)
