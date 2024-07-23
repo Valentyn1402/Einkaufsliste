@@ -1,9 +1,5 @@
 from enum import Enum
 
-#class Ingredient(Enum):
-    #MILK = "Milch"
-    #OLIVE = "Olive"
-
 #Enums for categorizing recipes
 class Category(Enum):
     BREAKFAST = "Breakfast"
@@ -15,6 +11,17 @@ class Units(Enum):
     MILLILITERS = "ml"
     UNITS = ""
 
+class Ingredient(Enum):
+    MILK = ""
+    BUTTER = ""
+    PASTA = ""
+    MEAT = ""
+    RICE = ""
+    ONION = ""
+    OIL = ""
+    SALT = ""
+    PEPPER = ""
+
 
 class Recipe:
     #name
@@ -25,7 +32,6 @@ class Recipe:
         # Automatically add the recipe to the recipe book
         #self.recipe_book = RecipeBook()
         #self.recipe_book.add_recipe(self)
-
 
     def custom_sort_key(self):
         if self.category == Category.BREAKFAST:
