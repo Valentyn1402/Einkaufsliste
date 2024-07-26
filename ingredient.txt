@@ -1,0 +1,21 @@
+recipe name: Pizza
+category: Breakfast
+ingredient: Op2
+subcategory: Fusili
+ammount: 100
+ingredient: Op2
+subcategory: Parmigano
+ammount: 20
+recipe name: Pasta
+category: Breakfast
+ingredient: Op2
+subcategory: Fusili
+ammount: 100
+ingredient: Op1
+subcategory: Wasser
+ammount: 20
+recipe name: Pizza
+category: Breakfast
+ingredient: Op2
+subcategory: Parmigano
+ammount: 100
