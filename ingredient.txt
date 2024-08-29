@@ -19,3 +19,60 @@ category: Breakfast
 ingredient: Op2
 subcategory: Parmigano
 ammount: 100
+recipe name: Koldunai
+category: Breakfast
+ingredient: Op1
+subcategory: 
+ammount: 100
+recipe name: Barsczc
+category: breakfast
+ingredient: wheat
+subcategory: 
+ammount: 100
+recipe name: 
+category: 
+ingredient: 
+subcategory: 
+recipe name: Pasta
+category: dinner
+ingredient: broth
+subcategory: chicken
+ammount: 50 g 
+ingredient: cheese
+subcategory: parmiggano
+ammount: 100 g 
+recipe name: Pasta
+category: 
+ingredient: 
+subcategory: 
+ingredient: 
+subcategory: Ricatta
+ammount: 199 g 
+ingredient: 
+subcategory: Surata
+recipe name: Pasta
+category: 
+ingredient: 
+subcategory: 123
+ingredient: 
+subcategory: 
+recipe name: 123123
+category: 
+ingredient: 
+subcategory: 
+recipe name: 123123
+category: 
+ingredient: 
+subcategory: 
+ingredient: 
+subcategory: asdf
+ingredient: 
+subcategory: 
+ingredient: asdf
+subcategory: 
+ingredient: asdf
+subcategory: 
+ingredient: asdf
+subcategory: 
+ingredient: batter
+subcategory: 
