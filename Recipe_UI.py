@@ -40,7 +40,7 @@ class UI():
 
         state = self.entries[0]
         #bind Enter key to disable_entry function
-        self.window.bind('<Return>', self.disable_entry)
+        self.window.bind('<Return>', self.handle_button_press)
  
         #define the labels in the window
         tk.Label(self.window, text = "Enter the recipe name: ").grid(row=0, column=0, padx=5, pady=5)
@@ -125,9 +125,11 @@ class UI():
             with open(dir, 'w') as f:
                 f.write('')  # create an empty file
 
-        while any([var is None for var in\
+        #if any of the fields are empty do not execute the function further just return 
+        if any([var == "" for var in\
             [self.vars[0].get(), self.combvar1.get(), self.combvar.get()]]):
             messagebox.showwarning("Warning", "Please fill in all fields!")
+            return
 
         #write the recipe name if the 
         with open(dir, "a") as f:
