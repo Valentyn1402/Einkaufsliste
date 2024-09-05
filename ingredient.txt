@@ -76,3 +76,19 @@ ingredient: asdf
 subcategory: 
 ingredient: batter
 subcategory: 
+recipe name: Pasta
+category: breakfast
+ingredient: batter
+subcategory: 
+ammount: 11 g 
+ingredient: beans
+subcategory: 1
+ammount: 100 g 
+recipe name: pasta
+category: breakfast
+ingredient: bagel
+subcategory: 
+ammount: 120 g 
+ingredient: bagel
+subcategory: 
+ammount: 20 g 
