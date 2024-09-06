@@ -1,16 +1,14 @@
+import yaml
 # class to parse the dictionary entries and either add them to the 
 # recipe list or not 
 # requires a list of requirements 
-
-
 # List of requirements:
 # Recipe has to have atleast 2 ingredients 
 # No two recipes can not have the same name 
 # No two recipes can not have identical list of ingredients 
+# import yaml 
 
-import yaml 
-
-INGREDIENT_FILE = "C:/Users/subotovic/Desktop/Code/Einkaufsliste/ingredient.txt"
+INGREDIENT_FILE = "C:/Users/subotovic/Desktop/Code/Einkaufsliste/ingredient.yaml"
 
 class Parser():
 
@@ -38,9 +36,9 @@ class Parser():
             list_of_ingredients = entry["ingredients"]
             recipe_ingrediets = recipe["ingredients"]
             for ingredient in list_of_ingredients: 
-                if list_of_ingredients["ingredient"] == recipe_ingrediets["ingredients"] and \
-                list_of_ingredients["subcategory"] == recipe_ingrediets["subcategory"] and \
-                list_of_ingredients["amount"] == recipe_ingrediets["amount"]:
+                if ingredient["ingredient"] == recipe_ingrediets["ingredient"] and \
+                ingredient["subcategory"] == recipe_ingrediets["subcategory"] and \
+                ingredient["amount"] == recipe_ingrediets["amount"]:
                     return False
         return True
 
