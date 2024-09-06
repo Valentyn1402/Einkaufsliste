@@ -23,7 +23,7 @@ class UI():
     ingredients: str
     listbox: tk.Listbox
 
-    def __init__(self):
+    def __init__(self) -> None:
 
         #create the main window 
         self.window = tk.Tk()
@@ -73,14 +73,14 @@ class UI():
         # Start the event loop.
         self.window.mainloop()
 
-    def define_entries(self):
+    def define_entries(self) -> None:
         self.entries[0].grid(row = 0, column = 1, padx=5, pady=5)
         self.entries[1].grid(row = 3, column = 1, padx=5, pady=5)
         self.entries[2].grid(row = 4, column = 1, padx=5, pady=5)
         self.entries[3].grid(row = 5, column = 1, padx=5, pady=5)
         self.entries[4].grid(row = 6, column = 1, padx=5, pady=5)
 
-    def define_labels(self):
+    def define_labels(self) -> None:
         #define the labels in the window
         tk.Label(self.window, text = "Ingredients: ").grid(row=0, column=3, padx=5, pady=5)
         tk.Label(self.window, text = "Enter the recipe name: ").grid(row=0, column=0, padx=5, pady=5)
@@ -92,10 +92,10 @@ class UI():
         tk.Label(self.window, text = "in ml").grid(row = 5, column = 2)
         tk.Label(self.window, text = "in units").grid(row = 6, column= 2)
 
-    def bind_button(self): 
+    def bind_button(self) -> None: 
         self.window.bind('<Return>', self.handle_button_press)
 
-    def define_combobox(self):
+    def define_combobox(self) -> None:
         #define a combobox
         self.c0 = ttk.Combobox(self.window, values=self.ingredient_list,  textvariable=self.combvar)
         self.c1 = ttk.Combobox(self.window, values=["breakfast", "dinner"], textvariable=self.combvar1)
@@ -103,12 +103,12 @@ class UI():
         self.c0.grid(row = 2, column = 1)
         self.c1.grid(row = 1, column = 1)
 
-    def define_listbox(self):
+    def define_listbox(self) -> None:
         # defines a listbox on the right side of the panel
         self.listbox = tk.Listbox(self.window, listvariable=self.ingredientsvar, height=10, width=40)
         self.listbox.grid(row = 1, column = 3, rowspan = 6, padx = 50)
 
-    def define_buttons(self):
+    def define_buttons(self) -> None:
         #define a button 
         button_0 = tk.Button(text="Next ingredient", command=self.handle_button_press)
         button_1 = tk.Button(text="Add to recipes", command=self.add_to_recipes)
@@ -122,9 +122,6 @@ class UI():
                 self.ingredient_list.append(line.strip())
 
     def get_state(self, entry):
-        pass
-
-    def add_to_recipes(self):
         pass
 
     def add_to_list(self) -> None:
@@ -144,7 +141,7 @@ class UI():
         print(string_entry)
         self.listbox.insert(tk.END, string_entry)
 
-    def add_to_recipes(self):
+    def add_to_recipes(self) -> None:
         if self.flag is False:
             self.recipe_dict["recipe"] = self.vars[0].get()
             self.recipe_dict["category"] = self.combvar1.get()
@@ -170,7 +167,7 @@ class UI():
 
     #after the button is pressed save the variable data in 
     #specific format and reset the inactive windows
-    def handle_button_press(self, event = None):
+    def handle_button_press(self, event = None) -> None:
         #once button is pressed save the variable data to the list
         if not os.path.exists(INGREDIENT_FILE):
             with open(INGREDIENT_FILE, 'w') as f:
