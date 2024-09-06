@@ -6,6 +6,7 @@ import os
 
 #define constant file paths 
 FILE_PATH = "C:/Users/subotovic/Desktop/Code/Einkaufsliste/food.txt"
+INGREDIENT_FILE = "C:/Users/subotovic/Desktop/Code/Einkaufsliste/ingredient.yaml"
 
 '''
 TO DO: add a button which indicates when recipe is complete and can be added to the recipe list
@@ -35,7 +36,7 @@ class UI():
         self.ingredient_list = []
         self.ingredients = []
         self.recipe_dict = {}
-        self.parser = Parser()
+        self.parser = Parser(INGREDIENT_FILE)
 
         #convert ingredients to StringVar
         self.ingredientsvar = tk.StringVar(value = self.ingredients)
@@ -124,8 +125,7 @@ class UI():
         pass
 
     def check_entry(self):
-        # self.parser.parse_recipe_dictionary(self.recipe_dict)
-        pass
+        self.parser.parse_recipe_dictionary(self.recipe_dict)
         
     def add_to_list(self) -> None:
         string_entry = f"ingredient: {self.combvar.get()} subcategory: {self.vars[1].get()}"

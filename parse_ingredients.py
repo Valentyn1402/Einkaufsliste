@@ -8,13 +8,11 @@ import yaml
 # No two recipes can not have identical list of ingredients 
 # import yaml 
 
-INGREDIENT_FILE = "C:/Users/subotovic/Desktop/Code/Einkaufsliste/ingredient.yaml"
-
 class Parser():
 
-    def __init__(self) -> None:
-
-        with open(INGREDIENT_FILE, "r", encoding="utf-8") as file: 
+    def __init__(self, file_path) -> None:
+        self.file_path = file_path
+        with open(self.file_path, "r", encoding="utf-8") as file: 
             self.ingredient_file = yaml.safe_load(file)
         
 
@@ -46,5 +44,5 @@ class Parser():
         list_of_functions = [self.check_ingredient_amount, self.check_ingredients, self.check_recipe_name]
 
         if not any(func(recipe_dictionary) for func in list_of_functions):
-            with open(INGREDIENT_FILE, "w", encoding="utf-8") as file:
+            with open(self.file_path, "w", encoding="utf-8") as file:
                 yaml.dump(recipe_dictionary, file)
