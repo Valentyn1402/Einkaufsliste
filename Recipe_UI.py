@@ -11,6 +11,7 @@ add a visible window which show all already ingredients
 - Make sure that the recipe doesn't have any numbers in it 
 - Make sure if the same ingredient is given twice either add to already existing one or throw an error
 - Make sure that the igredient list is a list of dictionaries
+- Possibility to add a description of the recipe if you forget or to remind 
 ''' 
 class UI():
 
