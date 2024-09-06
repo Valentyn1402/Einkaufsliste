@@ -1,11 +1,11 @@
 import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
+from parse_ingredients import Parser
 import os
 
 #define constant file paths 
 FILE_PATH = "C:/Users/subotovic/Desktop/Code/Einkaufsliste/food.txt"
-INGREDIENT_FILE = "C:/Users/subotovic/Desktop/Code/Einkaufsliste/ingredient.txt"
 
 '''
 TO DO: add a button which indicates when recipe is complete and can be added to the recipe list
@@ -35,6 +35,7 @@ class UI():
         self.ingredient_list = []
         self.ingredients = []
         self.recipe_dict = {}
+        self.parser = Parser()
 
         #convert ingredients to StringVar
         self.ingredientsvar = tk.StringVar(value = self.ingredients)
@@ -52,8 +53,6 @@ class UI():
 
         #position self.entries 
         self.define_entries()
-
-        state = self.entries[0]
 
         #bind buttons
         self.bind_button()
@@ -111,7 +110,7 @@ class UI():
     def define_buttons(self) -> None:
         #define a button 
         button_0 = tk.Button(text="Next ingredient", command=self.handle_button_press)
-        button_1 = tk.Button(text="Add to recipes", command=self.add_to_recipes)
+        button_1 = tk.Button(text="Add to recipes", command=self.check_entry)
         button_0.grid(row = 7, column = 1, pady=10)
         button_1.grid(row = 7, column = 0, pady=10)
 
@@ -124,6 +123,10 @@ class UI():
     def get_state(self, entry):
         pass
 
+    def check_entry(self):
+        # self.parser.parse_recipe_dictionary(self.recipe_dict)
+        pass
+        
     def add_to_list(self) -> None:
         string_entry = f"ingredient: {self.combvar.get()} subcategory: {self.vars[1].get()}"
         amount = ""
