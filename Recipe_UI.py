@@ -2,25 +2,42 @@ import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
 import os
+
+#define constant file paths 
+FILE_PATH = "C:/Users/subotovic/Desktop/Code/Einkaufsliste/food.txt"
+INGREDIENT_FILE = "C:/Users/subotovic/Desktop/Code/Einkaufsliste/ingredient.txt"
+
+'''
+TO DO: add a button which indicates when recipe is complete and can be added to the recipe list
+add a visible window which show all already ingredients 
+- Make sure the amount is given is a number and better an integer
+- Make sure that the recipe doesn't have any numbers in it 
+- Make sure if the same ingredient is given twice either add to already existing one or throw an error
+- Make sure that the igredient list is a list of dictionaries
+''' 
 class UI():
 
     entries: list[tk.Entry]
     ingredient_list: list[str]
-    FILE_PATH: str
+    recipe_list: dict[str : str]
+    ingredients: str
+    listbox: tk.Listbox
 
     def __init__(self):
 
         #create the main window 
         self.window = tk.Tk()
         self.window.title("Recipe Book")
-
-        #file path
-        FILE_PATH = "C:/Users/subotovic/Desktop/Code/Einkaufsliste/food.txt"
         
         #define instance variables
         self.flag: bool = False
         self.i = 0
         self.ingredient_list = []
+        self.ingredients = []
+        self.recipe_dict = {}
+
+        #convert ingredients to StringVar
+        self.ingredientsvar = tk.StringVar(value = self.ingredients)
 
         #parse the file
         self.parse_ingredients(FILE_PATH)
@@ -49,6 +66,9 @@ class UI():
 
         #define a combobox
         self.define_combobox()
+
+        #define a listbox
+        self.define_listbox()
     
         # Start the event loop.
         self.window.mainloop()
@@ -62,6 +82,7 @@ class UI():
 
     def define_labels(self):
         #define the labels in the window
+        tk.Label(self.window, text = "Ingredients: ").grid(row=0, column=3, padx=5, pady=5)
         tk.Label(self.window, text = "Enter the recipe name: ").grid(row=0, column=0, padx=5, pady=5)
         tk.Label(self.window, text = "Enter the recipe category: ").grid(row=1, column=0, padx=5, pady=5)
         tk.Label(self.window, text = "Enter the ingredient: ").grid(row=2, column=0, padx=5, pady=5)
@@ -71,7 +92,7 @@ class UI():
         tk.Label(self.window, text = "in ml").grid(row = 5, column = 2)
         tk.Label(self.window, text = "in units").grid(row = 6, column= 2)
 
-    def bind_button(self):
+    def bind_button(self): 
         self.window.bind('<Return>', self.handle_button_press)
 
     def define_combobox(self):
@@ -82,10 +103,17 @@ class UI():
         self.c0.grid(row = 2, column = 1)
         self.c1.grid(row = 1, column = 1)
 
+    def define_listbox(self):
+        # defines a listbox on the right side of the panel
+        self.listbox = tk.Listbox(self.window, listvariable=self.ingredientsvar, height=10, width=40)
+        self.listbox.grid(row = 1, column = 3, rowspan = 6, padx = 50)
+
     def define_buttons(self):
         #define a button 
-        button = tk.Button(text="Next ingredient", command=self.handle_button_press)
-        button.grid(row = 7, column = 1, pady=10)
+        button_0 = tk.Button(text="Next ingredient", command=self.handle_button_press)
+        button_1 = tk.Button(text="Add to recipes", command=self.add_to_recipes)
+        button_0.grid(row = 7, column = 1, pady=10)
+        button_1.grid(row = 7, column = 0, pady=10)
 
     def parse_ingredients(self, text: str) -> None:
         #open the file
@@ -96,41 +124,56 @@ class UI():
     def get_state(self, entry):
         pass
 
-    def disable_entry(self, event):
-        #once button is pressed save the variable data to the list
-        dir = "C:/Users/subotovic/Desktop/Code/Einkaufsliste/ingredient.txt"
-        if not os.path.exists(dir):
-            with open(dir, 'w') as f:
-                f.write('')  # create an empty file
+    def add_to_recipes(self):
+        pass
 
-        #write the recipe name if the 
-        with open(dir, "a") as f:
-            if self.flag == False:
-                f.write("recipe name: " + self.vars[0].get() + "\n")
-                f.write("category: " + self.combvar1.get() + "\n")
-                #disable the state of the self.entries and combobox
-                self.entries[0].config(state="disabled")
-                self.c1.config(state="disabled")
-                self.flag = True
+    def add_to_list(self) -> None:
+        string_entry = f"ingredient: {self.combvar.get()} subcategory: {self.vars[1].get()}"
+        amount = ""
+        #check which ammount is added
+        if self.vars[2].get() != "":
+            amount = "amount: " + self.vars[2].get() + " g \n"
+        elif self.vars[3].get() != "":
+            amount = "amount: " + self.vars[3].get() + " ml \n"
+        elif self.vars[4].get() != "":
+            amount = "ammount: " + self.vars[4].get() + " units \n"
 
-            f.write("ingredient: " + self.combvar.get() + "\n")
-            f.write("subcategory: " + self.vars[1].get() + "\n")
-            if self.vars[2].get() != "":
-                f.write("ammount: " + self.vars[2].get() + " g \n")
-            elif self.vars[3].get() != "":
-                f.write("ammount: " + self.vars[3].get() + " ml \n")
-            elif self.vars[4].get() != "":
-                f.write("ammount: " + self.vars[4].get() + " units \n")
+        string_entry += amount 
+        #updates the ingredients list asweel as the ingredientsvar
+        self.ingredients.append(string_entry)
+        print(string_entry)
+        self.listbox.insert(tk.END, string_entry)
 
-        [entry.delete(0, tk.END) for entry in self.entries[1:]]
+    def add_to_recipes(self):
+        if self.flag is False:
+            self.recipe_dict["recipe"] = self.vars[0].get()
+            self.recipe_dict["category"] = self.combvar1.get()
+            self.recipe_dict["ingredients"] = []
+            # disable the state of the self.entries and combobox
+            self.entries[0].config(state="disabled")
+            self.c1.config(state="disabled")
+            self.flag = True
+
+        ingredient = {"ingredient " : self.combvar.get()}
+        subcategory = {"subcategory " : self.vars[1].get()}
+        if self.vars[2].get() != "":
+            amount = f"{self.vars[2].get()} g"
+        elif self.vars[3].get() != "":
+            amount = f"{self.vars[3].get()} ml"
+        elif self.vars[4].get() != "":
+            amount = f"{self.vars[4].get()} units"
+
+        entry_dictionary = {"ingredient" : self.combvar.get(), "subcategory" : self.vars[1].get(),
+                            "amount" : amount}
+        self.recipe_dict["ingredients"].append(entry_dictionary)
+
 
     #after the button is pressed save the variable data in 
     #specific format and reset the inactive windows
     def handle_button_press(self, event = None):
         #once button is pressed save the variable data to the list
-        dir = "C:/Users/subotovic/Desktop/Code/Einkaufsliste/ingredient.txt"
-        if not os.path.exists(dir):
-            with open(dir, 'w') as f:
+        if not os.path.exists(INGREDIENT_FILE):
+            with open(INGREDIENT_FILE, 'w') as f:
                 f.write('')  # create an empty file
 
         #if any of the fields are empty do not execute the function further just return 
@@ -138,25 +181,12 @@ class UI():
             [self.vars[0].get(), self.combvar1.get(), self.combvar.get()]]):
             messagebox.showwarning("Warning", "Please fill in all fields!")
             return
+        
+        self.add_to_recipes()
 
-        #write the recipe name if the 
-        with open(dir, "a") as f:
-            if self.flag == False:
-                f.write("recipe name: " + self.vars[0].get() + "\n")
-                f.write("category: " + self.combvar1.get() + "\n")
-                #disable the state of the self.entries and combobox
-                self.entries[0].config(state="disabled")
-                self.c1.config(state="disabled")
-                self.flag = True
+        self.add_to_list()
 
-            f.write("ingredient: " + self.combvar.get() + "\n")
-            f.write("subcategory: " + self.vars[1].get() + "\n")
-            if self.vars[2].get() != "":
-                f.write("ammount: " + self.vars[2].get() + " g \n")
-            elif self.vars[3].get() != "":
-                f.write("ammount: " + self.vars[3].get() + " ml \n")
-            elif self.vars[4].get() != "":
-                f.write("ammount: " + self.vars[4].get() + " units \n")
+        print(self.recipe_dict)
 
         [entry.delete(0, tk.END) for entry in self.entries[1:]]
 
