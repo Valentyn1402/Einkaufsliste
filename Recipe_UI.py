@@ -1,13 +1,9 @@
 import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
-from parse_ingredients import Parser
 import os
-
-#define constant file paths 
-FILE_PATH = "C:/Users/subotovic/Desktop/Code/Einkaufsliste/food.txt"
-INGREDIENT_FILE = "C:/Users/subotovic/Desktop/Code/Einkaufsliste/ingredient.yaml"
-
+from parse_ingredients import Parser
+from paths import FILE_PATH, INGREDIENT_FILE
 '''
 TO DO: add a button which indicates when recipe is complete and can be added to the recipe list
 add a visible window which show all already ingredients 
