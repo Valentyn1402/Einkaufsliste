@@ -92,3 +92,31 @@ ammount: 120 g
 ingredient: bagel
 subcategory: 
 ammount: 20 g 
+recipe name: pasta
+category: breakfast
+ingredient: beer
+subcategory: 
+ammount: 100 g 
+recipe name: bolognese
+category: dinner
+ingredient: rice
+subcategory: brown
+ammount: 100 g 
+recipe name: pasta
+category: breakfast
+recipe name: pasta
+category: dinner
+recipe name: pasta
+category: breakfast
+recipe name: pasat
+category: breakfast
+recipe name: sadf
+category: breakfast
+recipe name: asdfsdf
+category: dinner
+recipe name: asdfasd
+category: dinner
+recipe name: pasta
+category: breakfast
+recipe name: pasta
+category: breakfast
