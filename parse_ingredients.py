@@ -6,6 +6,7 @@ import yaml
 # Recipe has to have atleast 2 ingredients 
 # No two recipes can not have the same name 
 # No two recipes can not have identical list of ingredients 
+# if yaml file is empty create a list 
 # import yaml 
 
 class Parser():
@@ -43,6 +44,20 @@ class Parser():
     def parse_recipe_dictionary(self, recipe_dictionary: dict[str : str]) -> None:
         list_of_functions = [self.check_ingredient_amount, self.check_ingredients, self.check_recipe_name]
 
-        if not any(func(recipe_dictionary) for func in list_of_functions):
+        if self.ingredient_file is None:
+            empty_list = []
+            empty_list.append(recipe_dictionary)
             with open(self.file_path, "w", encoding="utf-8") as file:
-                yaml.dump(recipe_dictionary, file)
+                yaml.dump(empty_list, file, default_flow_style=False)
+
+        if all(func(recipe_dictionary) for func in list_of_functions): 
+            with open(self.file_path, "a", encoding="utf-8") as file:
+                yaml.dump(recipe_dictionary, file, default_flow_style=False)
+
+        # else:
+        #     if all(func(recipe_dictionary) for func in list_of_functions):
+        #         with open(self.file_path, "w", encoding="utf-8") as file:
+        #             yaml.dump(recipe_dictionary, file)
+
+if __name__ == "__main__":
+    save = Parser("C:/Users/subotovic/Desktop/Code/Einkaufsliste/ingredient.yaml")
