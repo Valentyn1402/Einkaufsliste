@@ -18,6 +18,8 @@ class Grocceries():
     recipe_list: list[str]
     recipe_map: dict[str : int]
     recipe_amount: dict[str : int]
+    ingredient_list: dict[str : int]
+    recipes: dict
 
     def __init__(self) -> None:
         #create the main window 
@@ -25,9 +27,11 @@ class Grocceries():
         self.window.title("Groccery list")
 
         #list of recipes
+        self.recipes = {}
         self.recipe_map = {}
         self.recipe_list = []
         self.recipe_amount = {}
+        self.ingredient_list = {}
         self.combvars = [tk.StringVar() for var in range(21)]
 
         #generate recipe list
@@ -62,9 +66,9 @@ class Grocceries():
 
     def generate_entries(self):
         with open(INGREDIENT_FILE, "r") as file:
-            recipes = yaml.safe_load(file)
-        self.recipe_name_to_recipe(recipes)
-        self.recipe_list = [recipe["recipe"] for recipe in recipes]
+            self.recipes = yaml.safe_load(file)
+        self.recipe_name_to_recipe(self.recipes)
+        self.recipe_list = [recipe["recipe"] for recipe in self.recipes]
 
     def recipe_name_to_recipe(self, recipes: list):
         for index, entry in enumerate(recipes):
@@ -73,6 +77,19 @@ class Grocceries():
     def generate_grocceries(self):
         self.sort_grocceries()
         print(self.recipe_amount)
+        print(self.recipes)
+
+        for list_entry in self.recipes:
+            for key, value in self.recipe_amount:
+                recipe_index = self.recipe_map[key]
+                recipe = self.recipes[recipe_index]
+                ingredients = recipe["ingredients"]
+                for ingredient in ingredients:
+                    
+                    pass
+
+
+
 
 
     def sort_grocceries(self):
@@ -82,7 +99,7 @@ class Grocceries():
             # if the recipe is not in the dictionary -> create dictionary entry 
             if recipe.get() in self.recipe_amount:
                 self.recipe_amount[recipe.get()] += 1
-            else:
+            elif recipe.get() != "":
                 self.recipe_amount[recipe.get()] = 1
             # else increase the ammount of the recipe occurance 
 
