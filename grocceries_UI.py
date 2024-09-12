@@ -17,15 +17,17 @@ class Grocceries():
 
     recipe_list: list[str]
     recipe_map: dict[str : int]
+    recipe_amount: dict[str : int]
 
     def __init__(self) -> None:
         #create the main window 
         self.window = tk.Tk()
-        self.window.title("Groccerie list")
+        self.window.title("Groccery list")
 
         #list of recipes
         self.recipe_map = {}
         self.recipe_list = []
+        self.recipe_amount = {}
         self.combvars = [tk.StringVar() for var in range(21)]
 
         #generate recipe list
@@ -70,11 +72,19 @@ class Grocceries():
 
     def generate_grocceries(self):
         self.sort_grocceries()
-        pass
+        print(self.recipe_amount)
+
 
     def sort_grocceries(self):
-        for i in range(21):
-            self.combvars[i]
+
+        for recipe in self.combvars:
+            
+            # if the recipe is not in the dictionary -> create dictionary entry 
+            if recipe.get() in self.recipe_amount:
+                self.recipe_amount[recipe.get()] += 1
+            else:
+                self.recipe_amount[recipe.get()] = 1
+            # else increase the ammount of the recipe occurance 
 
 
 if __name__ == "__main__":
