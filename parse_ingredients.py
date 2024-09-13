@@ -47,16 +47,11 @@ class Parser():
         empty_list.append(recipe_dictionary)
         if self.ingredient_file is None:
             with open(self.file_path, "w", encoding="utf-8") as file:
-                yaml.dump(empty_list, file, default_flow_style=False)
+                yaml.dump(empty_list, file, default_flow_style=False, sort_keys=False)
 
         elif all(func(recipe_dictionary) for func in list_of_functions): 
             with open(self.file_path, "a", encoding="utf-8") as file:
-                yaml.dump(empty_list, file, default_flow_style=False)
-
-        # else:
-        #     if all(func(recipe_dictionary) for func in list_of_functions):
-        #         with open(self.file_path, "w", encoding="utf-8") as file:
-        #             yaml.dump(recipe_dictionary, file)
-
+                yaml.dump(empty_list, file, default_flow_style=False, sort_keys=False)
+                
 if __name__ == "__main__":
     save = Parser("C:/Users/subotovic/Desktop/Code/Einkaufsliste/ingredient.yaml")
