@@ -1,6 +1,7 @@
 import yaml
 import tkinter as tk
 from tkinter import ttk
+from tkinter import font
 from paths import INGREDIENT_FILE
 
 
@@ -8,9 +9,7 @@ from paths import INGREDIENT_FILE
 TO DO: create an user friendly interface which allows for choosing 
 option for other should be available 
 - Create a mapping of recipe name to recipe entry 
-
-
-
+- Issue with similar entries which have same ingredient but different units 
 '''
 
 class Grocceries():
@@ -18,7 +17,7 @@ class Grocceries():
     recipe_list: list[str]
     recipe_map: dict[str : int]
     recipe_amount: dict[str : int]
-    ingredient_list: dict[str : int]
+    ingredient_dict: dict[str : int]
     recipes: dict
 
     def __init__(self) -> None:
@@ -31,8 +30,11 @@ class Grocceries():
         self.recipe_map = {}
         self.recipe_list = []
         self.recipe_amount = {}
-        self.ingredient_list = {}
+        self.ingredient_dict = {}
         self.combvars = [tk.StringVar() for var in range(21)]
+
+        # add font 
+        self.bold = font.Font(family="Helvetica", name='appHighlightFont', size=10, weight='bold')
 
         #generate recipe list
         self.generate_entries()
@@ -74,35 +76,59 @@ class Grocceries():
         for index, entry in enumerate(recipes):
             self.recipe_map[entry["recipe"]] = index
 
+    def generate_groccerie_list(self):
+        toplevel = tk.Toplevel(self.window)
+        toplevel.title("Groccerie List")
+        toplevel.geometry("300x200") 
+        w = tk.Label(toplevel, text ='Generated List: ', font = self.bold) 
+        w.pack() 
+        item_list = [f"- {value} {key[0]} {key[1]} \n" for value, key in self.ingredient_dict.items()]
+        groccerie_list = "".join(item_list)
+        display_text = tk.StringVar(value=groccerie_list)
+        f = tk.Message(toplevel, textvariable=display_text, font=self.bold)
+        f.pack()
+
     def generate_grocceries(self):
         self.sort_grocceries()
         print(self.recipe_amount)
-        print(self.recipes)
+        for key, value in self.recipe_amount.items():
+            # get the recipe index from the recipe map for a given key
+            recipe_index = self.recipe_map[key]
+            # get the recipe at the given index 
+            recipe = self.recipes[recipe_index]
+            ingredients = recipe["ingredients"]
+            for i in range(value):
+                self.parse_ingredients(ingredients)
 
-        for list_entry in self.recipes:
-            for key, value in self.recipe_amount:
-                recipe_index = self.recipe_map[key]
-                recipe = self.recipes[recipe_index]
-                ingredients = recipe["ingredients"]
-                for ingredient in ingredients:
-                    
-                    pass
+        self.generate_groccerie_list()
 
+    def parse_ingredients(self, ingredients):
+        for ingredient in ingredients:
+            ingredient_name = ingredient["ingredient"] + ingredient["subcategory"]
+            # get the amount for an ingredient by splitting it
+            ingredient_amount = ingredient["amount"].split(" ")
+            ingredient_amount[0] = int(ingredient_amount[0])
+            if ingredient_name in self.ingredient_dict.keys():
+                amount = self.ingredient_dict[ingredient_name]
+                if ingredient_amount[1] == amount[1]:
+                    amount[0] += ingredient_amount[0]
+                    self.ingredient_dict[ingredient_name] = amount
+                else:
+                    amount[0] += ingredient_amount[0]
+                    self.ingredient_dict[ingredient_name] = amount
+            else:
+                self.ingredient_dict[ingredient_name] = ingredient_amount
 
-
-
+        print(self.ingredient_dict)
 
     def sort_grocceries(self):
-
         for recipe in self.combvars:
-            
             # if the recipe is not in the dictionary -> create dictionary entry 
             if recipe.get() in self.recipe_amount:
                 self.recipe_amount[recipe.get()] += 1
             elif recipe.get() != "":
                 self.recipe_amount[recipe.get()] = 1
             # else increase the ammount of the recipe occurance 
-
 
 if __name__ == "__main__":
     grocceries = Grocceries()
