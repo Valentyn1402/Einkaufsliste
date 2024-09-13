@@ -1,0 +1,32 @@
+- recipe: Chilli Garlic Noodles
+  category: dinner
+  ingredients:
+  - ingredient: soy
+    subcategory: sauce
+    amount: 38 g
+  - ingredient: vinegar
+    subcategory: rice
+    amount: 22 g
+  - ingredient: sauce
+    subcategory: hoisin
+    amount: 40 g
+  - ingredient: oil
+    subcategory: sesame
+    amount: 4 g
+  - ingredient: starch
+    subcategory: ''
+    amount: 5 g- recipe: Burritos
+  category: dinner
+  ingredients:
+  - ingredient: beans
+    subcategory: black
+    amount: 300 g
+  - ingredient: meat
+    subcategory: ground
+    amount: 500 g
+  - ingredient: rice
+    subcategory: basmati
+    amount: 200 g
+  - ingredient: sauce
+    subcategory: ''
+    amount: 10 g

@@ -12,10 +12,9 @@ add a visible window which show all already ingredients
 - Make sure the amount is given is a number and better an integer
 - Make sure that the recipe doesn't have any numbers in it 
 - Make sure if the same ingredient is given twice either add to already existing one or throw an error
-- Make sure that the igredient list is a list of dictionaries
 - Possibility to add a description of the recipe if you forget or to remind 
 - Add possibility to remove a recipe from the list
-- Add Teaspoon and Tablespoon option
+- Reset the recipe cookbook when the add_to_recipe button is pressed
 ''' 
 
 class UI():
@@ -80,6 +79,13 @@ class UI():
         # Start the event loop.
         self.window.mainloop()
 
+    def reset_window(self):
+        for widget in self.window.winfo_children():
+            widget.config(state = "normal")
+            if isinstance(widget, tk.Entry) or isinstance(widget, ttk.Combobox) or \
+            isinstance(widget, tk.Listbox):
+                widget.delete(0, "end")
+
     def define_entries(self) -> None:
         self.entries[0].grid(row = 0, column = 1, padx=5, pady=5)
         self.entries[1].grid(row = 3, column = 1, padx=5, pady=5)
@@ -130,6 +136,7 @@ class UI():
 
     def check_entry(self):
         self.parser.parse_recipe_dictionary(self.recipe_dict)
+        self.reset_window()
         
     def add_to_list(self) -> None:
         amount = ""
