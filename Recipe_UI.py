@@ -106,7 +106,8 @@ class UI():
         state of the buttons 
         '''
         for widget in self.window.winfo_children():
-            widget.config(state = "normal")
+            if isinstance(widget, tk.Entry) or isinstance(widget, ttk.Combobox):
+                widget.config(state = "normal")
             if isinstance(widget, tk.Entry) or isinstance(widget, ttk.Combobox) or \
             isinstance(widget, tk.Listbox):
                 widget.delete(0, "end")

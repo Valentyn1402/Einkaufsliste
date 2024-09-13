@@ -31,3 +31,24 @@
   - ingredient: sauce
     subcategory: ''
     amount: 10 g
+- recipe: Yeast Pancakes
+  category: breakfast
+  ingredients:
+  - ingredient: yeast
+    subcategory: ''
+    amount: 20 g
+  - ingredient: milk
+    subcategory: ''
+    amount: 500 ml
+  - ingredient: eggs
+    subcategory: ''
+    amount: 2 u
+  - ingredient: spices
+    subcategory: salt
+    amount: 3 g
+  - ingredient: sugar
+    subcategory: ''
+    amount: 50 g
+  - ingredient: flour
+    subcategory: ''
+    amount: 250 g
