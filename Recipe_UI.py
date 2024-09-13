@@ -84,8 +84,6 @@ class UI():
         self.entries[0].grid(row = 0, column = 1, padx=5, pady=5)
         self.entries[1].grid(row = 3, column = 1, padx=5, pady=5)
         self.entries[2].grid(row = 4, column = 1, padx=5, pady=5)
-        self.entries[3].grid(row = 5, column = 1, padx=5, pady=5)
-        self.entries[4].grid(row = 6, column = 1, padx=5, pady=5)
 
     def define_labels(self) -> None:
         #define the labels in the window
@@ -95,9 +93,6 @@ class UI():
         tk.Label(self.window, text = "Enter the ingredient: ").grid(row=2, column=0, padx=5, pady=5)
         tk.Label(self.window, text = "Enter the ingredient subcategory (optional): ").grid(row=3, column=0, padx=5, pady=5)
         tk.Label(self.window, text = "Enter the amount: ").grid(row=4, column=0, padx=5, pady=5)
-        tk.Label(self.window, text = "in g").grid(row = 4, column = 2)
-        tk.Label(self.window, text = "in ml").grid(row = 5, column = 2)
-        tk.Label(self.window, text = "in units").grid(row = 6, column= 2)
 
     def bind_button(self) -> None: 
         self.window.bind('<Return>', self.handle_button_press)
@@ -114,7 +109,7 @@ class UI():
 
     def define_listbox(self) -> None:
         # defines a listbox on the right side of the panel
-        self.listbox = tk.Listbox(self.window, listvariable=self.ingredientsvar, height=10, width=40, font = self.bold)
+        self.listbox = tk.Listbox(self.window, listvariable=self.ingredientsvar, height=10, width=50, font = self.bold)
         self.listbox.grid(row = 1, column = 3, rowspan = 6, padx = 50)
 
     def define_buttons(self) -> None:
@@ -162,14 +157,10 @@ class UI():
             self.c1.config(state="disabled")
             self.flag = True
 
-        ingredient = {"ingredient " : self.combvars[0].get()}
-        subcategory = {"subcategory " : self.vars[1].get()}
-        if self.vars[2].get() != "":
-            amount = f"{self.vars[2].get()} g"
-        elif self.vars[3].get() != "":
-            amount = f"{self.vars[3].get()} ml"
-        elif self.vars[4].get() != "":
-            amount = f"{self.vars[4].get()} units"
+        # get the unit amount 
+        unit = self.combvars[2].get().split(" ")
+        unit = unit[2].replace("(", "").replace(")", "")
+        amount = f"{self.vars[2].get()} {unit}"
 
         entry_dictionary = {"ingredient" : self.combvars[0].get(), "subcategory" : self.vars[1].get(),
                             "amount" : amount}
