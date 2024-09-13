@@ -46,6 +46,7 @@ soy
 spices
 steak
 syrup
+sugar
 toast
 tomatoes
 vinegar
