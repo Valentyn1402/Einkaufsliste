@@ -1,9 +1,11 @@
 import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
+from tkinter import font
 import os
 from parse_ingredients import Parser
 from paths import FILE_PATH, INGREDIENT_FILE
+
 '''
 TO DO: add a button which indicates when recipe is complete and can be added to the recipe list
 add a visible window which show all already ingredients 
@@ -13,6 +15,7 @@ add a visible window which show all already ingredients
 - Make sure that the igredient list is a list of dictionaries
 - Possibility to add a description of the recipe if you forget or to remind 
 ''' 
+
 class UI():
 
     entries: list[tk.Entry]
@@ -34,6 +37,9 @@ class UI():
         self.ingredients = []
         self.recipe_dict = {}
         self.parser = Parser(INGREDIENT_FILE)
+
+        # add font 
+        self.bold = font.Font(family="Helvetica", name='appHighlightFont', size=10, weight='bold')
 
         #convert ingredients to StringVar
         self.ingredientsvar = tk.StringVar(value = self.ingredients)
@@ -102,7 +108,7 @@ class UI():
 
     def define_listbox(self) -> None:
         # defines a listbox on the right side of the panel
-        self.listbox = tk.Listbox(self.window, listvariable=self.ingredientsvar, height=10, width=40)
+        self.listbox = tk.Listbox(self.window, listvariable=self.ingredientsvar, height=10, width=40, font = self.bold)
         self.listbox.grid(row = 1, column = 3, rowspan = 6, padx = 50)
 
     def define_buttons(self) -> None:
@@ -125,7 +131,6 @@ class UI():
         self.parser.parse_recipe_dictionary(self.recipe_dict)
         
     def add_to_list(self) -> None:
-        string_entry = f"ingredient: {self.combvar.get()} subcategory: {self.vars[1].get()}"
         amount = ""
         #check which ammount is added
         if self.vars[2].get() != "":
@@ -135,7 +140,7 @@ class UI():
         elif self.vars[4].get() != "":
             amount = "ammount: " + self.vars[4].get() + " units \n"
 
-        string_entry += amount 
+        string_entry = f"ingredient: {self.combvar.get()} {self.vars[1].get()}, {amount}"
         #updates the ingredients list asweel as the ingredientsvar
         self.ingredients.append(string_entry)
         print(string_entry)
@@ -163,7 +168,6 @@ class UI():
         entry_dictionary = {"ingredient" : self.combvar.get(), "subcategory" : self.vars[1].get(),
                             "amount" : amount}
         self.recipe_dict["ingredients"].append(entry_dictionary)
-
 
     #after the button is pressed save the variable data in 
     #specific format and reset the inactive windows
