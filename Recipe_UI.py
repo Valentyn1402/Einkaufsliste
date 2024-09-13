@@ -15,6 +15,7 @@ add a visible window which show all already ingredients
 - Make sure that the igredient list is a list of dictionaries
 - Possibility to add a description of the recipe if you forget or to remind 
 - Add possibility to remove a recipe from the list
+- Add Teaspoon and Tablespoon option
 ''' 
 
 class UI():
@@ -24,6 +25,9 @@ class UI():
     recipe_list: dict[str : str]
     ingredients: str
     listbox: tk.Listbox
+
+    MEASUREMENT_OPTIONS = ["In Units (u)", "In Grams (g)", "In Mililiters (ml)", 
+                           "In Tea Spoons (Tsp)", "In Table Spoons(Tbsp)"]
 
     def __init__(self) -> None:
 
@@ -50,8 +54,7 @@ class UI():
 
         #define string variables for the entries 
         self.vars = [tk.StringVar() for var in range(10)]
-        self.combvar = tk.StringVar()
-        self.combvar1 = tk.StringVar()
+        self.combvars = [tk.StringVar() for var in range(3)]
 
         #define the entries in the window
         self.entries = [tk.Entry(self.window, textvariable=self.vars[i]) for i in range(5)]
@@ -101,11 +104,13 @@ class UI():
 
     def define_combobox(self) -> None:
         #define a combobox
-        self.c0 = ttk.Combobox(self.window, values=self.ingredient_list,  textvariable=self.combvar)
-        self.c1 = ttk.Combobox(self.window, values=["breakfast", "dinner"], textvariable=self.combvar1)
+        self.c0 = ttk.Combobox(self.window, values=self.ingredient_list,  textvariable=self.combvars[0])
+        self.c1 = ttk.Combobox(self.window, values=["breakfast", "dinner"], textvariable=self.combvars[1])
+        self.c2 = ttk.Combobox(self.window, values = UI.MEASUREMENT_OPTIONS, textvariable=self.combvars[2])
 
         self.c0.grid(row = 2, column = 1)
         self.c1.grid(row = 1, column = 1)
+        self.c2.grid(row = 4, column = 2, padx=5, pady=5)
 
     def define_listbox(self) -> None:
         # defines a listbox on the right side of the panel
@@ -141,7 +146,7 @@ class UI():
         elif self.vars[4].get() != "":
             amount = "ammount: " + self.vars[4].get() + " units \n"
 
-        string_entry = f"ingredient: {self.combvar.get()} {self.vars[1].get()}, {amount}"
+        string_entry = f"ingredient: {self.combvars[0].get()} {self.vars[1].get()}, {amount}"
         #updates the ingredients list asweel as the ingredientsvar
         self.ingredients.append(string_entry)
         print(string_entry)
@@ -150,14 +155,14 @@ class UI():
     def add_to_recipes(self) -> None:
         if self.flag is False:
             self.recipe_dict["recipe"] = self.vars[0].get()
-            self.recipe_dict["category"] = self.combvar1.get()
+            self.recipe_dict["category"] = self.combvars[1].get()
             self.recipe_dict["ingredients"] = []
             # disable the state of the self.entries and combobox
             self.entries[0].config(state="disabled")
             self.c1.config(state="disabled")
             self.flag = True
 
-        ingredient = {"ingredient " : self.combvar.get()}
+        ingredient = {"ingredient " : self.combvars[0].get()}
         subcategory = {"subcategory " : self.vars[1].get()}
         if self.vars[2].get() != "":
             amount = f"{self.vars[2].get()} g"
@@ -166,7 +171,7 @@ class UI():
         elif self.vars[4].get() != "":
             amount = f"{self.vars[4].get()} units"
 
-        entry_dictionary = {"ingredient" : self.combvar.get(), "subcategory" : self.vars[1].get(),
+        entry_dictionary = {"ingredient" : self.combvars[0].get(), "subcategory" : self.vars[1].get(),
                             "amount" : amount}
         self.recipe_dict["ingredients"].append(entry_dictionary)
 
@@ -180,7 +185,7 @@ class UI():
 
         #if any of the fields are empty do not execute the function further just return 
         if any([var == "" for var in\
-            [self.vars[0].get(), self.combvar1.get(), self.combvar.get()]]):
+            [self.vars[0].get(), self.combvars[1].get(), self.combvars[0].get()]]):
             messagebox.showwarning("Warning", "Please fill in all fields!")
             return
         
