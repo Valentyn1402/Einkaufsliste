@@ -17,6 +17,9 @@ add a visible window which show all already ingredients
 - Reset the recipe cookbook when the add_to_recipe button is pressed
 ''' 
 
+MEASUREMENT_OPTIONS = ["In Units (u)", "In Grams (g)", "In Mililiters (ml)", 
+                           "In Tea-Spoons (Tsp)", "In Table-Spoons(Tbsp)"]
+
 class UI():
 
     entries: list[tk.Entry]
@@ -25,61 +28,83 @@ class UI():
     ingredients: str
     listbox: tk.Listbox
 
-    MEASUREMENT_OPTIONS = ["In Units (u)", "In Grams (g)", "In Mililiters (ml)", 
-                           "In Tea Spoons (Tsp)", "In Table Spoons(Tbsp)"]
 
     def __init__(self) -> None:
 
         #create the main window 
-        self.window = tk.Tk()
-        self.window.title("Recipe Book")
-        
+        self.create_window()
         #define instance variables
         self.flag: bool = False
-        self.i = 0
         self.ingredient_list = []
         self.ingredients = []
         self.recipe_dict = {}
         self.parser = Parser(INGREDIENT_FILE)
+        self.amount: str = ""
 
         # add font 
         self.bold = font.Font(family="Helvetica", name='appHighlightFont', size=10, weight='bold')
 
-        #convert ingredients to StringVar
-        self.ingredientsvar = tk.StringVar(value = self.ingredients)
+        #define string variables
+        self.define_tkinter_variables()
 
         #parse the file
         self.parse_ingredients(FILE_PATH)
+        #define widgets
+        self.define_widgets()
+        # Start the event loop.
+        self.window.mainloop()
 
-        #define string variables for the entries 
+    def define_widgets(self) -> None:
+        '''
+        function which defines all widgets in the GUI
+        '''
+        #define a scrollbar
+        self.define_scrollbar()
+        #position self.entries 
+        self.define_entries()
+        #bind buttons
+        self.bind_button()
+        #define the labels in the window
+        self.define_labels()
+        #define a button 
+        self.define_buttons()
+        #define a combobox
+        self.define_combobox()
+        #define a listbox
+        self.define_listbox()
+
+    def create_window(self) -> None:
+        '''
+        creates the root window for the GUI
+        '''
+        self.window = tk.Tk()
+        self.window.title("Recipe Book")
+
+    def define_scrollbar(self) -> None:
+        '''
+        defines a scrollbar widget 
+        '''
+         #create a scrollbar
+        self.scrollbar = ttk.Scrollbar(self.window, orient=tk.VERTICAL)
+        self.scrollbar.grid(row = 1, column = 3, sticky="ns")
+
+    def define_tkinter_variables(self) -> None:
+        '''
+        defines all tkinter variables which are later used to acquire information from 
+        '''
+        #define string variables
+        self.ingredientsvar = tk.StringVar(value = self.ingredients)
         self.vars = [tk.StringVar() for var in range(10)]
         self.combvars = [tk.StringVar() for var in range(3)]
 
         #define the entries in the window
         self.entries = [tk.Entry(self.window, textvariable=self.vars[i]) for i in range(5)]
 
-        #position self.entries 
-        self.define_entries()
-
-        #bind buttons
-        self.bind_button()
-
-        #define the labels in the window
-        self.define_labels()
-
-        #define a button 
-        self.define_buttons()
-
-        #define a combobox
-        self.define_combobox()
-
-        #define a listbox
-        self.define_listbox()
-    
-        # Start the event loop.
-        self.window.mainloop()
-
-    def reset_window(self):
+    def reset_window(self) -> None:
+        '''
+        reset function which resets the current window by deleting the any text and reseting the
+        state of the buttons 
+        '''
         for widget in self.window.winfo_children():
             widget.config(state = "normal")
             if isinstance(widget, tk.Entry) or isinstance(widget, ttk.Combobox) or \
@@ -87,11 +112,17 @@ class UI():
                 widget.delete(0, "end")
 
     def define_entries(self) -> None:
+        '''
+        defines the entries in the GUI
+        '''
         self.entries[0].grid(row = 0, column = 1, padx=5, pady=5)
         self.entries[1].grid(row = 3, column = 1, padx=5, pady=5)
         self.entries[2].grid(row = 4, column = 1, padx=5, pady=5)
 
     def define_labels(self) -> None:
+        '''
+        defines the labels in the GUI
+        '''
         #define the labels in the window
         tk.Label(self.window, text = "Ingredients: ").grid(row=0, column=3, padx=5, pady=5)
         tk.Label(self.window, text = "Enter the recipe name: ").grid(row=0, column=0, padx=5, pady=5)
@@ -107,7 +138,7 @@ class UI():
         #define a combobox
         self.c0 = ttk.Combobox(self.window, values=self.ingredient_list,  textvariable=self.combvars[0])
         self.c1 = ttk.Combobox(self.window, values=["breakfast", "dinner"], textvariable=self.combvars[1])
-        self.c2 = ttk.Combobox(self.window, values = UI.MEASUREMENT_OPTIONS, textvariable=self.combvars[2])
+        self.c2 = ttk.Combobox(self.window, values = MEASUREMENT_OPTIONS, textvariable=self.combvars[2])
 
         self.c0.grid(row = 2, column = 1)
         self.c1.grid(row = 1, column = 1)
@@ -115,8 +146,12 @@ class UI():
 
     def define_listbox(self) -> None:
         # defines a listbox on the right side of the panel
-        self.listbox = tk.Listbox(self.window, listvariable=self.ingredientsvar, height=10, width=50, font = self.bold)
+        self.listbox = tk.Listbox(self.window, listvariable=self.ingredientsvar,
+                                   height=10, width=50, font = self.bold)
+        self.listbox.config(yscrollcommand = self.scrollbar.set)
+        self.scrollbar.config(command=self.listbox.yview)
         self.listbox.grid(row = 1, column = 3, rowspan = 6, padx = 50)
+        self.scrollbar.grid(row = 1, column = 4, rowspan = 6, sticky="ns")
 
     def define_buttons(self) -> None:
         #define a button 
@@ -139,16 +174,7 @@ class UI():
         self.reset_window()
         
     def add_to_list(self) -> None:
-        amount = ""
-        #check which ammount is added
-        if self.vars[2].get() != "":
-            amount = "amount: " + self.vars[2].get() + " g \n"
-        elif self.vars[3].get() != "":
-            amount = "amount: " + self.vars[3].get() + " ml \n"
-        elif self.vars[4].get() != "":
-            amount = "ammount: " + self.vars[4].get() + " units \n"
-
-        string_entry = f"ingredient: {self.combvars[0].get()} {self.vars[1].get()}, {amount}"
+        string_entry = f"ingredient: {self.combvars[0].get()} {self.vars[1].get()}, {self.amount}"
         #updates the ingredients list asweel as the ingredientsvar
         self.ingredients.append(string_entry)
         print(string_entry)
@@ -167,10 +193,10 @@ class UI():
         # get the unit amount 
         unit = self.combvars[2].get().split(" ")
         unit = unit[2].replace("(", "").replace(")", "")
-        amount = f"{self.vars[2].get()} {unit}"
+        self.amount = f"{self.vars[2].get()} {unit}"
 
         entry_dictionary = {"ingredient" : self.combvars[0].get(), "subcategory" : self.vars[1].get(),
-                            "amount" : amount}
+                            "amount" : self.amount}
         self.recipe_dict["ingredients"].append(entry_dictionary)
 
     #after the button is pressed save the variable data in 

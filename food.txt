@@ -17,10 +17,13 @@ eggs
 filet
 fish
 flour
+garlic
+ginger
 ice
 juice
 ketchup
 lard
+lentils
 margarine
 marinade
 mayonnaise
@@ -31,6 +34,8 @@ noodle
 nut
 oil
 olive
+onion
+paprika
 pasta
 passata
 rice
@@ -42,6 +47,7 @@ spices
 steak
 syrup
 toast
+tomatoes
 vinegar
 water
 wine

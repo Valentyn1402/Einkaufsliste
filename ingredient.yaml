@@ -15,7 +15,8 @@
     amount: 4 g
   - ingredient: starch
     subcategory: ''
-    amount: 5 g- recipe: Burritos
+    amount: 5 g
+- recipe: Burritos
   category: dinner
   ingredients:
   - ingredient: beans
