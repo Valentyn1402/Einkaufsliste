@@ -2,19 +2,20 @@ import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
 from tkinter import font
+from tkinter.scrolledtext import ScrolledText
 import os
 from parse_ingredients import Parser
 from paths import FILE_PATH, INGREDIENT_FILE
 
 '''
 TO DO: add a button which indicates when recipe is complete and can be added to the recipe list
-add a visible window which show all already ingredients 
 - Make sure the amount is given is a number and better an integer
+- Add a search function so that each time you type in a word it looks for it in the list
 - Make sure that the recipe doesn't have any numbers in it 
 - Make sure if the same ingredient is given twice either add to already existing one or throw an error
-- Possibility to add a description of the recipe if you forget or to remind 
 - Add possibility to remove a recipe from the list
-- Reset the recipe cookbook when the add_to_recipe button is pressed
+- Possible to change the list of dictionaries to a dictionary which has the recipe name as the key and everything else
+as the value
 ''' 
 
 MEASUREMENT_OPTIONS = ["In Units (u)", "In Grams (g)", "In Mililiters (ml)", 
@@ -59,7 +60,7 @@ class UI():
         function which defines all widgets in the GUI
         '''
         #define a scrollbar
-        self.define_scrollbar()
+        # self.define_scrollbar()
         #position self.entries 
         self.define_entries()
         #bind buttons
@@ -72,6 +73,9 @@ class UI():
         self.define_combobox()
         #define a listbox
         self.define_listbox()
+        #define a scrolledtext
+        self.define_scrolledtext()
+
 
     def create_window(self) -> None:
         '''
@@ -80,13 +84,17 @@ class UI():
         self.window = tk.Tk()
         self.window.title("Recipe Book")
 
-    def define_scrollbar(self) -> None:
-        '''
-        defines a scrollbar widget 
-        '''
-         #create a scrollbar
-        self.scrollbar = ttk.Scrollbar(self.window, orient=tk.VERTICAL)
-        self.scrollbar.grid(row = 1, column = 3, sticky="ns")
+    def define_scrolledtext(self) -> None:
+        self.scrolled_text_widget = ScrolledText(self.window, width=42, height=10)
+        self.scrolled_text_widget.grid(row=8, column=3, padx=5, pady=10)
+
+    # def define_scrollbar(self) -> None:
+    #     '''
+    #     defines a scrollbar widget 
+    #     '''
+    #      #create a scrollbar
+    #     self.scrollbar = ttk.Scrollbar(self.window, orient=tk.VERTICAL)
+    #     self.scrollbar.grid(row = 1, column = 3, sticky="ns")
 
     def define_tkinter_variables(self) -> None:
         '''
@@ -126,6 +134,7 @@ class UI():
         '''
         #define the labels in the window
         tk.Label(self.window, text = "Ingredients: ").grid(row=0, column=3, padx=5, pady=5)
+        tk.Label(self.window, text = "Description: ").grid(row=7, column=3, padx=0, pady=0)
         tk.Label(self.window, text = "Enter the recipe name: ").grid(row=0, column=0, padx=5, pady=5)
         tk.Label(self.window, text = "Enter the recipe category: ").grid(row=1, column=0, padx=5, pady=5)
         tk.Label(self.window, text = "Enter the ingredient: ").grid(row=2, column=0, padx=5, pady=5)
@@ -147,8 +156,14 @@ class UI():
 
     def define_listbox(self) -> None:
         # defines a listbox on the right side of the panel
+
+        #create a scrollbar
+        self.scrollbar = ttk.Scrollbar(self.window, orient=tk.VERTICAL)
+        self.scrollbar.grid(row = 1, column = 3, sticky="ns")
         self.listbox = tk.Listbox(self.window, listvariable=self.ingredientsvar,
                                    height=10, width=50, font = self.bold)
+        
+
         self.listbox.config(yscrollcommand = self.scrollbar.set)
         self.scrollbar.config(command=self.listbox.yview)
         self.listbox.grid(row = 1, column = 3, rowspan = 6, padx = 50)
@@ -185,6 +200,7 @@ class UI():
         if self.flag is False:
             self.recipe_dict["recipe"] = self.vars[0].get()
             self.recipe_dict["category"] = self.combvars[1].get()
+            self.recipe_dict["description"] = self.scrolled_text_widget.get('1.0', 'end_1c')
             self.recipe_dict["ingredients"] = []
             # disable the state of the self.entries and combobox
             self.entries[0].config(state="disabled")
