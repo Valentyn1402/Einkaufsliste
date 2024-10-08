@@ -3,8 +3,8 @@ from tkinter import ttk
 from tkinter import messagebox
 from tkinter import font
 import os
-from scripts.parse_ingredients import Parser
-from scripts.paths import FILE_PATH, INGREDIENT_FILE
+from parse_ingredients import Parser
+from paths import FILE_PATH, INGREDIENT_FILE
 
 '''
 TO DO: add a button which indicates when recipe is complete and can be added to the recipe list
