@@ -2,7 +2,7 @@ import yaml
 import tkinter as tk
 from tkinter import ttk
 from tkinter import font
-from scripts.paths import INGREDIENT_FILE
+from paths import INGREDIENT_FILE
 
 
 '''
