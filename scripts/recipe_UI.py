@@ -4,29 +4,29 @@ from tkinter import messagebox
 from tkinter import font
 from tkinter.scrolledtext import ScrolledText
 import os
+import re
 from parse_ingredients import Parser
 from paths import FILE_PATH, INGREDIENT_FILE
 
 '''
 TO DO: add a button which indicates when recipe is complete and can be added to the recipe list
-- Make sure the amount is given is a number and better an integer
 - Add a search function so that each time you type in a word it looks for it in the list
-- Make sure that the recipe doesn't have any numbers in it 
 - Make sure if the same ingredient is given twice either add to already existing one or throw an error
 - Add possibility to remove a recipe from the list
 - Possible to change the list of dictionaries to a dictionary which has the recipe name as the key and everything else
 as the value
+- remove ingredient at the start of the listbox entry 
 ''' 
 
-MEASUREMENT_OPTIONS = ["In Units (u)", "In Grams (g)", "In Mililiters (ml)", 
-                           "In Tea-Spoons (Tsp)", "In Table-Spoons(Tbsp)"]
+MEASUREMENT_OPTIONS = ["Units (u)", "Grams (g)", "Mililiters (ml)", 
+                           "Tea-Spoons (Tsp)", "Table-Spoons (Tbsp)"]
 
 class UI():
 
     entries: list[tk.Entry]
     ingredient_list: list[str]
     recipe_list: dict[str : str]
-    ingredients: str
+    ingredients: list[str]
     listbox: tk.Listbox
 
 
@@ -64,7 +64,7 @@ class UI():
         #position self.entries 
         self.define_entries()
         #bind buttons
-        self.bind_button()
+        # self.bind_button()
         #define the labels in the window
         self.define_labels()
         #define a button 
@@ -76,7 +76,6 @@ class UI():
         #define a scrolledtext
         self.define_scrolledtext()
 
-
     def create_window(self) -> None:
         '''
         creates the root window for the GUI
@@ -87,14 +86,6 @@ class UI():
     def define_scrolledtext(self) -> None:
         self.scrolled_text_widget = ScrolledText(self.window, width=42, height=10)
         self.scrolled_text_widget.grid(row=8, column=3, padx=5, pady=10)
-
-    # def define_scrollbar(self) -> None:
-    #     '''
-    #     defines a scrollbar widget 
-    #     '''
-    #      #create a scrollbar
-    #     self.scrollbar = ttk.Scrollbar(self.window, orient=tk.VERTICAL)
-    #     self.scrollbar.grid(row = 1, column = 3, sticky="ns")
 
     def define_tkinter_variables(self) -> None:
         '''
@@ -141,14 +132,17 @@ class UI():
         tk.Label(self.window, text = "Enter the ingredient subcategory (optional): ").grid(row=3, column=0, padx=5, pady=5)
         tk.Label(self.window, text = "Enter the amount: ").grid(row=4, column=0, padx=5, pady=5)
 
-    def bind_button(self) -> None: 
-        self.window.bind('<Return>', self.handle_button_press)
+    # def bind_button(self) -> None: 
+    #     self.window.bind('<Return>', self.handle_button_press)
 
     def define_combobox(self) -> None:
         #define a combobox
         self.c0 = ttk.Combobox(self.window, values=self.ingredient_list,  textvariable=self.combvars[0])
         self.c1 = ttk.Combobox(self.window, values=["breakfast", "dinner"], textvariable=self.combvars[1])
         self.c2 = ttk.Combobox(self.window, values = MEASUREMENT_OPTIONS, textvariable=self.combvars[2])
+    
+        # bind the first combobox to a search function
+        self.c0.bind("<KeyRelease>", self.search)
 
         self.c0.grid(row = 2, column = 1)
         self.c1.grid(row = 1, column = 1)
@@ -163,7 +157,6 @@ class UI():
         self.listbox = tk.Listbox(self.window, listvariable=self.ingredientsvar,
                                    height=10, width=50, font = self.bold)
         
-
         self.listbox.config(yscrollcommand = self.scrollbar.set)
         self.scrollbar.config(command=self.listbox.yview)
         self.listbox.grid(row = 1, column = 3, rowspan = 6, padx = 50)
@@ -182,25 +175,54 @@ class UI():
             for line in file:
                 self.ingredient_list.append(line.strip())
 
+    def search(self, event):
+        value = event.widget.get()
+        if value == "":
+            self.c0["values"] = self.ingredient_list
+            
+        else:
+            data = []
+            for item in self.ingredient_list:
+                if value.lower() in item.lower():
+                    data.append(item)
+            self.c0["values"] = data
+
+
     def get_state(self, entry):
         pass
 
-    def check_entry(self):
+    def check_entry(self) -> None:
         self.parser.parse_recipe_dictionary(self.recipe_dict)
         self.reset_window()
+
+    def validate_input(self, input: str) -> bool:
+        valid_pattern = r'^[a-zA-Z\s\.\,\?\!]+$'
+        if not re.match(valid_pattern, input) and input != "":
+            return False
+        else:
+            return True
         
     def add_to_list(self) -> None:
-        string_entry = f"ingredient: {self.combvars[0].get()} {self.vars[1].get()}, {self.amount}"
+        string_entry = f"ingredient: {self.combvars[0].get()} {self.vars[1].get()} {self.amount}"
         #updates the ingredients list asweel as the ingredientsvar
         self.ingredients.append(string_entry)
         print(string_entry)
         self.listbox.insert(tk.END, string_entry)
 
     def add_to_recipes(self) -> None:
+        """Function which handles the button press "Next Ingredient"
+        """
         if self.flag is False:
+            # validate the variables 
+            if not all([self.validate_input(var) for var in\
+            [self.vars[0].get(), self.combvars[1].get()]]):
+                messagebox.showwarning("Warning", "Do not use any special characters or numbers!")
+                return
+            
+            print("I did make it past the messagebox")
             self.recipe_dict["recipe"] = self.vars[0].get()
             self.recipe_dict["category"] = self.combvars[1].get()
-            self.recipe_dict["description"] = self.scrolled_text_widget.get('1.0', 'end_1c')
+            self.recipe_dict["description"] = self.scrolled_text_widget.get('1.0', 'end')
             self.recipe_dict["ingredients"] = []
             # disable the state of the self.entries and combobox
             self.entries[0].config(state="disabled")
@@ -209,12 +231,20 @@ class UI():
 
         # get the unit amount 
         unit = self.combvars[2].get().split(" ")
-        unit = unit[2].replace("(", "").replace(")", "")
+        unit = unit[1].replace("(", "").replace(")", "")
         self.amount = f"{self.vars[2].get()} {unit}"
+
+        if not all([self.validate_input(var) for var in\
+        [self.combvars[0].get(), self.vars[1].get()]]):
+            messagebox.showwarning("Warning", "Do not use any special characters or numbers!")
+            return
 
         entry_dictionary = {"ingredient" : self.combvars[0].get(), "subcategory" : self.vars[1].get(),
                             "amount" : self.amount}
         self.recipe_dict["ingredients"].append(entry_dictionary)
+
+        # adds the recipe entry to the ingredients list 
+        self.add_to_list()
 
     #after the button is pressed save the variable data in 
     #specific format and reset the inactive windows
@@ -230,9 +260,8 @@ class UI():
             messagebox.showwarning("Warning", "Please fill in all fields!")
             return
         
+        # creates a recipe entry in the dictionary 
         self.add_to_recipes()
-
-        self.add_to_list()
 
         print(self.recipe_dict)
 

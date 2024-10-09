@@ -6,8 +6,7 @@ from paths import INGREDIENT_FILE
 
 
 '''
-TO DO: create an user friendly interface which allows for choosing 
-option for other should be available 
+TO DO:
 - Create a mapping of recipe name to recipe entry 
 - Issue with similar entries which have same ingredient but different units 
 '''
