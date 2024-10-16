@@ -6,6 +6,8 @@ from paths import INGREDIENT_FILE
 
 
 '''
+- use customtkinter and ttkbootstrap to style 
+
 TO DO:
 - Create a mapping of recipe name to recipe entry 
 - Issue with similar entries which have same ingredient but different units 
