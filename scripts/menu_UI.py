@@ -2,52 +2,46 @@ import tkinter as tk
 from tkinter import ttk
 import customtkinter as ctk
 from grocceries_UI import Grocceries
-# import customtkinter as ctk 
+from recipe_UI import Recipe
 
+'''
+Important Widgets
+'''
 
 class App(ctk.CTk):
-
+    
     def __init__(self) -> None:
 
         super().__init__()
+        
+        # create modern fonts
+        self.font_1 = ctk.CTkFont("Anona", 12, "bold")
 
         ctk.set_appearance_mode("dark")
+        
+        # add buttons
+        self.define_menu_buttons()
 
         self.geometry('700x400')
         self.title("Food App")
 
-        ctk.CTkButton(self, text = "Generate groccerie list").pack(expand = True, side = "left")
-        ctk.CTkButton(self, text = "Add Recipe").pack(expand = True, side = "right")
-        
-
         # initialize variables 
         self.groccerie_ui = None
-
-
-        # self.root = tk.Tk()
-        # self.root.title("App")
-        # self.root.option_add('*tearOff', tk.FALSE)
-        # menubar = tk.Menu(self.root)
-        # self.menu_file = tk.Menu(menubar)
-        # self.menu_edit = tk.Menu(menubar)
-        # self.add_edit_options()
-        # self.add_file_options()
-        # menubar.add_cascade(menu=self.menu_file, label='File')
-        # menubar.add_cascade(menu=self.menu_edit, label='Edit')
-        # self.root.config(menu=menubar)
-
+        
+        # initialize mainloop
         self.mainloop()
 
-
-    def add_edit_options(self):
-        self.menu_edit.add_command(label="Remove or edit recipe", command = lambda: print("Edit"))
-        self.menu_edit.add_command(label="Rate recipes", command = lambda: print("Edit"))
-
-    def add_file_options(self):
-        self.menu_file.add_command(label="Generate groccerie list", command=self.open_recipe_generator)
-
-    def open_recipe_generator(self):
+    def define_menu_buttons(self):
+        ctk.CTkButton(self, text = "Generate groccerie list", font=self.font_1, hover_color="red", 
+                      border_color="white", border_width=2, command=self.open_groccerie_generator).pack(expand = True, side = "left")
+        ctk.CTkButton(self, text = "Add Recipe", font=self.font_1, hover_color="red", 
+                      border_color="white", border_width=2, command=self.open_add_recipe).pack(expand = True, side = "right")
+        
+    def open_groccerie_generator(self):
         self.groccerie_ui = Grocceries()
+
+    def open_add_recipe(self):
+        self.groccerie_ui = Recipe()
 
 
 

@@ -21,7 +21,7 @@ as the value
 MEASUREMENT_OPTIONS = ["Units (u)", "Grams (g)", "Mililiters (ml)", 
                            "Tea-Spoons (Tsp)", "Table-Spoons (Tbsp)"]
 
-class UI():
+class Recipe():
 
     entries: list[tk.Entry]
     ingredient_list: list[str]
