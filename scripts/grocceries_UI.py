@@ -2,7 +2,9 @@ import yaml
 import tkinter as tk
 from tkinter import ttk
 from tkinter import font
+import customtkinter as ctk
 from paths import INGREDIENT_FILE
+from style_template import ENTRY_COLOR, LABEL_COLOR, BUTTON_COLOR
 
 
 '''
@@ -12,6 +14,39 @@ TO DO:
 - Create a mapping of recipe name to recipe entry 
 - Issue with similar entries which have same ingredient but different units 
 '''
+
+class Tab_1(ctk.CTk):
+
+    def __init__(self, parent) -> None:
+
+        super().__init__()
+
+        # define frame 
+        parent.columnconfigure((0, 1, 2, 3), weight = 1)
+        parent.rowconfigure((0, 1, 2, 3), weight = 1)
+
+        # define labels
+        self.create_labels(parent)
+
+        # define entries 
+        self.create_entries(parent)
+
+        # define buttons
+        self.create_buttons(parent)
+    
+    def create_buttons(self, parent):
+        ctk.CTkButton(master = parent, text = "Open Editor", hover_color="red", fg_color=BUTTON_COLOR, 
+                      border_color="white", border_width = 2).grid(column = 0, row = 3)
+
+    def create_entries(self, parent):
+        ctk.CTkEntry(master = parent, fg_color = ENTRY_COLOR).grid(column = 0, row = 1)
+        ctk.CTkEntry(master = parent, fg_color = ENTRY_COLOR).grid(column = 1, row = 1)
+
+    def create_labels(self, parent):
+        ctk.CTkLabel(master = parent, corner_radius = 5, fg_color= LABEL_COLOR, text="Amount of Days").grid(column = 0, row = 0)
+        ctk.CTkLabel(master = parent, corner_radius = 5, fg_color = LABEL_COLOR, text="Meals per Day").grid(column = 1, row = 0)
+            
+
 
 class Grocceries():
 
