@@ -86,7 +86,7 @@ class Grocceries(ctk.CTkToplevel):
         self.day_amount = values[1]
 
         # add font 
-        self.bold = font.Font(family="Helvetica", name='appHighlightFont', size=10, weight='bold')
+        # self.bold = font.Font(family="Helvetica", name='appHighlightFont', size=10, weight='bold')
 
         #generate recipe list
         self.generate_entries()
@@ -134,16 +134,7 @@ class Grocceries(ctk.CTkToplevel):
             self.recipe_map[entry["recipe"]] = index
 
     def generate_groccerie_list(self):
-        toplevel = ctk.CTkToplevel(self)
-        toplevel.title("Groccerie List")
-        toplevel.geometry("300x200") 
-        w = tk.Label(toplevel, text ='Generated List: ', font = self.bold) 
-        w.pack() 
-        item_list = [f"- {value} {key[0]} {key[1]} \n" for value, key in self.ingredient_dict.items()]
-        groccerie_list = "".join(item_list)
-        display_text = tk.StringVar(value=groccerie_list)
-        f = tk.Message(toplevel, textvariable=display_text, font=self.bold)
-        f.pack()
+        GroccerieList(ingredient_dict=self.ingredient_dict)
 
     def generate_grocceries(self):
         self.sort_grocceries()
@@ -186,6 +177,38 @@ class Grocceries(ctk.CTkToplevel):
             elif recipe.get() != "":
                 self.recipe_amount[recipe.get()] = 1
             # else increase the ammount of the recipe occurance   
+
+
+class GroccerieList(ctk.CTkToplevel):
+
+    def __init__(self, ingredient_dict: dict) -> None:
+
+        super().__init__()
+
+        self.title("Groccerie List")
+        self.resizable(False, False)
+
+
+        ctk.CTkLabel(self, text ='Generated List: ' ).pack()
+
+        item_list = [f"- {value} {key[0]} {key[1]} \n" for value, key in ingredient_dict.items()]
+        groccerie_list = "".join(item_list)
+        display_text = tk.StringVar(value=groccerie_list).get()
+        ctk.CTkLabel(self, text = display_text).pack()
+
+    def generate_groccerie_list(self):
+
+        # toplevel.geometry("300x200") 
+        # w = tk.Label(toplevel, text ='Generated List: ', font = self.bold) 
+        # w.pack() 
+
+        # item_list = [f"- {value} {key[0]} {key[1]} \n" for value, key in self.ingredient_dict.items()]
+        # groccerie_list = "".join(item_list)
+        # display_text = tk.StringVar(value=groccerie_list)
+        # f = tk.Message(toplevel, textvariable=display_text, font=self.bold)
+        # f.pack()
+        pass
+
 
 if __name__ == "__main__":
     grocceries = Grocceries()

@@ -3,6 +3,7 @@ from tkinter import ttk
 import customtkinter as ctk
 from grocceries_UI import Grocceries, Tab_1
 from recipe_UI import Recipe
+from edit import Editor
 
 '''
 Important Widgets
@@ -23,11 +24,17 @@ class App(ctk.CTk):
         # create the layout for tab 1 
         Tab_1(parent=self.tab_1)
 
+        # create the layout for tab 2
+        Recipe(parent=self.tab_2)
+
+        # create layout for tab 3
+        Editor(parent=self.tab_3)
+
         # create labels 
 
         ctk.set_appearance_mode("dark")
     
-        self.geometry('700x400')
+        self.geometry('1200x600')
         self.configure(font = self.font_1)
         self.title("Food App")
 
