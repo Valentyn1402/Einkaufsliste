@@ -45,12 +45,6 @@ class App(ctk.CTk):
         self.tab_2 = self.tabview.add("Add Recipe")  # add tab at the end
         self.tab_3 = self.tabview.add("Edit Recipe")  # add tab at the end
         self.tabview.set("Generate Groccerie List")  # set currently visible tab
-        
-    def open_groccerie_generator(self):
-        self.groccerie_ui = Grocceries()
-
-    def open_add_recipe(self):
-        self.groccerie_ui = Recipe()
 
 
 

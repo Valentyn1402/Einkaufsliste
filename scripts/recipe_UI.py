@@ -270,4 +270,4 @@ class Recipe():
         #disable the buttons and self.entries and clear them 
 
 if __name__ == "__main__":
-    ui_instance = UI()
+    ui_instance = Recipe()
