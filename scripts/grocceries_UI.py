@@ -36,7 +36,7 @@ class Tab_1(ctk.CTk):
     
     def create_buttons(self, parent):
         ctk.CTkButton(master = parent, text = "Open Editor", hover_color="red", fg_color=BUTTON_COLOR, 
-                      border_color="white", border_width = 2).grid(column = 0, row = 3)
+                      border_color="white", border_width = 2, command=self.open_meal_plan).grid(column = 0, row = 3)
 
     def create_entries(self, parent):
         ctk.CTkEntry(master = parent, fg_color = ENTRY_COLOR).grid(column = 0, row = 1)
@@ -45,7 +45,9 @@ class Tab_1(ctk.CTk):
     def create_labels(self, parent):
         ctk.CTkLabel(master = parent, corner_radius = 5, fg_color= LABEL_COLOR, text="Amount of Days").grid(column = 0, row = 0)
         ctk.CTkLabel(master = parent, corner_radius = 5, fg_color = LABEL_COLOR, text="Meals per Day").grid(column = 1, row = 0)
-            
+
+    def open_meal_plan(self):
+        grocceries = Grocceries()     
 
 
 class Grocceries():
