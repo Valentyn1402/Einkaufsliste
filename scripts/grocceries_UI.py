@@ -187,7 +187,9 @@ class GroccerieList(ctk.CTkToplevel):
         super().__init__()
 
         self.title("Groccerie List")
+        # self.geometry("300x200")
         # self.resizable(False, False)
+        self.minsize(width = 300, height=200)
 
         # importing custom image
         image_path = "./icons/list-check.png"
