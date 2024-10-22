@@ -1,5 +1,6 @@
 import yaml
 import tkinter as tk
+from PIL import Image
 from tkinter import ttk
 from tkinter import font
 import customtkinter as ctk
@@ -152,7 +153,7 @@ class Grocceries(ctk.CTkToplevel):
 
     def parse_ingredients(self, ingredients):
         for ingredient in ingredients:
-            ingredient_name = ingredient["ingredient"] + ingredient["subcategory"]
+            ingredient_name = f"{ingredient["subcategory"]} {ingredient["ingredient"]}"
             # get the amount for an ingredient by splitting it
             ingredient_amount = ingredient["amount"].split(" ")
             ingredient_amount[0] = int(ingredient_amount[0])
@@ -186,29 +187,21 @@ class GroccerieList(ctk.CTkToplevel):
         super().__init__()
 
         self.title("Groccerie List")
-        self.resizable(False, False)
+        # self.resizable(False, False)
 
+        # importing custom image
+        image_path = "./icons/list-check.png"
+        self.img = Image.open(image_path)
 
-        ctk.CTkLabel(self, text ='Generated List: ' ).pack()
+        ctk.CTkLabel(self, text ='Generated List: ' , image=ctk.CTkImage(light_image=self.img, dark_image=self.img),
+                    fg_color=LABEL_COLOR,compound="left", corner_radius = 10, padx = 10, pady = 10).pack()
 
-        item_list = [f"- {value} {key[0]} {key[1]} \n" for value, key in ingredient_dict.items()]
-        groccerie_list = "".join(item_list)
-        display_text = tk.StringVar(value=groccerie_list).get()
-        ctk.CTkLabel(self, text = display_text).pack()
+        self.generate_list_entries(ingredient_dict)
 
-    def generate_groccerie_list(self):
-
-        # toplevel.geometry("300x200") 
-        # w = tk.Label(toplevel, text ='Generated List: ', font = self.bold) 
-        # w.pack() 
-
-        # item_list = [f"- {value} {key[0]} {key[1]} \n" for value, key in self.ingredient_dict.items()]
-        # groccerie_list = "".join(item_list)
-        # display_text = tk.StringVar(value=groccerie_list)
-        # f = tk.Message(toplevel, textvariable=display_text, font=self.bold)
-        # f.pack()
-        pass
-
+    def generate_list_entries(self, ingredient_dict):
+        item_list = [f"{value} {key[0]} {key[1]} \n" for value, key in ingredient_dict.items()]
+        for item in item_list:
+            ctk.CTkLabel(self, text = item, width=40, anchor="center", padx = 10, pady = 10).pack()
 
 if __name__ == "__main__":
     grocceries = Grocceries()
