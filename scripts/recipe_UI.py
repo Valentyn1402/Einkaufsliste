@@ -136,7 +136,7 @@ class Recipe(ctk.CTk, Parser):
         self.c2.grid(row = 5, column = 2, padx=5, pady=5)
 
     def define_header(self, parent_frame) -> None:
-        frame_1 = ctk.CTkFrame(master = parent_frame, fg_color="white",
+        frame_1 = ctk.CTkFrame(master = parent_frame, fg_color="white", bg_color="white",
                             width = 390, height = 30, corner_radius=20)
         frame_1.pack(expand = True)
         ctk.CTkLabel(master = frame_1, width = 125, corner_radius = 10, fg_color = LIGHT_GREY, text_color="black", 
@@ -203,6 +203,7 @@ class Recipe(ctk.CTk, Parser):
         self.ingredients.append(string_entry)
         print(string_entry)
         self.add_to_scrollable_frame()
+        self.reset_window()
 
     def add_to_recipes(self) -> None:
         """Function which handles the button press "Next Ingredient"
@@ -215,6 +216,7 @@ class Recipe(ctk.CTk, Parser):
                 return
             
             self.recipe_dict["recipe"] = self.vars[0].get()
+            self.recipe_dict["author"] = self.vars[3].get()
             self.recipe_dict["category"] = self.combvars[1].get()
             self.recipe_dict["description"] = self.scrolled_text_widget.get('1.0', 'end')
             self.recipe_dict["ingredients"] = []

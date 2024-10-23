@@ -1,27 +1,29 @@
 import tkinter as tk
 from tkinter import ttk
 from tkinter import font
+from parse_ingredients import Parser
 import customtkinter as ctk
 
-class Editor(ctk.CTk):
+
+class Editor(ctk.CTk, Parser):
 
     def __init__(self, parent) -> None: 
         # initialize the dunder method 
-        super().__init__()
+        super(Editor, self).__init__()
         # ctk.set_appearance_mode("dark")
+
+        # loads yaml data to Parser.yaml_dictionary
+        self.load_yaml_data()
 
         # define parent window
         self.parent = parent
-
-        # setup basic layout of the window
-        # self.geometry('1200x600')
 
         # define the grid of main window frame 
         self.define_grid() 
         
         # create frames 
-        self.define_scrollable_frame()
         self.define_frame()
+        self.define_scrollable_frame()
 
         # define variables
         self.ingredientsvar = tk.StringVar()
@@ -43,16 +45,23 @@ class Editor(ctk.CTk):
         self.frame_2.rowconfigure((0, 1, 2, 3, 4), weight=1, minsize=20)
         
     
+    def define_header(self):
+        frame_3 = ctk.CTkFrame(master=self.frame, fg_color= "white", width = 480, height = 40)
+        frame_3.pack(expand = True)
+        ctk.CTkButton(master=frame_3, text = "Recipe", hover_color="red", width = 120, 
+                      border_color="white", border_width=2, command=lambda: print("Button")).pack(side = "left")
+        ctk.CTkButton(master=frame_3, text = "Author", hover_color="red", width = 120, 
+                      border_color="white", border_width=2, command=lambda: print("Button")).pack(side = "left")
+        ctk.CTkButton(master=frame_3, text = "Date ", hover_color="red", width = 120, 
+                      border_color="white", border_width=2, command=lambda: print("Button")).pack(side = "left")
+        ctk.CTkButton(master=frame_3, text = "Rating", hover_color="red", width = 120, 
+                      border_color="white", border_width=2, command=lambda: print("Button")).pack(side = "left")
+
     def define_scrollable_frame(self): 
         # create frames 
-        self.frame = ctk.CTkScrollableFrame(master=self.parent, width= 600, height=400, fg_color="white")
-        self.frame.grid(column = 0, row = 0)
-        
-        # create a grid for the scrollable frame
-        self.frame.columnconfigure(0, weight=1)
-        self.frame.columnconfigure(1, weight=1)
-        self.frame.columnconfigure(2, weight=1)
-        self.frame.columnconfigure(3, weight=1)       
+        self.frame = ctk.CTkScrollableFrame(master=self.parent, width = 500, height=400, fg_color="white")
+        self.frame.grid(column = 0, row = 0)    
+        self.define_header()
     
     def create_entries(self): 
         self.entry_1 = ctk.CTkEntry(self.frame_2)
@@ -63,16 +72,9 @@ class Editor(ctk.CTk):
         self.combobox_2 = ctk.CTkComboBox(self.frame_2)
 
     def create_buttons(self):
-        
         # define 4 Buttons for the header
-        self.button_3 = ctk.CTkButton(master = self.frame, text = "Pasta Carbonara", hover_color="red",
+        self.button_4 = ctk.CTkButton(master = self.frame, text = "Pasta Carbonara", hover_color="red",
                                       fg_color="white", text_color="black", command=lambda: print("yes"))
-        self.button_4 = ctk.CTkButton(master=self.frame, text = "Author", hover_color="red", 
-                      border_color="white", border_width=2, command=lambda: print("Button"))
-        self.button_5 = ctk.CTkButton(master=self.frame, text = "Date ", hover_color="red", 
-                      border_color="white", border_width=2, command=lambda: print("Button"))
-        self.button_6 = ctk.CTkButton(master=self.frame, text = "Rating", hover_color="red", 
-                      border_color="white", border_width=2, command=lambda: print("Button"))
         
         self.button_7 = ctk.CTkButton(master=self.frame_2, text= "Change Name", hover_color="red")
         
@@ -81,10 +83,10 @@ class Editor(ctk.CTk):
         self.button_9 = ctk.CTkButton(master=self.frame_2, text= "Apply Changes ", hover_color="red")
         
     def create_labels(self):
-        # recipe entry labels
-        self.label_2 = ctk.CTkLabel(master=self.frame, text= "Valentyn Subotovic", text_color="white")
-        self.label_3 = ctk.CTkLabel(master=self.frame, text= "14.02.2024", text_color="white")
-        self.label_4 = ctk.CTkLabel(master=self.frame, text= "4 Stars", text_color="white")
+        # # recipe entry labels
+        # self.label_2 = ctk.CTkLabel(master=self.frame, text= "Valentyn Subotovic", text_color="white")
+        # self.label_3 = ctk.CTkLabel(master=self.frame, text= "14.02.2024", text_color="white")
+        # self.label_4 = ctk.CTkLabel(master=self.frame, text= "4 Stars", text_color="white")
         
         # labels for editor menu
         self.label_5 = ctk.CTkLabel(master=self.frame_2, text= "Recipe Name", text_color="white")
@@ -101,9 +103,9 @@ class Editor(ctk.CTk):
         self.combobox_2.grid(column = 1, row = 5, padx = 10, pady = 10)
         
     def place_labels(self):
-        self.label_2.grid(column = 1, row = 1, padx = 10, pady = 10)
-        self.label_3.grid(column = 2, row = 1, padx = 10, pady = 10)
-        self.label_4.grid(column = 3, row = 1, padx = 10, pady = 10)
+        # self.label_2.grid(column = 1, row = 1, padx = 10, pady = 10)
+        # self.label_3.grid(column = 2, row = 1, padx = 10, pady = 10)
+        # self.label_4.grid(column = 3, row = 1, padx = 10, pady = 10)
         
         # place main edit menu labels
         self.label_5.grid(column = 0, row = 0, padx = 10, pady = 10)
@@ -113,10 +115,7 @@ class Editor(ctk.CTk):
         
     def place_buttons(self):
         # place on the scrollable frame 
-        self.button_3.grid(column = 0, row = 1)
-        self.button_4.grid(column = 1, row = 0, padx = 10, pady = 10)
-        self.button_5.grid(column = 2, row = 0, padx = 10, pady = 10)
-        self.button_6.grid(column = 3, row = 0, padx = 10, pady = 10)
+        # self.button_4.grid(column = 1, row = 0, padx = 10, pady = 10)
         
         self.button_7.grid(column = 1, row = 1, padx = 10, pady = 10)
         self.button_8.grid(column = 1, row = 3, padx = 10, pady = 10)

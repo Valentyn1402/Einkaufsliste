@@ -5,7 +5,7 @@ from tkinter import ttk
 from tkinter import font
 import customtkinter as ctk
 from paths import INGREDIENT_FILE
-from style_template import ENTRY_COLOR, LABEL_COLOR, BUTTON_COLOR
+from style_template import ENTRY_COLOR, LABEL_COLOR, BUTTON_COLOR, LIGHT_GREY
 
 
 '''
@@ -107,10 +107,12 @@ class Grocceries(ctk.CTkToplevel):
 
     def define_combobox(self) -> None:
         #define a combobox
+        k = 0
         for i in range(self.day_amount):
             for j in range(self.meal_amount):
-                ctk.CTkComboBox(self, values=self.recipe_list, variable = self.combvars[i])\
+                ctk.CTkComboBox(self, values=self.recipe_list, variable = self.combvars[k])\
             .grid(row = j + 1, column = i + 1, padx = 5, pady= 5)
+                k += 1
                 
     def define_labels(self) -> None:
         days = [f"Day {i + 1}" for i in range(self.day_amount)]
@@ -193,14 +195,17 @@ class GroccerieList(ctk.CTkToplevel):
         self.img = Image.open(image_path)
 
         ctk.CTkLabel(self, text ='Generated List: ' , image=ctk.CTkImage(light_image=self.img, dark_image=self.img),
-                    fg_color=LABEL_COLOR,compound="left", corner_radius = 10, padx = 10, pady = 10).pack()
+                    fg_color=LABEL_COLOR,compound="left", corner_radius = 10, padx = 10, pady = 20).pack()
+        
+        self.scrollable_frame = ctk.CTkScrollableFrame(master=self, width = 200, height=300)
+        self.scrollable_frame.pack(expand = True)
 
         self.generate_list_entries(ingredient_dict)
 
     def generate_list_entries(self, ingredient_dict):
         item_list = [f"{value} {key[0]} {key[1]} \n" for value, key in ingredient_dict.items()]
         for item in item_list:
-            ctk.CTkLabel(self, text = item, width=40, anchor="center", padx = 10, pady = 10).pack()
+            ctk.CTkLabel(self.scrollable_frame, text = item, width=40, anchor="center", padx = 10, pady = 5).pack(expand = True)
 
 if __name__ == "__main__":
     grocceries = Grocceries()
