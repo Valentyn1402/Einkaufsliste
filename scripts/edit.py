@@ -31,11 +31,22 @@ class Editor(ctk.CTk, Parser):
         # define all the widgets
         self.create_widgets()
 
+        # append list entries
+        self.add_recipes_to_list()
+
     def define_grid(self):
         # define grid for the window
         self.parent.columnconfigure(0, weight=2)
         self.parent.columnconfigure(1, weight=1)
 
+    def add_recipes_to_list(self):
+        for recipe_entry in Parser.yaml_dictionary:
+            recipe_name = recipe_entry["recipe"]
+            recipe_author = recipe_entry["author"]
+            frame = ctk.CTkFrame(master=self.frame, width=500, height=40, fg_color="white")
+            frame.pack()
+            ctk.CTkLabel(master=frame, text= recipe_name, text_color="black", fg_color="white").pack(side = "left")
+            ctk.CTkLabel(master=frame, text= recipe_author, text_color="black", fg_color="white").pack(side = "left")
         
     def define_frame(self):
         
@@ -75,7 +86,6 @@ class Editor(ctk.CTk, Parser):
         # define 4 Buttons for the header
         self.button_4 = ctk.CTkButton(master = self.frame, text = "Pasta Carbonara", hover_color="red",
                                       fg_color="white", text_color="black", command=lambda: print("yes"))
-        
         self.button_7 = ctk.CTkButton(master=self.frame_2, text= "Change Name", hover_color="red")
         
         self.button_8 = ctk.CTkButton(master=self.frame_2, text= "Remove Ingredient", hover_color="red")
