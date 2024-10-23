@@ -47,8 +47,8 @@ class Tab_1(ctk.CTk):
                       border_color="white", border_width = 2, command=self.open_meal_plan).grid(column = 0, row = 3)
 
     def create_entries(self, parent):
-        ctk.CTkEntry(master = parent, fg_color = ENTRY_COLOR, textvariable=self.day_amount).grid(column = 0, row = 1)
-        ctk.CTkEntry(master = parent, fg_color = ENTRY_COLOR, textvariable=self.meal_amount).grid(column = 1, row = 1)
+        ctk.CTkEntry(master = parent, textvariable=self.day_amount).grid(column = 0, row = 1)
+        ctk.CTkEntry(master = parent, textvariable=self.meal_amount).grid(column = 1, row = 1)
 
     def create_labels(self, parent):
         ctk.CTkLabel(master = parent, corner_radius = 5, fg_color= LABEL_COLOR, text="Amount of Days").grid(column = 0, row = 0)
@@ -86,9 +86,6 @@ class Grocceries(ctk.CTkToplevel):
         self.meal_amount = values[0]
         self.day_amount = values[1]
 
-        # add font 
-        # self.bold = font.Font(family="Helvetica", name='appHighlightFont', size=10, weight='bold')
-
         #generate recipe list
         self.generate_entries()
         self.define_buttons()
@@ -110,11 +107,11 @@ class Grocceries(ctk.CTkToplevel):
 
     def define_combobox(self) -> None:
         #define a combobox
-        grid_value = self.meal_amount*self.day_amount
-        for i in range(grid_value):
-            ctk.CTkComboBox(self, values=self.recipe_list, variable = self.combvars[i])\
-            .grid(row = i%self.meal_amount + 1, column = i%self.day_amount + 1, padx = 5, pady= 5)
-
+        for i in range(self.day_amount):
+            for j in range(self.meal_amount):
+                ctk.CTkComboBox(self, values=self.recipe_list, variable = self.combvars[i])\
+            .grid(row = j + 1, column = i + 1, padx = 5, pady= 5)
+                
     def define_labels(self) -> None:
         days = [f"Day {i + 1}" for i in range(self.day_amount)]
         for i in range(self.day_amount):

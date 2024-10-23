@@ -1,4 +1,5 @@
 import yaml
+from paths import FILE_PATH, INGREDIENT_FILE
 # class to parse the dictionary entries and either add them to the 
 # recipe list or not 
 # requires a list of requirements 
@@ -9,12 +10,23 @@ import yaml
 # if yaml file is empty create a list 
 # import yaml 
 
+
+
 class Parser():
 
-    def __init__(self, file_path) -> None:
+    def __init__(self, file_path = INGREDIENT_FILE) -> None:
         self.file_path = file_path
         with open(self.file_path, "r", encoding="utf-8") as file: 
             self.ingredient_file = yaml.safe_load(file)
+
+
+    def parse_ingredients(self, text: str) -> list[str]:
+        #open the file
+        ingredient_list = []
+        with open(text, "r", encoding="utf-8") as file:
+            for line in file:
+                ingredient_list.append(line.strip())
+        return ingredient_list
         
 
     def check_recipe_name(self, recipe: dict[str : str]) -> bool:
@@ -29,6 +41,8 @@ class Parser():
             return True
         else: 
             return False
+    
+    
         
     # def check_ingredients(self, recipe: dict[str : str]) -> bool:
     #     for entry in self.ingredient_file:
