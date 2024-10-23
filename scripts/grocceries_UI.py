@@ -195,7 +195,8 @@ class GroccerieList(ctk.CTkToplevel):
         self.img = Image.open(image_path)
 
         ctk.CTkLabel(self, text ='Generated List: ' , image=ctk.CTkImage(light_image=self.img, dark_image=self.img),
-                    fg_color=LABEL_COLOR,compound="left", corner_radius = 10, padx = 10, pady = 20).pack()
+                    fg_color=LABEL_COLOR,compound="left", corner_radius = 10, 
+                    padx = 15, height = 40, width = 50).pack(pady = 10, expand = True)
         
         self.scrollable_frame = ctk.CTkScrollableFrame(master=self, width = 200, height=300)
         self.scrollable_frame.pack(expand = True)
