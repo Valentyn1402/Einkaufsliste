@@ -1,8 +1,9 @@
 import tkinter as tk
 from tkinter import ttk
 import customtkinter as ctk
-from grocceries_UI import Grocceries
+from grocceries_UI import Grocceries, Tab_1
 from recipe_UI import Recipe
+from edit import Editor
 
 '''
 Important Widgets
@@ -15,14 +16,26 @@ class App(ctk.CTk):
         super().__init__()
         
         # create modern fonts
-        self.font_1 = ctk.CTkFont("Anona", 12, "bold")
+        self.font_1 = ctk.CTkFont("Anona", 16, "bold")
+
+        # create tab view
+        self.create_tabview()
+
+        # create the layout for tab 1 
+        Tab_1(parent=self.tab_1)
+
+        # create the layout for tab 2
+        Recipe(parent=self.tab_2)
+
+        # create layout for tab 3
+        Editor(parent=self.tab_3)
+
+        # create labels 
 
         ctk.set_appearance_mode("dark")
-        
-        # add buttons
-        self.define_menu_buttons()
-
-        self.geometry('700x400')
+    
+        self.geometry('1200x500')
+        self.configure(font = self.font_1)
         self.title("Food App")
 
         # initialize variables 
@@ -31,17 +44,14 @@ class App(ctk.CTk):
         # initialize mainloop
         self.mainloop()
 
-    def define_menu_buttons(self):
-        ctk.CTkButton(self, text = "Generate groccerie list", font=self.font_1, hover_color="red", 
-                      border_color="white", border_width=2, command=self.open_groccerie_generator).pack(expand = True, side = "left")
-        ctk.CTkButton(self, text = "Add Recipe", font=self.font_1, hover_color="red", 
-                      border_color="white", border_width=2, command=self.open_add_recipe).pack(expand = True, side = "right")
-        
-    def open_groccerie_generator(self):
-        self.groccerie_ui = Grocceries()
+    def create_tabview(self):
+        self.tabview = ctk.CTkTabview(master=self, width=600, height=300, anchor="w")
+        self.tabview.pack(padx=20, pady=20)
 
-    def open_add_recipe(self):
-        self.groccerie_ui = Recipe()
+        self.tab_1 = self.tabview.add("Generate Groccerie List")  # add tab at the end
+        self.tab_2 = self.tabview.add("Add Recipe")  # add tab at the end
+        self.tab_3 = self.tabview.add("Edit Recipe")  # add tab at the end
+        self.tabview.set("Generate Groccerie List")  # set currently visible tab
 
 
 
