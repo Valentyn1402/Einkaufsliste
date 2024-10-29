@@ -2,6 +2,8 @@ import tkinter as tk
 from tkinter import ttk
 from tkinter import font
 from parse_ingredients import Parser
+from paths import STAR_IMAGE_PATH
+from PIL import Image
 import customtkinter as ctk
 
 
@@ -34,6 +36,7 @@ class Editor(ctk.CTk, Parser):
         # append list entries
         self.add_recipes_to_list()
 
+
     def define_grid(self):
         # define grid for the window
         self.parent.columnconfigure(0, weight=2)
@@ -43,10 +46,35 @@ class Editor(ctk.CTk, Parser):
         for recipe_entry in Parser.yaml_dictionary:
             recipe_name = recipe_entry["recipe"]
             recipe_author = recipe_entry["author"]
-            frame = ctk.CTkFrame(master=self.frame, width=500, height=40, fg_color="white")
-            frame.pack()
-            ctk.CTkLabel(master=frame, text= recipe_name, text_color="black", fg_color="white").pack(side = "left")
-            ctk.CTkLabel(master=frame, text= recipe_author, text_color="black", fg_color="white").pack(side = "left")
+            recipe_date = recipe_entry["date"]
+            rating = recipe_entry["rating"]
+            # frame = tk.Frame(master=self.frame, width=600, height=40, highlightcolor = "black")
+            frame = ctk.CTkFrame(master=self.frame, width=600, height=40, fg_color="white")
+            frame.pack(expand = True, fill = "x")
+            # frame.columnconfigure((0, 1, 2, 3), weight=1, minsize=150)
+            ctk.CTkLabel(master=frame, text= recipe_name, 
+                         text_color="black", width = 150, fg_color="white").grid(column = 0, row = 0, sticky = "ew")
+            ctk.CTkLabel(master=frame, width = 150, text= recipe_author, 
+                         text_color="black", fg_color="white").grid(column = 1, row = 0, sticky = "ew")
+            ctk.CTkLabel(master=frame, width = 150, text= recipe_date, 
+                         text_color="black", fg_color="white").grid(column = 2, row = 0, sticky = "ew")
+            self.add_rating(frame = frame, size = rating)
+            
+            
+    def add_rating(self, frame: tk.Frame, size: int = 5):
+
+        frame_2 = ctk.CTkFrame(master=frame, width = 150, fg_color="white", bg_color="white",
+                               height = 40)
+        frame_2.grid(column = 3, row = 0, sticky = "we")
+        # frame_2.columnconfigure((0, 1, 2, 3, 4), weight = 1)
+
+        for i in range(size):
+            my_image = ctk.CTkImage(light_image=Image.open(STAR_IMAGE_PATH),
+                                    dark_image=Image.open(STAR_IMAGE_PATH),
+                                    size=(20, 20))
+            
+            image_label = ctk.CTkLabel(master=frame_2, width= 30, image=my_image, text="")
+            image_label.grid(column = i, row = 0, sticky = "we")    
         
     def define_frame(self):
         
@@ -57,20 +85,20 @@ class Editor(ctk.CTk, Parser):
         
     
     def define_header(self):
-        frame_3 = ctk.CTkFrame(master=self.frame, fg_color= "white", width = 480, height = 40)
+        frame_3 = ctk.CTkFrame(master=self.frame, fg_color= "white", width = 600, height = 40)
         frame_3.pack(expand = True)
-        ctk.CTkButton(master=frame_3, text = "Recipe", hover_color="red", width = 120, 
+        ctk.CTkButton(master=frame_3, text = "Recipe", hover_color="red", width = 150, 
                       border_color="white", border_width=2, command=lambda: print("Button")).pack(side = "left")
-        ctk.CTkButton(master=frame_3, text = "Author", hover_color="red", width = 120, 
+        ctk.CTkButton(master=frame_3, text = "Author", hover_color="red", width = 150, 
                       border_color="white", border_width=2, command=lambda: print("Button")).pack(side = "left")
-        ctk.CTkButton(master=frame_3, text = "Date ", hover_color="red", width = 120, 
+        ctk.CTkButton(master=frame_3, text = "Date ", hover_color="red", width = 150, 
                       border_color="white", border_width=2, command=lambda: print("Button")).pack(side = "left")
-        ctk.CTkButton(master=frame_3, text = "Rating", hover_color="red", width = 120, 
+        ctk.CTkButton(master=frame_3, text = "Rating", hover_color="red", width = 150, 
                       border_color="white", border_width=2, command=lambda: print("Button")).pack(side = "left")
 
     def define_scrollable_frame(self): 
         # create frames 
-        self.frame = ctk.CTkScrollableFrame(master=self.parent, width = 500, height=400, fg_color="white")
+        self.frame = ctk.CTkScrollableFrame(master=self.parent, width = 600, height=400, fg_color="white")
         self.frame.grid(column = 0, row = 0)    
         self.define_header()
     

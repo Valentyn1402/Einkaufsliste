@@ -7,6 +7,8 @@ from edit import Editor
 
 '''
 Important Widgets
+
+Implement default rating of a recipe with 0 
 '''
 
 class App(ctk.CTk):

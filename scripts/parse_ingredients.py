@@ -31,7 +31,7 @@ class Parser():
     
     def load_yaml_data(self) -> None:
         with open(INGREDIENT_FILE, "r", encoding="utf-8") as file: 
-            Parser.ingredient_file = yaml.safe_load(file)     
+            Parser.yaml_dictionary = yaml.safe_load(file)
 
     def check_recipe_name(self, recipe: dict[str : str]) -> bool:
         for entry in self.ingredient_file: 

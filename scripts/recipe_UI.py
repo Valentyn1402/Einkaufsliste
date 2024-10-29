@@ -3,9 +3,10 @@ from tkinter import ttk
 from tkinter import messagebox
 from tkinter import font
 from tkinter.scrolledtext import ScrolledText
-import customtkinter as ctk
+import datetime
 import os
 import re
+import customtkinter as ctk
 from parse_ingredients import Parser
 from paths import FILE_PATH, INGREDIENT_FILE
 from style_template import LIGHT_GREY
@@ -45,9 +46,6 @@ class Recipe(ctk.CTk, Parser):
         self.amount: str = ""
         self.ingredient_list = self.parse_ingredients(FILE_PATH)
 
-        # add font 
-        self.bold = font.Font(family="Helvetica", name='appHighlightFont', size=10, weight='bold')
-
         #define string variables
         self.define_tkinter_variables()
 
@@ -56,10 +54,10 @@ class Recipe(ctk.CTk, Parser):
         self.define_widgets()
 
     def define_widgets(self) -> None:
-        """Function which defines all widgets in the GUI
+        """function which defines all widgets in the GUI
         """
-        #position self.entries 
-        self.place_entries()
+        # define entries 
+        self.define_entries()
         #define the labels in the window
         self.define_labels()
         #define a button 
@@ -70,12 +68,8 @@ class Recipe(ctk.CTk, Parser):
         self.define_listbox()
         #define a scrolledtext
         self.define_scrolledtext()
-
-    def define_scrolledtext(self) -> None:
-        """Defines a scrolled text widget to write recipe descriptions 
-        """
-        self.scrolled_text_widget = ctk.CTkTextbox(master = self.parent, width=400, height=100, fg_color="white", text_color="black")
-        self.scrolled_text_widget.grid(row=8, column=3, padx=5, pady=10)
+        #position self.entries 
+        self.place_entries()
 
     def define_tkinter_variables(self) -> None:
         """defines all tkinter variables which are later used to acquire information from 
@@ -85,30 +79,20 @@ class Recipe(ctk.CTk, Parser):
         self.vars = [tk.StringVar() for var in range(10)]
         self.combvars = [tk.StringVar() for var in range(3)]
 
+    def define_entries(self) -> None:
+        """defines entry widgets for the GUI
+        """
         #define the entries in the window
         self.entries = [ctk.CTkEntry(self.parent, textvariable=self.vars[i]) for i in range(6)]
 
-    def reset_window(self) -> None:
-        """reset function which resets the current window by deleting the any text and reseting the
-        state of the buttons 
+    def define_scrolledtext(self) -> None:
+        """defines a scrolled text widget to write recipe descriptions 
         """
-        for widget in self.parent.winfo_children():
-            if isinstance(widget, tk.Entry) or isinstance(widget, ttk.Combobox):
-                widget.configure(state = "normal")
-            if isinstance(widget, tk.Entry) or isinstance(widget, ttk.Combobox) or \
-            isinstance(widget, tk.Listbox):
-                widget.delete(0, "end")
-
-    def place_entries(self) -> None:
-        """defines the entries in the GUI
-        """
-        self.entries[0].grid(row = 0, column = 1, padx=5, pady=5)
-        self.entries[1].grid(row = 4, column = 1, padx=5, pady=5)
-        self.entries[2].grid(row = 5, column = 1, padx=5, pady=5)
-        self.entries[3].grid(row = 1, column = 1, padx=5, pady=5)
+        self.scrolled_text_widget = ctk.CTkTextbox(master = self.parent, width=400, height=100, fg_color="white", text_color="black")
+        self.scrolled_text_widget.grid(row=8, column=3, padx=5, pady=10)
 
     def define_labels(self) -> None:
-        """defines and places labels on the GUI
+        """defines and places labels which are going to be place on the GUI
         """
         #define the labels in the window
         ctk.CTkLabel(self.parent, text = "Ingredients: ").grid(row=0, column=3, padx=5, pady=5)
@@ -121,7 +105,7 @@ class Recipe(ctk.CTk, Parser):
         ctk.CTkLabel(self.parent, text = "Enter the amount: ").grid(row=5, column=0, padx=5, pady=5)
 
     def define_combobox(self) -> None:
-        """Defines comboboxes for the GUI
+        """defines comboboxes for the GUI
         """
         #define a combobox
         self.c0 = ctk.CTkComboBox(self.parent, values=self.ingredient_list,  variable=self.combvars[0])
@@ -135,6 +119,22 @@ class Recipe(ctk.CTk, Parser):
         self.c1.grid(row = 2, column = 1)
         self.c2.grid(row = 5, column = 2, padx=5, pady=5)
 
+    def define_buttons(self) -> None:
+        """defines buttons onto the GUI
+        """
+        #define a button 
+        button_0 = ctk.CTkButton(self.parent, text="Next ingredient", command=self.handle_button_press)
+        button_1 = ctk.CTkButton(self.parent, text="Add to recipes", command=self.check_entry)
+        button_0.grid(row = 8, column = 1, pady=10)
+        button_1.grid(row = 8, column = 0, pady=10)
+
+    def define_listbox(self) -> None:
+        """Define listbox onto the GUI
+        """
+        self.scrollable_frame = ctk.CTkScrollableFrame(master=self.parent, width= 400, height=100, fg_color="white")
+        self.scrollable_frame.grid(row = 1, column = 3, rowspan = 6, padx = 50)
+        self.define_header(parent_frame=self.scrollable_frame)
+
     def define_header(self, parent_frame) -> None:
         frame_1 = ctk.CTkFrame(master = parent_frame, fg_color="white", bg_color="white",
                             width = 390, height = 30, corner_radius=20)
@@ -146,23 +146,27 @@ class Recipe(ctk.CTk, Parser):
         ctk.CTkLabel(master = frame_1, width = 125, corner_radius = 10, fg_color = LIGHT_GREY, text_color="black", 
         text = "Amount: ").pack(side = "left")
 
-    def define_listbox(self) -> None:
-        """Define listbox onto the GUI
+    def place_entries(self) -> None:
+        """defines the entries in the GUI
         """
-        self.scrollable_frame = ctk.CTkScrollableFrame(master=self.parent, width= 400, height=100, fg_color="white")
-        self.scrollable_frame.grid(row = 1, column = 3, rowspan = 6, padx = 50)
-        self.define_header(parent_frame=self.scrollable_frame)
+        self.entries[0].grid(row = 0, column = 1, padx=5, pady=5)
+        self.entries[1].grid(row = 4, column = 1, padx=5, pady=5)
+        self.entries[2].grid(row = 5, column = 1, padx=5, pady=5)
+        self.entries[3].grid(row = 1, column = 1, padx=5, pady=5)
 
-
-    def define_buttons(self) -> None:
-        """Defines buttons onto the GUI
+    def reset_window(self) -> None:
+        """reset function which resets the current window by deleting the any text and reseting the
+        state of the buttons 
         """
-        #define a button 
-        button_0 = ctk.CTkButton(self.parent, text="Next ingredient", command=self.handle_button_press)
-        button_1 = ctk.CTkButton(self.parent, text="Add to recipes", command=self.check_entry)
-        button_0.grid(row = 8, column = 1, pady=10)
-        button_1.grid(row = 8, column = 0, pady=10)
+        for widget in self.parent.winfo_children():
+            if isinstance(widget, ctk.CTkTextbox):
+                widget.delete('1.0', 'end')
+            elif isinstance(widget, (ctk.CTkEntry, ctk.CTkTextbox)):
+                widget.delete(0, "end")
+            elif isinstance(widget, (ctk.CTkButton, ctk.CTkComboBox)):
+                widget.configure(state = "normal")
 
+                
     def search(self, event):
         value = event.widget.get()
         if value == "":
@@ -205,24 +209,44 @@ class Recipe(ctk.CTk, Parser):
         self.add_to_scrollable_frame()
         self.reset_window()
 
+    def get_date(self) -> str:
+        current_date = datetime.date.today()
+        return current_date.strftime("%Y-%m-%d")
+    
+    def initialize_recipe_dictionary(self) -> None:
+        """Initializes the recipe dictionary with the provided input values."""
+        self.recipe_dict["recipe"] = self.vars[0].get()
+        self.recipe_dict["author"] = self.vars[3].get()
+        self.recipe_dict["category"] = self.combvars[1].get()
+        self.recipe_dict["description"] = self.scrolled_text_widget.get('1.0', 'end')
+        self.recipe_dict["date"] = self.get_date()
+        self.recipe_dict["rating"] = 0
+        self.recipe_dict["ingredients"] = []
+        
+    def disable_initial_inputs(self) -> None: 
+        """disables the initial widgets, which cannot be changed during the adding recipe process  
+        """
+        # disable the state of the self.entries and combobox
+        self.entries[0].configure(state="disabled")
+        self.entries[1].configure(state="disabled")
+        self.c1.configure(state="disabled")
+
+
     def add_to_recipes(self) -> None:
         """Function which handles the button press "Next Ingredient"
         """
-        if self.flag is False:
+        if not self.flag:
             # validate the variables 
             if not all([self.validate_input(var) for var in\
             [self.vars[0].get(), self.combvars[1].get()]]):
                 messagebox.showwarning("Warning", "Do not use any special characters or numbers!")
                 return
-            
-            self.recipe_dict["recipe"] = self.vars[0].get()
-            self.recipe_dict["author"] = self.vars[3].get()
-            self.recipe_dict["category"] = self.combvars[1].get()
-            self.recipe_dict["description"] = self.scrolled_text_widget.get('1.0', 'end')
-            self.recipe_dict["ingredients"] = []
+
+            # initialize recipe dictionary
+            self.initialize_recipe_dictionary()
             # disable the state of the self.entries and combobox
-            self.entries[0].configure(state="disabled")
-            self.c1.configure(state="disabled")
+            self.disable_initial_inputs()
+            # set flag to true
             self.flag = True
 
         # get the unit amount 
