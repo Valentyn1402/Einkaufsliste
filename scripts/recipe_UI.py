@@ -32,7 +32,7 @@ class Recipe(ctk.CTk, Parser):
     ingredients: list[str]
     listbox: tk.Listbox
 
-    def __init__(self, parent) -> None:
+    def __init__(self, parent: ctk.CTkFrame) -> None:
         
         super(Recipe, self).__init__()
 
@@ -83,7 +83,7 @@ class Recipe(ctk.CTk, Parser):
         """defines entry widgets for the GUI
         """
         #define the entries in the window
-        self.entries = [ctk.CTkEntry(self.parent, textvariable=self.vars[i]) for i in range(6)]
+        self.entries = [ctk.CTkEntry(self.parent, placeholder_text_color = "white", textvariable=self.vars[i]) for i in range(6)]
 
     def define_scrolledtext(self) -> None:
         """defines a scrolled text widget to write recipe descriptions 
@@ -108,9 +108,9 @@ class Recipe(ctk.CTk, Parser):
         """defines comboboxes for the GUI
         """
         #define a combobox
-        self.c0 = ctk.CTkComboBox(self.parent, values=self.ingredient_list,  variable=self.combvars[0])
-        self.c1 = ctk.CTkComboBox(self.parent, values=["breakfast", "dinner"], variable=self.combvars[1])
-        self.c2 = ctk.CTkComboBox(self.parent, values = MEASUREMENT_OPTIONS, variable=self.combvars[2])
+        self.c0 = ctk.CTkComboBox(self.parent, text_color_disabled="white", values=self.ingredient_list,  variable=self.combvars[0])
+        self.c1 = ctk.CTkComboBox(self.parent, text_color_disabled="white", values=["breakfast", "dinner"], variable=self.combvars[1])
+        self.c2 = ctk.CTkComboBox(self.parent, text_color_disabled="white", values = MEASUREMENT_OPTIONS, variable=self.combvars[2])
     
         # bind the first combobox to a search function
         self.c0.bind("<KeyRelease>", self.search)
@@ -154,19 +154,27 @@ class Recipe(ctk.CTk, Parser):
         self.entries[2].grid(row = 5, column = 1, padx=5, pady=5)
         self.entries[3].grid(row = 1, column = 1, padx=5, pady=5)
 
+    def remove_ingredients(self) -> None:
+        widgets = self.scrollable_frame.winfo_children()
+        for widget in widgets[1:]:
+            widget.destroy()
+
     def reset_window(self) -> None:
         """reset function which resets the current window by deleting the any text and reseting the
         state of the buttons 
         """
         for widget in self.parent.winfo_children():
+            print(widget)
             if isinstance(widget, ctk.CTkTextbox):
-                widget.delete('1.0', 'end')
-            elif isinstance(widget, (ctk.CTkEntry, ctk.CTkTextbox)):
-                widget.delete(0, "end")
-            elif isinstance(widget, (ctk.CTkButton, ctk.CTkComboBox)):
+                widget.delete('1.0', 'end')  # Clear the content of CTkTextbox
+            elif isinstance(widget, ctk.CTkEntry):
                 widget.configure(state = "normal")
+                widget.delete(0, "end")  # Clear the content of CTkEntry
+            elif isinstance(widget, ctk.CTkFrame):
+                self.remove_ingredients()
+            elif isinstance(widget, ctk.CTkComboBox):
+                widget.configure(state="normal")  # Set the state to normal
 
-                
     def search(self, event):
         value = event.widget.get()
         if value == "":
@@ -181,6 +189,8 @@ class Recipe(ctk.CTk, Parser):
 
     def check_entry(self) -> None:
         self.parse_recipe_dictionary(self.recipe_dict)
+        # add a message for the user
+        messagebox.showinfo("Info", "Recipe has been added")
         self.reset_window()
 
     def validate_input(self, input: str) -> bool:
@@ -207,7 +217,6 @@ class Recipe(ctk.CTk, Parser):
         self.ingredients.append(string_entry)
         print(string_entry)
         self.add_to_scrollable_frame()
-        self.reset_window()
 
     def get_date(self) -> str:
         current_date = datetime.date.today()
@@ -227,10 +236,9 @@ class Recipe(ctk.CTk, Parser):
         """disables the initial widgets, which cannot be changed during the adding recipe process  
         """
         # disable the state of the self.entries and combobox
-        self.entries[0].configure(state="disabled")
-        self.entries[1].configure(state="disabled")
-        self.c1.configure(state="disabled")
-
+        self.entries[0].configure(state=tk.DISABLED)
+        self.entries[3].configure(state=tk.DISABLED)
+        self.c1.configure(state=tk.DISABLED)
 
     def add_to_recipes(self) -> None:
         """Function which handles the button press "Next Ingredient"
@@ -280,12 +288,11 @@ class Recipe(ctk.CTk, Parser):
             messagebox.showwarning("Warning", "Please fill in all fields!")
             return
         
+        [entry.delete(0, tk.END) for entry in self.entries[1:2]]
         # creates a recipe entry in the dictionary 
         self.add_to_recipes()
 
-        print(self.recipe_dict)
-
-        [entry.delete(0, tk.END) for entry in self.entries[1:]]
+        # removes the data from the subcategory and amount entries 
 
 if __name__ == "__main__":
     ui_instance = Recipe()
