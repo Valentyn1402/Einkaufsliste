@@ -14,6 +14,9 @@ from paths import FILE_PATH, INGREDIENT_FILE
 
 class Parser():
 
+    MEASUREMENT_OPTIONS = ["Units (u)", "Grams (g)", "Mililiters (ml)", 
+                           "Tea-Spoons (Tsp)", "Table-Spoons (Tbsp)"]
+
     # class level attributes
     yaml_dictionary: dict = {}
 

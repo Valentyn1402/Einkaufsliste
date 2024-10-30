@@ -1,18 +1,13 @@
 beans
 beer
-biscuit
 bread
 broth
 butter
-caramel
-caviar
 cheese
 chili
 chocolate
 cocoa
-coffee
 cream
-crumble
 eggs
 filet
 fish
@@ -25,7 +20,6 @@ ketchup
 lard
 lentils
 margarine
-marinade
 mayonnaise
 meat
 milk
@@ -40,8 +34,6 @@ pasta
 passata
 rice
 salad
-sauce
-seasoning
 soy
 spices
 steak

@@ -21,9 +21,6 @@ as the value
 - remove ingredient at the start of the listbox entry 
 ''' 
 
-MEASUREMENT_OPTIONS = ["Units (u)", "Grams (g)", "Mililiters (ml)", 
-                           "Tea-Spoons (Tsp)", "Table-Spoons (Tbsp)"]
-
 class Recipe(ctk.CTk, Parser):
 
     entries: list[ctk.CTkEntry]
@@ -110,7 +107,7 @@ class Recipe(ctk.CTk, Parser):
         #define a combobox
         self.c0 = ctk.CTkComboBox(self.parent, text_color_disabled="white", values=self.ingredient_list,  variable=self.combvars[0])
         self.c1 = ctk.CTkComboBox(self.parent, text_color_disabled="white", values=["breakfast", "dinner"], variable=self.combvars[1])
-        self.c2 = ctk.CTkComboBox(self.parent, text_color_disabled="white", values = MEASUREMENT_OPTIONS, variable=self.combvars[2])
+        self.c2 = ctk.CTkComboBox(self.parent, text_color_disabled="white", values = Parser.MEASUREMENT_OPTIONS, variable=self.combvars[2])
     
         # bind the first combobox to a search function
         self.c0.bind("<KeyRelease>", self.search)
