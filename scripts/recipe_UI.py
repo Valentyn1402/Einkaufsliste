@@ -36,6 +36,8 @@ class Recipe(ctk.CTk, Parser):
         # define parent window
         self.parent = parent
 
+        # define a frame 
+        self.parent_frame: tk.Frame = None
         #define instance variables
         self.flag: bool = False
         self.ingredients = []
@@ -197,16 +199,54 @@ class Recipe(ctk.CTk, Parser):
         else:
             return True
         
+    def highlight_frame_widgets(self, color: str, frame_path: tk.Frame):
+        frame_path.configure(fg_color = color)
+        children_widgets = frame_path.winfo_children()
+        for child_widget in children_widgets:
+            child_widget.configure(fg_color = color)
+        
+    def highlight_frame(self, event: tk.Event):
+        print("clicked at", event.x, event.y)
+        if isinstance(event.widget, tk.Label):
+            label_path = event.widget.winfo_parent()
+            # Split the path into components
+            path_components = label_path.split('.')
+    
+            # Remove the last component to get the parent path
+            parent_path_components = path_components[:-1]
+            
+            # Reconstruct the parent path
+            parent_path = ".".join(parent_path_components)
+
+            parent_widget = self.parent.nametowidget(parent_path)
+
+            # reset the hightlight from everything else 
+            if self.parent_frame is not None:
+                self.highlight_frame_widgets(color="white", frame_path=self.parent_frame)
+
+            # highlight everything in the frame 
+            self.highlight_frame_widgets(color = "red", frame_path=parent_widget)
+            
+            print("clicked on a label", parent_widget)
+
+            self.parent_frame = parent_widget
+        
     def add_to_scrollable_frame(self):
         frame_1 = ctk.CTkFrame(master = self.scrollable_frame, fg_color="white",
                             width = 390, height = 30, corner_radius=20)
         frame_1.pack(expand = True)
-        ctk.CTkLabel(master=frame_1, width = 125, text=self.combvars[0].get(), 
-        text_color="black").pack(side = "left")
-        ctk.CTkLabel(master=frame_1, width = 125, text=self.vars[1].get(), 
-        text_color="black").pack(side = "left")
-        ctk.CTkLabel(master=frame_1, width = 125, text=self.amount, 
-        text_color="black").pack(side = "left")
+        label_1 = ctk.CTkLabel(master=frame_1, width = 125, text=self.combvars[0].get(), 
+        text_color="black")
+        label_1.pack(side = "left")
+        label_1.bind("<Button-1>", self.highlight_frame)
+        label_2 = ctk.CTkLabel(master=frame_1, width = 125, text=self.vars[1].get(), 
+        text_color="black")
+        label_2.pack(side = "left")
+        label_2.bind("<Button-1>", self.highlight_frame)
+        label_3 = ctk.CTkLabel(master=frame_1, width = 125, text=self.amount, 
+        text_color="black")
+        label_3.pack(side = "left")
+        label_3.bind("<Button-1>", self.highlight_frame)
 
     def add_to_list(self) -> None:
         string_entry = f"ingredient: {self.combvars[0].get()} {self.vars[1].get()} {self.amount}"

@@ -8,10 +8,13 @@ import customtkinter as ctk
 
 class Editor(ctk.CTk, Parser):
 
+
     def __init__(self, parent) -> None: 
         # initialize the dunder method 
         super(Editor, self).__init__()
         # ctk.set_appearance_mode("dark")
+
+        self.parent_frame: tk.Frame = None
 
         # loads yaml data to Parser.yaml_dictionary
         self.load_yaml_data()
@@ -42,32 +45,73 @@ class Editor(ctk.CTk, Parser):
         self.parent.columnconfigure(0, weight=2)
         self.parent.columnconfigure(1, weight=1)
 
+    def highlight_frame(self, event: tk.Event):
+        print("clicked at", event.x, event.y)
+        if isinstance(event.widget, tk.Label):
+            label_path = event.widget.winfo_parent()
+            # Split the path into components
+            path_components = label_path.split('.')
+    
+            # Remove the last component to get the parent path
+            parent_path_components = path_components[:-1]
+            
+            # Reconstruct the parent path
+            parent_path = ".".join(parent_path_components)
+
+            parent_widget = self.parent.nametowidget(parent_path)
+
+            label_widget = parent_widget.grid_slaves(column = 0)[0]
+
+            print(label_widget.winfo_name())
+
+            # reset the hightlight from everything else 
+            if self.parent_frame is not None:
+                self.highlight_frame_widgets(color="white", frame_path=self.parent_frame)
+
+            # highlight everything in the frame 
+            self.highlight_frame_widgets(color = "red", frame_path=parent_widget)
+            
+            print("clicked on a label", parent_widget)
+
+            self.parent_frame = parent_widget
+
+
+
+    def highlight_frame_widgets(self, color: str, frame_path: tk.Frame):
+        frame_path.configure(fg_color = color)
+        children_widgets = frame_path.winfo_children()
+        for child_widget in children_widgets:
+            child_widget.configure(fg_color = color)
+
+
     def add_recipes_to_list(self):
         for recipe_entry in Parser.yaml_dictionary:
             recipe_name = recipe_entry["recipe"]
             recipe_author = recipe_entry["author"]
             recipe_date = recipe_entry["date"]
             rating = recipe_entry["rating"]
-            # frame = tk.Frame(master=self.frame, width=600, height=40, highlightcolor = "black")
-            frame = ctk.CTkFrame(master=self.frame, width=600, height=40, fg_color="white")
+            frame = ctk.CTkFrame(master=self.frame, corner_radius= 5, width=600, height=40, fg_color="white")
             frame.pack(expand = True, fill = "x")
-            ctk.CTkLabel(master=frame, text= recipe_name, 
-                         text_color="black", width = 150, fg_color="white").grid(column = 0, row = 0, sticky = "ew")
-            ctk.CTkLabel(master=frame, width = 150, text= recipe_author, 
-                         text_color="black", fg_color="white").grid(column = 1, row = 0, sticky = "ew")
-            ctk.CTkLabel(master=frame, width = 150, text= recipe_date, 
-                         text_color="black", fg_color="white").grid(column = 2, row = 0, sticky = "ew")
+            frame.bind("<Button-1>", self.highlight_frame)
+            label_1 = ctk.CTkLabel(master=frame, corner_radius= 5, text= recipe_name, 
+                         text_color="black", width = 150, fg_color="white")
+            label_1.grid(column = 0, row = 0, sticky = "ew")
+            label_1.bind("<Button-1>", self.highlight_frame)
+            label_2 = ctk.CTkLabel(master=frame, corner_radius= 5, width = 150, text= recipe_author, 
+                         text_color="black", fg_color="white")
+            label_2.grid(column = 1, row = 0, sticky = "ew")
+            label_2.bind("<Button-1>", self.highlight_frame)
+            label_3 = ctk.CTkLabel(master=frame, corner_radius= 5, width = 150, text= recipe_date, 
+                         text_color="black", fg_color="white")
+            label_3.grid(column = 2, row = 0, sticky = "ew")
+            label_3.bind("<Button-1>", self.highlight_frame)
             self.add_rating(frame = frame, size = rating)
-            
-            # ctk.CTkButton(master=frame, hover_color="red", width = 600, 
-            #           border_color="white", border_width=2, fg_color="transparent", bg_color="transparent",
-            #           command=lambda: print("Button")).grid(column = 0, row = 0, columnspan = 4)
-            
+           
     def add_rating(self, frame: tk.Frame, size: int = 5):
-
         frame_2 = ctk.CTkFrame(master=frame, width = 150, fg_color="white", bg_color="white",
                                height = 40)
         frame_2.grid(column = 3, row = 0, sticky = "we")
+        frame_2.bind("<Button-1>", self.highlight_frame)
         # frame_2.columnconfigure((0, 1, 2, 3, 4), weight = 1)
 
         for i in range(size):
@@ -75,7 +119,7 @@ class Editor(ctk.CTk, Parser):
                                     dark_image=Image.open(STAR_IMAGE_PATH),
                                     size=(20, 20))
             
-            image_label = ctk.CTkLabel(master=frame_2, width= 30, image=my_image, text="")
+            image_label = ctk.CTkLabel(master=frame_2, corner_radius=5, width= 30, image=my_image, text="")
             image_label.grid(column = i, row = 0, sticky = "we")    
         
     def define_frame(self):
