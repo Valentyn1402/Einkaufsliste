@@ -10,6 +10,8 @@ import customtkinter as ctk
 '''
 create a dictionary which maps the entries of the list entries to recipe names 
 
+- add remove recipe button 
+
 '''
 
 class Editor(ctk.CTk, Parser):
@@ -254,13 +256,13 @@ class Editor(ctk.CTk, Parser):
         frame_3 = ctk.CTkFrame(master=self.frame, fg_color= "white", width = 600, height = 40)
         frame_3.pack(expand = True)
         ctk.CTkButton(master=frame_3, text = "Recipe", hover_color="red", width = 150, 
-                      border_color="white", border_width=2, command=lambda: print("Button")).pack(side = "left")
+                      border_color="white", border_width=2).pack(side = "left")
         ctk.CTkButton(master=frame_3, text = "Author", hover_color="red", width = 150, 
-                      border_color="white", border_width=2, command=lambda: print("Button")).pack(side = "left")
+                      border_color="white", border_width=2).pack(side = "left")
         ctk.CTkButton(master=frame_3, text = "Date ", hover_color="red", width = 150, 
-                      border_color="white", border_width=2, command=lambda: print("Button")).pack(side = "left")
+                      border_color="white", border_width=2).pack(side = "left")
         ctk.CTkButton(master=frame_3, text = "Rating", hover_color="red", width = 150, 
-                      border_color="white", border_width=2, command=lambda: print("Button")).pack(side = "left")
+                      border_color="white", border_width=2).pack(side = "left")
 
     def define_scrollable_frame(self) -> None: 
         # create frames 
@@ -278,9 +280,6 @@ class Editor(ctk.CTk, Parser):
 
     def create_buttons(self) -> None:
         # define 4 Buttons for the header
-
-        self.button_4 = ctk.CTkButton(master = self.frame, text = "Pasta Carbonara", hover_color="red",
-                                      fg_color="white", text_color="black", command=lambda: print("yes"))
         self.button_7 = ctk.CTkButton(master=self.frame_2, text= "Change Name", hover_color="red", command=self.change_name)
         
         self.button_8 = ctk.CTkButton(master=self.frame_2, text= "Remove Ingredient", hover_color="red", command=self.remove_ingredient)
@@ -311,8 +310,6 @@ class Editor(ctk.CTk, Parser):
         
     def place_buttons(self) -> None:
         # place on the scrollable frame 
-        # self.button_4.grid(column = 1, row = 0, padx = 10, pady = 10)
-        #         
         self.button_7.grid(column = 1, row = 1, padx = 10, pady = 10)
         self.button_8.grid(column = 1, row = 3, padx = 10, pady = 10)
         self.button_9.grid(column = 0, row = 7, padx = 10, pady = 10)
