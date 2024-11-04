@@ -2,108 +2,99 @@
   rating: 4
   author: Valentyn
   category: dinner
-  description: '
+  description: "
 
-    '
-  date: '2024-10-17'
+    "
+  date: "2024-10-17"
   ingredients:
-  - ingredient: soy
-    subcategory: sauce
-    amount: 38 g
-  - ingredient: sauce
-    subcategory: hoisin
-    amount: 40 g
-  - ingredient: oil
-    subcategory: sesame
-    amount: 4 g
-  - ingredient: starch
-    subcategory: ''
-    amount: 5 g
+    - ingredient: soy
+      subcategory: sauce
+      amount: 38 g
+    - ingredient: sauce
+      subcategory: hoisin
+      amount: 40 g
+    - ingredient: oil
+      subcategory: sesame
+      amount: 4 g
+    - ingredient: starch
+      subcategory: ""
+      amount: 5 g
 - recipe: Burritos
   rating: 5
   author: Valentyn
   category: dinner
-  description: '
+  description: "
 
-    '
-  date: '2024-10-18'
+    "
+  date: "2024-10-18"
   ingredients:
-  - ingredient: beans
-    subcategory: black
-    amount: 300 g
-  - ingredient: meat
-    subcategory: ground
-    amount: 500 g
-  - ingredient: rice
-    subcategory: basmati
-    amount: 200 g
-  - ingredient: sauce
-    subcategory: ''
-    amount: 10 g
+    - ingredient: beans
+      subcategory: black
+      amount: 300 g
+    - ingredient: meat
+      subcategory: ground
+      amount: 500 g
+    - ingredient: rice
+      subcategory: basmati
+      amount: 200 g
+    - ingredient: sauce
+      subcategory: ""
+      amount: 10 g
 - recipe: Yeast Pancakes
   rating: 3
   author: Valnetyn
   category: breakfast
-  description: '
+  description: "
 
-    '
-  date: '2024-10-10'
+    "
+  date: "2024-10-10"
   ingredients:
-  - ingredient: yeast
-    subcategory: ''
-    amount: 20 g
-  - ingredient: milk
-    subcategory: ''
-    amount: 500 ml
-  - ingredient: eggs
-    subcategory: ''
-    amount: 2 u
-  - ingredient: spices
-    subcategory: salt
-    amount: 3 g
-  - ingredient: sugar
-    subcategory: ''
-    amount: 50 g
-  - ingredient: flour
-    subcategory: ''
-    amount: 250 g
+    - ingredient: yeast
+      subcategory: ""
+      amount: 20 g
+    - ingredient: milk
+      subcategory: ""
+      amount: 500 ml
+    - ingredient: eggs
+      subcategory: ""
+      amount: 2 u
+    - ingredient: spices
+      subcategory: salt
+      amount: 3 g
+    - ingredient: sugar
+      subcategory: ""
+      amount: 50 g
+    - ingredient: flour
+      subcategory: ""
+      amount: 250 g
 - recipe: Limoncello
   rating: 2
   author: Valentyn
   category: dinner
-  description: '
+  description: "
 
-    '
-  date: '2024-10-20'
+    "
+  date: "2024-10-20"
   ingredients:
-  - ingredient: coffee
-    subcategory: ''
-    amount: 100 ml
-  - ingredient: chocolate
-    subcategory: ''
-    amount: 10 g
-  - ingredient: garlic
-    subcategory: ''
-    amount: 1 u
+    - ingredient: coffee
+      subcategory: ""
+      amount: 100 ml
+    - ingredient: chocolate
+      subcategory: ""
+      amount: 10 g
+    - ingredient: garlic
+      subcategory: ""
+      amount: 1 u
 - recipe: Carbonara
   rating: 4
   author: Valentyn
   category: breakfast
-  description: '
+  description: "
 
-    '
-  date: '2024-10-29'
+    "
+  date: "2024-10-29"
   ingredients:
-  - ingredient: flour
-    subcategory: ''
-    amount: 10 g
-  - ingredient: garlic
-    subcategory: ''
-    amount: 10 g
-  - ingredient: eggs
-    subcategory: ''
-    amount: 2 u
-edient: flour
+    - ingredient: flour
       subcategory: ""
       amount: 10 g
     - ingredient: garlic
