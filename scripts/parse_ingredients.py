@@ -21,8 +21,9 @@ class Parser():
                        "Tsp" : "Tea-Spoons (Tsp)", "Tbsp" : "Table-Spoons (Tbsp)"}
 
     # class level attributes
-    yaml_dictionary: dict = {}
+    yaml_dictionary: list = {}
     name_to_recipe: dict = {}
+    recipe_to_id: dict[str, int] = {}
 
 
     def __init__(self, file_path = INGREDIENT_FILE) -> None:
@@ -46,9 +47,12 @@ class Parser():
             for entry in Parser.yaml_dictionary:
                 recipe_name = entry["recipe"]
                 Parser.name_to_recipe[recipe_name] = entry
-                print(recipe_name)
-                print(entry)
 
+    def define_recipe_to_id(self) -> None:
+        if Parser.yaml_dictionary:
+            for id, entry in enumerate(Parser.yaml_dictionary):
+                recipe_name = entry["recipe"]
+                Parser.recipe_to_id[recipe_name] = id
 
     def check_recipe_name(self, recipe: dict[str : str]) -> bool:
         for entry in self.ingredient_file: 
@@ -62,6 +66,10 @@ class Parser():
             return True
         else: 
             return False
+        
+    def write_to_yaml(self, file: str, data):
+        with open(file, "r+", encoding="utf-8") as f:
+                yaml.dump(data, f, default_flow_style=False, sort_keys=False)
     
     
     def parse_recipe_dictionary(self, recipe_dictionary: dict[str : str]) -> None:

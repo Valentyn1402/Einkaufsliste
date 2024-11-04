@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 from tkinter import font
 from parse_ingredients import Parser
-from paths import STAR_IMAGE_PATH
+from paths import STAR_IMAGE_PATH, INGREDIENT_FILE
 from PIL import Image
 import customtkinter as ctk
 
@@ -20,6 +20,8 @@ class Editor(ctk.CTk, Parser):
         super(Editor, self).__init__()
         # ctk.set_appearance_mode("dark")
 
+        self.value_list: list[str] = []
+
         self.parent_frame: tk.Frame = None
 
         self.current_recipe: str = None
@@ -32,6 +34,9 @@ class Editor(ctk.CTk, Parser):
         # load recipe names to recipe dictionary 
         self.recipe_names_to_recipes()
 
+        # define recipe to number dictionary
+        self.define_recipe_to_id()
+        
         # define variables
         self.define_variables()
 
@@ -80,7 +85,6 @@ class Editor(ctk.CTk, Parser):
 
             # get the label widget at row = 0, column = 0
             label = label_widget[0]
-            print(label.cget("text"))            
 
             # reset the hightlight from everything else 
             if self.parent_frame is not None:
@@ -92,7 +96,6 @@ class Editor(ctk.CTk, Parser):
             self.load_recipe_data(recipe_name=label.cget("text"))
 
             label_name = label.cget("text")
-            print(len(Parser.name_to_recipe))
             
             self.current_recipe = label.cget("text")
 
@@ -109,18 +112,15 @@ class Editor(ctk.CTk, Parser):
         recipe = Parser.name_to_recipe[recipe_name]
         # self.entry_1.configure(text = recipe_name)
         self.vars[0].set(recipe_name)
-        value_list: list[str] = []
-
-        # create a dictionary which maps the ingredients to the correspoding amounts 
+        # create a dictionary which maps the ingredients to the correspoding amount 
         ingredients = recipe["ingredients"]
         for ingredient in ingredients:
             name = ingredient["ingredient"]
             amount, unit = ingredient["amount"].split()
             self.current_ingredients[name] = [amount, unit]
-            value_list.append(name)
+            self.value_list.append(name)
 
-        self.combobox_1.configure(values = value_list)
-
+        self.combobox_1.configure(values = self.value_list)
 
     def highlight_frame_widgets(self, color: str, frame_path: tk.Frame):
         frame_path.configure(fg_color = color)
@@ -166,8 +166,74 @@ class Editor(ctk.CTk, Parser):
             
             image_label = ctk.CTkLabel(master=frame_2, corner_radius=5, width= 30, image=my_image, text="")
             image_label.grid(column = i, row = 0, sticky = "we")    
-        
-    def define_frame(self):
+
+    def change_name(self) -> None:
+        '''
+        add the function to change the label text in the edit tab 
+        '''
+
+        # get new recipe name 
+        new_name = self.vars[0].get()
+        # get the recipe name and position
+        id = Parser.recipe_to_id[self.current_recipe]
+        recipe = Parser.yaml_dictionary[id]
+        recipe["recipe"] = new_name
+        # write new name to the recipe
+        self.write_to_yaml(file = INGREDIENT_FILE, data = Parser.yaml_dictionary)
+
+
+    def remove_ingredient(self) -> None:
+        # get new recipe name 
+        ingredient_name = self.combobox_1.get()
+        # get the recipe name and position
+        id = Parser.recipe_to_id[self.current_recipe]
+        # load the recipe
+        recipe = Parser.yaml_dictionary[id]
+        # get the ingredient list
+        ingredients = recipe["ingredients"]
+        # set ingredient id to 0
+        ingredient_id = 0
+        for i, ingredient in enumerate(ingredients):
+            if ingredient["ingredient"] == ingredient_name:
+                ingredient_id = i
+                break
+        # removes ingredient at specified position
+        ingredients.pop(ingredient_id)
+        self.value_list.remove(ingredient_name)
+        self.combobox_1.configure(values = self.value_list)
+        self.combobox_1.set("")
+        self.combobox_2.set("")
+        self.vars[1].set("")
+
+        # write changes to the recipe 
+        self.write_to_yaml(file = INGREDIENT_FILE, data = Parser.yaml_dictionary)
+
+    def change_ingredient(self) -> None: 
+         # get new recipe name 
+        ingredient_name = self.combobox_1.get()
+        # get the recipe name and position
+        id = Parser.recipe_to_id[self.current_recipe]
+        # load the recipe
+        recipe = Parser.yaml_dictionary[id]
+        # get the ingredient list
+        ingredients = recipe["ingredients"]
+        # set ingredient id to 0
+        ingredient_id = 0
+        for i, ingredient in enumerate(ingredients):
+            if ingredient["ingredient"] == ingredient_name:
+                ingredient_id = i
+                break
+        # removes ingredient at specified position
+        new_ingredient = ingredients[ingredient_id]
+        new_ingredient["ingredient"] = self.combobox_1.get()
+        amount = self.vars[1].get()
+        unit = self.combobox_2.get().split(" ")
+        unit = unit[1].replace("(", "").replace(")", "")
+        new_ingredient["amount"] = f"{amount} {unit}"
+        # write changes to the recipe 
+        self.write_to_yaml(file = INGREDIENT_FILE, data = Parser.yaml_dictionary)
+
+    def define_frame(self) -> None:
         
         self.frame_2 = ctk.CTkFrame(master=self.parent)
         self.frame_2.grid(column = 1, row = 0)
@@ -175,7 +241,7 @@ class Editor(ctk.CTk, Parser):
         self.frame_2.rowconfigure((0, 1, 2, 3, 4), weight=1, minsize=20)
         
     
-    def define_header(self):
+    def define_header(self) -> None:
         frame_3 = ctk.CTkFrame(master=self.frame, fg_color= "white", width = 600, height = 40)
         frame_3.pack(expand = True)
         ctk.CTkButton(master=frame_3, text = "Recipe", hover_color="red", width = 150, 
@@ -187,54 +253,54 @@ class Editor(ctk.CTk, Parser):
         ctk.CTkButton(master=frame_3, text = "Rating", hover_color="red", width = 150, 
                       border_color="white", border_width=2, command=lambda: print("Button")).pack(side = "left")
 
-    def define_scrollable_frame(self): 
+    def define_scrollable_frame(self) -> None: 
         # create frames 
         self.frame = ctk.CTkScrollableFrame(master=self.parent, width = 600, height=400, fg_color="white")
         self.frame.grid(column = 0, row = 0)    
         self.define_header()
     
-    def create_entries(self): 
+    def create_entries(self) -> None: 
         self.entry_1 = ctk.CTkEntry(self.frame_2, textvariable=self.vars[0])
         self.entry_2 = ctk.CTkEntry(self.frame_2, textvariable=self.vars[1])
         
-    def create_combobox(self):
-        self.combobox_1 = ctk.CTkComboBox(self.frame_2, variable=self.combvars[0], command= self.load_widgets)
+    def create_combobox(self) -> None:
+        self.combobox_1 = ctk.CTkComboBox(self.frame_2, variable=self.combvars[0], values=self.value_list, command= self.load_widgets)
         self.combobox_2 = ctk.CTkComboBox(self.frame_2, values=Parser.MEASUREMENT_OPTIONS,variable=self.combvars[1])
 
-    def create_buttons(self):
+    def create_buttons(self) -> None:
         # define 4 Buttons for the header
 
         self.button_4 = ctk.CTkButton(master = self.frame, text = "Pasta Carbonara", hover_color="red",
                                       fg_color="white", text_color="black", command=lambda: print("yes"))
-        self.button_7 = ctk.CTkButton(master=self.frame_2, text= "Change Name", hover_color="red")
+        self.button_7 = ctk.CTkButton(master=self.frame_2, text= "Change Name", hover_color="red", command=self.change_name)
         
-        self.button_8 = ctk.CTkButton(master=self.frame_2, text= "Remove Ingredient", hover_color="red")
+        self.button_8 = ctk.CTkButton(master=self.frame_2, text= "Remove Ingredient", hover_color="red", command=self.remove_ingredient)
         
-        self.button_9 = ctk.CTkButton(master=self.frame_2, text= "Apply Changes ", hover_color="red")
+        self.button_9 = ctk.CTkButton(master=self.frame_2, text= "Apply Changes ", hover_color="red", command = self.change_ingredient)
         
-    def create_labels(self):
+    def create_labels(self) -> None:
         # labels for editor menu
         self.label_5 = ctk.CTkLabel(master=self.frame_2, text= "Recipe Name", text_color="white")
         self.label_6 = ctk.CTkLabel(master=self.frame_2, text= "Ingredients", text_color="white")
         self.label_7 = ctk.CTkLabel(master=self.frame_2, text= "Amount", text_color="white")
         self.label_8 = ctk.CTkLabel(master=self.frame_2, text= "Measurement", text_color="white")
 
-    def place_entries(self):
+    def place_entries(self) -> None:
         self.entry_1.grid(column = 0, row = 1, padx = 10, pady = 10)
         self.entry_2.grid(column = 0, row = 5, padx = 10, pady = 10)
         
-    def place_combobox(self):
+    def place_combobox(self) -> None:
         self.combobox_1.grid(column = 0, row = 3, padx = 10, pady = 10)
         self.combobox_2.grid(column = 1, row = 5, padx = 10, pady = 10)
         
-    def place_labels(self):
+    def place_labels(self) -> None:
         # place main edit menu labels
         self.label_5.grid(column = 0, row = 0, padx = 10, pady = 10)
         self.label_6.grid(column = 0, row = 2, padx = 10, pady = 10)
         self.label_7.grid(column = 0, row = 4, padx = 10, pady = 10)
         self.label_8.grid(column = 1, row = 4, padx = 10, pady = 10)
         
-    def place_buttons(self):
+    def place_buttons(self) -> None:
         # place on the scrollable frame 
         # self.button_4.grid(column = 1, row = 0, padx = 10, pady = 10)
         #         
@@ -242,11 +308,11 @@ class Editor(ctk.CTk, Parser):
         self.button_8.grid(column = 1, row = 3, padx = 10, pady = 10)
         self.button_9.grid(column = 0, row = 7, padx = 10, pady = 10)
 
-    def define_canvas(self):
+    def define_canvas(self) -> None:
         # add canvas to the frame 
         self.canvas = ctk.CTkCanvas(master = self.parent, height=300, width=600)
 
-    def create_widgets(self):
+    def create_widgets(self) -> None:
         # create frames 
         self.define_frame()
         self.define_scrollable_frame()

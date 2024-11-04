@@ -163,7 +163,6 @@ class Recipe(ctk.CTk, Parser):
         state of the buttons 
         """
         for widget in self.parent.winfo_children():
-            print(widget)
             if isinstance(widget, ctk.CTkTextbox):
                 widget.delete('1.0', 'end')  # Clear the content of CTkTextbox
             elif isinstance(widget, ctk.CTkEntry):
@@ -206,7 +205,6 @@ class Recipe(ctk.CTk, Parser):
             child_widget.configure(fg_color = color)
         
     def highlight_frame(self, event: tk.Event):
-        print("clicked at", event.x, event.y)
         if isinstance(event.widget, tk.Label):
             label_path = event.widget.winfo_parent()
             # Split the path into components
