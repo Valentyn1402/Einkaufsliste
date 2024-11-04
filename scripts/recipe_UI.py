@@ -172,6 +172,7 @@ class Recipe(ctk.CTk, Parser):
                 self.remove_ingredients()
             elif isinstance(widget, ctk.CTkComboBox):
                 widget.configure(state="normal")  # Set the state to normal
+                widget.set("")
 
     def search(self, event):
         value = event.widget.get()
@@ -190,6 +191,10 @@ class Recipe(ctk.CTk, Parser):
         # add a message for the user
         messagebox.showinfo("Info", "Recipe has been added")
         self.reset_window()
+        # reset the dictionary
+        self.recipe_dict.clear()
+        # reset the flag
+        self.flag = False
 
     def validate_input(self, input: str) -> bool:
         valid_pattern = r'^[a-zA-Z\s\.\,\?\!]+$'
@@ -252,6 +257,11 @@ class Recipe(ctk.CTk, Parser):
         self.ingredients.append(string_entry)
         print(string_entry)
         self.add_to_scrollable_frame()
+
+        # reset the entry fields 
+        self.vars[1].set("")
+        self.vars[2].set("")
+        self.c2.set("")
 
     def get_date(self) -> str:
         current_date = datetime.date.today()
@@ -322,8 +332,6 @@ class Recipe(ctk.CTk, Parser):
             [self.vars[0].get(), self.combvars[1].get(), self.combvars[0].get()]]):
             messagebox.showwarning("Warning", "Please fill in all fields!")
             return
-        
-        [entry.delete(0, tk.END) for entry in self.entries[1:2]]
         # creates a recipe entry in the dictionary 
         self.add_to_recipes()
 

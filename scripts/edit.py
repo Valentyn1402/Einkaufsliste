@@ -63,6 +63,11 @@ class Editor(ctk.CTk, Parser):
         # define grid for the window
         self.parent.columnconfigure(0, weight=2)
         self.parent.columnconfigure(1, weight=1)
+    
+    def reset_ingredients(self) -> None:
+        self.combobox_1.set("")
+        self.combobox_2.set("")
+        self.vars[1].set("")
 
     def highlight_frame(self, event: tk.Event):
         if isinstance(event.widget, tk.Label):
@@ -93,6 +98,10 @@ class Editor(ctk.CTk, Parser):
             # highlight everything in the frame 
             self.highlight_frame_widgets(color = "red", frame_path=parent_widget)
 
+            # reset ingredients, amount, and unit 
+            self.reset_ingredients()
+
+            # load recipe data to the widget fields
             self.load_recipe_data(recipe_name=label.cget("text"))
 
             label_name = label.cget("text")
@@ -202,9 +211,8 @@ class Editor(ctk.CTk, Parser):
         ingredients.pop(ingredient_id)
         self.value_list.remove(ingredient_name)
         self.combobox_1.configure(values = self.value_list)
-        self.combobox_1.set("")
-        self.combobox_2.set("")
-        self.vars[1].set("")
+        # reset ingredients
+        self.reset_ingredients()
 
         # write changes to the recipe 
         self.write_to_yaml(file = INGREDIENT_FILE, data = Parser.yaml_dictionary)
