@@ -6,6 +6,12 @@ from paths import STAR_IMAGE_PATH
 from PIL import Image
 import customtkinter as ctk
 
+
+'''
+create a dictionary which maps the entries of the list entries to recipe names 
+
+'''
+
 class Editor(ctk.CTk, Parser):
 
 
@@ -16,8 +22,15 @@ class Editor(ctk.CTk, Parser):
 
         self.parent_frame: tk.Frame = None
 
+        self.current_recipe: str = None
+
+        self.current_ingredients: dict[str, list[str]] = {}
+ 
         # loads yaml data to Parser.yaml_dictionary
         self.load_yaml_data()
+        
+        # load recipe names to recipe dictionary 
+        self.recipe_names_to_recipes()
 
         # define variables
         self.define_variables()
@@ -39,6 +52,7 @@ class Editor(ctk.CTk, Parser):
 
     def define_variables(self):
         self.combvars = [tk.StringVar() for var in range(2)]
+        self.vars = [tk.StringVar() for var in range(2)]
 
     def define_grid(self):
         # define grid for the window
@@ -46,7 +60,6 @@ class Editor(ctk.CTk, Parser):
         self.parent.columnconfigure(1, weight=1)
 
     def highlight_frame(self, event: tk.Event):
-        print("clicked at", event.x, event.y)
         if isinstance(event.widget, tk.Label):
             label_path = event.widget.winfo_parent()
             # Split the path into components
@@ -58,11 +71,16 @@ class Editor(ctk.CTk, Parser):
             # Reconstruct the parent path
             parent_path = ".".join(parent_path_components)
 
+            # get the parent widget (frame widget)
             parent_widget = self.parent.nametowidget(parent_path)
 
-            label_widget = parent_widget.grid_slaves(column = 0)[0]
+            # retrieve the first widget in the row 
+            label_widget = parent_widget.grid_slaves(column = 0, row = 0)
 
-            print(label_widget.winfo_name())
+
+            # get the label widget at row = 0, column = 0
+            label = label_widget[0]
+            print(label.cget("text"))            
 
             # reset the hightlight from everything else 
             if self.parent_frame is not None:
@@ -70,11 +88,38 @@ class Editor(ctk.CTk, Parser):
 
             # highlight everything in the frame 
             self.highlight_frame_widgets(color = "red", frame_path=parent_widget)
+
+            self.load_recipe_data(recipe_name=label.cget("text"))
+
+            label_name = label.cget("text")
+            print(len(Parser.name_to_recipe))
             
-            print("clicked on a label", parent_widget)
+            self.current_recipe = label.cget("text")
 
             self.parent_frame = parent_widget
 
+    def load_widgets(self, event):
+        ingredient_name = self.combobox_1.get()
+        amount, unit = self.current_ingredients[ingredient_name]
+        self.vars[1].set(amount)
+        self.combobox_2.set(Parser.MEASUREMENT_MAP[unit])
+
+    def load_recipe_data(self, recipe_name: str):
+
+        recipe = Parser.name_to_recipe[recipe_name]
+        # self.entry_1.configure(text = recipe_name)
+        self.vars[0].set(recipe_name)
+        value_list: list[str] = []
+
+        # create a dictionary which maps the ingredients to the correspoding amounts 
+        ingredients = recipe["ingredients"]
+        for ingredient in ingredients:
+            name = ingredient["ingredient"]
+            amount, unit = ingredient["amount"].split()
+            self.current_ingredients[name] = [amount, unit]
+            value_list.append(name)
+
+        self.combobox_1.configure(values = value_list)
 
 
     def highlight_frame_widgets(self, color: str, frame_path: tk.Frame):
@@ -149,11 +194,11 @@ class Editor(ctk.CTk, Parser):
         self.define_header()
     
     def create_entries(self): 
-        self.entry_1 = ctk.CTkEntry(self.frame_2)
-        self.entry_2 = ctk.CTkEntry(self.frame_2)
+        self.entry_1 = ctk.CTkEntry(self.frame_2, textvariable=self.vars[0])
+        self.entry_2 = ctk.CTkEntry(self.frame_2, textvariable=self.vars[1])
         
     def create_combobox(self):
-        self.combobox_1 = ctk.CTkComboBox(self.frame_2, variable=self.combvars[0])
+        self.combobox_1 = ctk.CTkComboBox(self.frame_2, variable=self.combvars[0], command= self.load_widgets)
         self.combobox_2 = ctk.CTkComboBox(self.frame_2, values=Parser.MEASUREMENT_OPTIONS,variable=self.combvars[1])
 
     def create_buttons(self):

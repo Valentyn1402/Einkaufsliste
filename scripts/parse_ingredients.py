@@ -16,9 +16,14 @@ class Parser():
 
     MEASUREMENT_OPTIONS = ["Units (u)", "Grams (g)", "Mililiters (ml)", 
                            "Tea-Spoons (Tsp)", "Table-Spoons (Tbsp)"]
+    
+    MEASUREMENT_MAP = {"u" : "Units (u)", "g" : "Grams (g)", "ml" : "Mililiters (ml)", 
+                       "Tsp" : "Tea-Spoons (Tsp)", "Tbsp" : "Table-Spoons (Tbsp)"}
 
     # class level attributes
     yaml_dictionary: dict = {}
+    name_to_recipe: dict = {}
+
 
     def __init__(self, file_path = INGREDIENT_FILE) -> None:
         self.file_path = file_path
@@ -35,6 +40,15 @@ class Parser():
     def load_yaml_data(self) -> None:
         with open(INGREDIENT_FILE, "r", encoding="utf-8") as file: 
             Parser.yaml_dictionary = yaml.safe_load(file)
+
+    def recipe_names_to_recipes(self) -> None:
+        if Parser.yaml_dictionary:
+            for entry in Parser.yaml_dictionary:
+                recipe_name = entry["recipe"]
+                Parser.name_to_recipe[recipe_name] = entry
+                print(recipe_name)
+                print(entry)
+
 
     def check_recipe_name(self, recipe: dict[str : str]) -> bool:
         for entry in self.ingredient_file: 
