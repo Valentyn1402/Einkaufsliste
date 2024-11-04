@@ -68,8 +68,8 @@ class Parser():
             return False
         
     def write_to_yaml(self, file: str, data):
-        with open(file, "r+", encoding="utf-8") as f:
-                yaml.dump(data, f, default_flow_style=False, sort_keys=False)
+        with open(file, "w", encoding="utf-8") as f:
+                yaml.dump(data, f, sort_keys=False)
     
     
     def parse_recipe_dictionary(self, recipe_dictionary: dict[str : str]) -> None:

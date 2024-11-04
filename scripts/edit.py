@@ -36,7 +36,7 @@ class Editor(ctk.CTk, Parser):
 
         # define recipe to number dictionary
         self.define_recipe_to_id()
-        
+
         # define variables
         self.define_variables()
 
@@ -113,6 +113,7 @@ class Editor(ctk.CTk, Parser):
         # self.entry_1.configure(text = recipe_name)
         self.vars[0].set(recipe_name)
         # create a dictionary which maps the ingredients to the correspoding amount 
+        self.value_list.clear()
         ingredients = recipe["ingredients"]
         for ingredient in ingredients:
             name = ingredient["ingredient"]
