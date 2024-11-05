@@ -28,6 +28,8 @@ class Editor(ctk.CTk, Parser):
 
         self.current_recipe: str = None
 
+        self.current_label: tk.Label = None
+
         self.current_ingredients: dict[str, list[str]] = {}
  
         # loads yaml data to Parser.yaml_dictionary
@@ -89,9 +91,8 @@ class Editor(ctk.CTk, Parser):
             # retrieve the first widget in the row 
             label_widget = parent_widget.grid_slaves(column = 0, row = 0)
 
-
             # get the label widget at row = 0, column = 0
-            label = label_widget[0]
+            self.current_label = label_widget[0]
 
             # reset the hightlight from everything else 
             if self.parent_frame is not None:
@@ -104,11 +105,11 @@ class Editor(ctk.CTk, Parser):
             self.reset_ingredients()
 
             # load recipe data to the widget fields
-            self.load_recipe_data(recipe_name=label.cget("text"))
+            self.load_recipe_data(recipe_name=self.current_label.cget("text"))
 
-            label_name = label.cget("text")
+            label_name = self.current_label.cget("text")
             
-            self.current_recipe = label.cget("text")
+            self.current_recipe = self.current_label.cget("text")
 
             self.parent_frame = parent_widget
 
@@ -183,13 +184,14 @@ class Editor(ctk.CTk, Parser):
         '''
         add the function to change the label text in the edit tab 
         '''
-
         # get new recipe name 
         new_name = self.vars[0].get()
         # get the recipe name and position
         id = Parser.recipe_to_id[self.current_recipe]
         recipe = Parser.yaml_dictionary[id]
         recipe["recipe"] = new_name
+        # set the label to new_name
+        self.current_label.configure(text = new_name)
         # write new name to the recipe
         self.write_to_yaml(file = INGREDIENT_FILE, data = Parser.yaml_dictionary)
 
