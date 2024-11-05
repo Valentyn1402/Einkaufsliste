@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import messagebox
 from tkinter import font
-from bidict import bidict
+from validation import validate_input_number, validate_input_string
 import datetime
 import os
 import re
@@ -339,11 +339,22 @@ class Recipe(ctk.CTk, Parser):
         self.entries[3].configure(state=tk.DISABLED)
         self.c1.configure(state=tk.DISABLED)
 
+    def validate_inputs(self) -> None:
+        # validate string entries 
+        validate_input_string(input_string = self.vars[0].get())
+        validate_input_string(input_string = self.vars[1].get())
+        validate_input_string(input_string = self.vars[3].get())
+        # validate number entries 
+        validate_input_number(input_number = self.vars[2].get())
+        # check if the 
+
     def add_to_recipes(self) -> None:
         """Function which handles the button press "Next Ingredient"
         """
+        # check if the flag is set, that means the base for the recipe dictionary is initialized 
         if not self.flag:
             # validate the variables 
+            # self.validate_inputs()
             if not all([self.validate_input(var) for var in\
             [self.vars[0].get(), self.combvars[1].get()]]):
                 messagebox.showwarning("Warning", "Do not use any special characters or numbers!")

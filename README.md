@@ -49,3 +49,10 @@ To Edit a recipe following options are available
 
 
 # Feature Requests 
+
+
+- Option to add rating to the recipes 
+- Input Validation: for Generate Groccerie List, add integer validation, there cannot be 1.5 days or 1.2 meals
+- Input Validation: for Add Recipe, add string validation, recipe names and user names can only have basic alphabet letters as well as some special characters like '
+for subcategory aswell. Add number validation for the amount that is entered as number can be either an integer, a decimal number or a fraction 
+- Input Validation: for Edit Recipe, name should have the same string validation, the amount should have the same validation as in "add recipe" tab
