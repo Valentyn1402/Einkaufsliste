@@ -48,9 +48,11 @@ class Recipe(ctk.CTk, Parser):
         #define string variables
         self.define_tkinter_variables()
 
-        #parse the file
         #define widgets
         self.define_widgets()
+        
+        # set taborder in the app   
+        self.define_taborder()
 
     def define_widgets(self) -> None:
         """function which defines all widgets in the GUI
@@ -69,6 +71,13 @@ class Recipe(ctk.CTk, Parser):
         self.define_scrolledtext()
         #position self.entries 
         self.place_entries()
+    
+    def define_taborder(self) -> None:
+        # reverse the stacking order to show how
+        # it affects tab order
+        new_order = (self.entries[0], self.entries[3], self.c1, self.c0, self.entries[1], self.entries[2], self.c2)
+        for widget in new_order:
+            widget.lift()
 
     def define_tkinter_variables(self) -> None:
         """defines all tkinter variables which are later used to acquire information from 
