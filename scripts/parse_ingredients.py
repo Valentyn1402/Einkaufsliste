@@ -1,4 +1,5 @@
 import yaml
+from bidict import bidict
 from paths import FILE_PATH, INGREDIENT_FILE
 # class to parse the dictionary entries and either add them to the 
 # recipe list or not 
@@ -19,6 +20,8 @@ class Parser():
     
     MEASUREMENT_MAP = {"u" : "Units (u)", "g" : "Grams (g)", "ml" : "Mililiters (ml)", 
                        "Tsp" : "Tea-Spoons (Tsp)", "Tbsp" : "Table-Spoons (Tbsp)"}
+    
+    BIDIRECT_MEASUREMENT_MAP = bidict(MEASUREMENT_MAP).inverse
 
     # class level attributes
     yaml_dictionary: list = {}

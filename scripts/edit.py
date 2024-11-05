@@ -282,6 +282,8 @@ class Editor(ctk.CTk, Parser):
 
     def create_buttons(self) -> None:
         # define 4 Buttons for the header
+        self.button_6 = ctk.CTkButton(master=self.frame_2, text= "Remove Recipe", hover_color="red")
+
         self.button_7 = ctk.CTkButton(master=self.frame_2, text= "Change Name", hover_color="red", command=self.change_name)
         
         self.button_8 = ctk.CTkButton(master=self.frame_2, text= "Remove Ingredient", hover_color="red", command=self.remove_ingredient)
@@ -312,6 +314,7 @@ class Editor(ctk.CTk, Parser):
         
     def place_buttons(self) -> None:
         # place on the scrollable frame 
+        self.button_6.grid(column = 1, row = 7, padx = 10, pady = 10)
         self.button_7.grid(column = 1, row = 1, padx = 10, pady = 10)
         self.button_8.grid(column = 1, row = 3, padx = 10, pady = 10)
         self.button_9.grid(column = 0, row = 7, padx = 10, pady = 10)

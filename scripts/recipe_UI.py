@@ -1,8 +1,7 @@
 import tkinter as tk
-from tkinter import ttk
 from tkinter import messagebox
 from tkinter import font
-from tkinter.scrolledtext import ScrolledText
+from bidict import bidict
 import datetime
 import os
 import re
@@ -44,6 +43,7 @@ class Recipe(ctk.CTk, Parser):
         self.recipe_dict = {}
         self.amount: str = ""
         self.ingredient_list = self.parse_ingredients(FILE_PATH)
+        self.current_label: tk.Label = None
 
         #define string variables
         self.define_tkinter_variables()
@@ -124,8 +124,11 @@ class Recipe(ctk.CTk, Parser):
         #define a button 
         button_0 = ctk.CTkButton(self.parent, text="Next ingredient", command=self.handle_button_press)
         button_1 = ctk.CTkButton(self.parent, text="Add to recipes", command=self.check_entry)
+        button_2 = ctk.CTkButton(self.parent, text="Apply Changes", command=self.change_ingredient_values)
         button_0.grid(row = 8, column = 1, pady=10)
         button_1.grid(row = 8, column = 0, pady=10)
+        button_2.grid(row = 8, column = 2, pady=10)
+        
 
     def define_listbox(self) -> None:
         """Define listbox onto the GUI
@@ -221,7 +224,14 @@ class Recipe(ctk.CTk, Parser):
             # Reconstruct the parent path
             parent_path = ".".join(parent_path_components)
 
+            # get the parent widget (frame widget)
             parent_widget = self.parent.nametowidget(parent_path)
+
+            # retrieve the first widget in the row 
+            label_widget = parent_widget.grid_slaves(column = 0, row = 0)
+
+            # get the label widget at row = 0, column = 0
+            self.current_label = label_widget[0]
 
             # reset the hightlight from everything else 
             if self.parent_frame is not None:
@@ -229,26 +239,61 @@ class Recipe(ctk.CTk, Parser):
 
             # highlight everything in the frame 
             self.highlight_frame_widgets(color = "red", frame_path=parent_widget)
+
+            # load recipe data to the widget fields
+            self.load_recipe_data(parent=parent_widget)
             
             print("clicked on a label", parent_widget)
 
             self.parent_frame = parent_widget
-        
+
+    def load_recipe_data(self, parent: tk.Widget) -> None:
+        # retrieve the first widget in the row 
+        ingredient_amount, ingredient_subcategory, ingredient_name = parent.grid_slaves(row = 0)
+        print(ingredient_amount.cget("text"))
+        # unpack the amout and units into two variables 
+        amount, unit = ingredient_amount.cget("text").split()
+        # set the widgets to the ingredient values 
+        self.c2.set(value = Parser.MEASUREMENT_MAP[unit])
+        self.c0.set(value = ingredient_name.cget("text"))
+        self.vars[1].set(value = ingredient_subcategory.cget("text"))
+        self.vars[2].set(value = amount)
+
+    def change_ingredient_values(self) -> None:
+        # get the unit
+        unit = self.c2.get()
+        # get the unit
+        ingredient = self.c0.get()
+        # get the subcategory 
+        subcategory = self.vars[1].get()
+        # get the amount
+        amount = self.vars[2].get()
+        # unpack labels from the parent frame 
+        amount_label, subcategory_label, name_label = self.parent_frame.grid_slaves(row = 0)
+        # set labels to the current values in the widgets
+        unit = Parser.BIDIRECT_MEASUREMENT_MAP[unit]
+        amount = f"{amount} {unit}"
+
+        name_label.configure(text = ingredient)
+        subcategory_label.configure(text = subcategory)
+        amount_label.configure(text = amount)
+
+         
     def add_to_scrollable_frame(self):
         frame_1 = ctk.CTkFrame(master = self.scrollable_frame, fg_color="white",
                             width = 390, height = 30, corner_radius=20)
         frame_1.pack(expand = True)
         label_1 = ctk.CTkLabel(master=frame_1, width = 125, text=self.combvars[0].get(), 
         text_color="black")
-        label_1.pack(side = "left")
+        label_1.grid(column = 0, row = 0, sticky = "ew")
         label_1.bind("<Button-1>", self.highlight_frame)
         label_2 = ctk.CTkLabel(master=frame_1, width = 125, text=self.vars[1].get(), 
         text_color="black")
-        label_2.pack(side = "left")
+        label_2.grid(column = 1, row = 0, sticky = "ew")
         label_2.bind("<Button-1>", self.highlight_frame)
         label_3 = ctk.CTkLabel(master=frame_1, width = 125, text=self.amount, 
         text_color="black")
-        label_3.pack(side = "left")
+        label_3.grid(column = 2, row = 0, sticky = "ew")
         label_3.bind("<Button-1>", self.highlight_frame)
 
     def add_to_list(self) -> None:
