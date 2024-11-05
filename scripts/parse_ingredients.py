@@ -11,8 +11,6 @@ from paths import FILE_PATH, INGREDIENT_FILE
 # if yaml file is empty create a list 
 # import yaml 
 
-
-
 class Parser():
 
     MEASUREMENT_OPTIONS = ["Units (u)", "Grams (g)", "Mililiters (ml)", 
