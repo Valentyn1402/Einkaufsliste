@@ -8,7 +8,7 @@ import re
 import customtkinter as ctk
 from parse_ingredients import Parser
 from paths import FILE_PATH, INGREDIENT_FILE
-from style_template import LIGHT_GREY
+from style_template import LIGHT_GREY, BLUE_COLOR
 
 '''
 TO DO: add a button which indicates when recipe is complete and can be added to the recipe list
@@ -150,12 +150,12 @@ class Recipe(ctk.CTk, Parser):
         frame_1 = ctk.CTkFrame(master = parent_frame, fg_color="white", bg_color="white",
                             width = 390, height = 30, corner_radius=20)
         frame_1.pack(expand = True)
-        ctk.CTkLabel(master = frame_1, width = 125, corner_radius = 10, fg_color = LIGHT_GREY, text_color="black", 
-        text = "Ingredient: ").pack(side="left")
-        ctk.CTkLabel(master = frame_1, width = 125, corner_radius = 10, fg_color = LIGHT_GREY, text_color="black", 
-        text = "Subcategory: ").pack(side = "left")
-        ctk.CTkLabel(master = frame_1, width = 125, corner_radius = 10, fg_color = LIGHT_GREY, text_color="black", 
-        text = "Amount: ").pack(side = "left")
+        ctk.CTkLabel(master = frame_1, width = 125, corner_radius= 5, fg_color = BLUE_COLOR, text_color="white", 
+        text = "Ingredient: ").pack(side="left", padx = 3)
+        ctk.CTkLabel(master = frame_1, width = 125, corner_radius= 5, fg_color = BLUE_COLOR, text_color="white", 
+        text = "Subcategory: ").pack(side = "left", padx = 3)
+        ctk.CTkLabel(master = frame_1, width = 125, corner_radius= 5, fg_color = BLUE_COLOR, text_color="white", 
+        text = "Amount: ").pack(side = "left", padx = 3)
 
     def place_entries(self) -> None:
         """defines the entries in the GUI

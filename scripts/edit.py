@@ -152,22 +152,22 @@ class Editor(ctk.CTk, Parser):
             frame = ctk.CTkFrame(master=self.frame, corner_radius= 5, width=600, height=40, fg_color="white")
             frame.pack(expand = True, fill = "x")
             frame.bind("<Button-1>", self.highlight_frame)
-            label_1 = ctk.CTkLabel(master=frame, corner_radius= 5, text= recipe_name, 
+            label_1 = ctk.CTkLabel(master=frame, height= 40, corner_radius= 5, text= recipe_name, 
                          text_color="black", width = 150, fg_color="white")
             label_1.grid(column = 0, row = 0, sticky = "ew")
             label_1.bind("<Button-1>", self.highlight_frame)
-            label_2 = ctk.CTkLabel(master=frame, corner_radius= 5, width = 150, text= recipe_author, 
+            label_2 = ctk.CTkLabel(master=frame, height= 40, corner_radius= 5, width = 150, text= recipe_author, 
                          text_color="black", fg_color="white")
             label_2.grid(column = 1, row = 0, sticky = "ew")
             label_2.bind("<Button-1>", self.highlight_frame)
-            label_3 = ctk.CTkLabel(master=frame, corner_radius= 5, width = 150, text= recipe_date, 
+            label_3 = ctk.CTkLabel(master=frame, height=40, corner_radius= 5, width = 150, text= recipe_date, 
                          text_color="black", fg_color="white")
             label_3.grid(column = 2, row = 0, sticky = "ew")
             label_3.bind("<Button-1>", self.highlight_frame)
             self.add_rating(frame = frame, size = rating)
            
     def add_rating(self, frame: tk.Frame, size: int = 5):
-        frame_2 = ctk.CTkFrame(master=frame, width = 150, fg_color="white", bg_color="white",
+        frame_2 = ctk.CTkFrame(master=frame, corner_radius= 5, width = 150, fg_color="white", bg_color="white",
                                height = 40)
         frame_2.grid(column = 3, row = 0, sticky = "we")
         frame_2.bind("<Button-1>", self.highlight_frame)
@@ -178,7 +178,7 @@ class Editor(ctk.CTk, Parser):
                                     dark_image=Image.open(STAR_IMAGE_PATH),
                                     size=(20, 20))
             
-            image_label = ctk.CTkLabel(master=frame_2, corner_radius=5, width= 30, image=my_image, text="")
+            image_label = ctk.CTkLabel(master=frame_2, corner_radius=5, width= 30, height= 40, image=my_image, text="")
             image_label.grid(column = i, row = 0, sticky = "we")    
 
     def change_name(self) -> None:
