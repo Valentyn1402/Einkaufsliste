@@ -5,6 +5,7 @@ from parse_ingredients import Parser
 from paths import STAR_IMAGE_PATH, INGREDIENT_FILE
 from PIL import Image
 import customtkinter as ctk
+from validation import validate_input_number, validate_input_string
 
 
 '''
@@ -186,6 +187,8 @@ class Editor(ctk.CTk, Parser):
         '''
         # get new recipe name 
         new_name = self.vars[0].get()
+        # validate the recipe name
+        validate_input_string(new_name)
         # get the recipe name and position
         id = Parser.recipe_to_id[self.current_recipe]
         recipe = Parser.yaml_dictionary[id]
@@ -242,6 +245,9 @@ class Editor(ctk.CTk, Parser):
         amount = self.vars[1].get()
         unit = self.combobox_2.get().split(" ")
         unit = unit[1].replace("(", "").replace(")", "")
+        # check if the amount is valid number
+        validate_input_number(unit)
+        # define the new amount 
         new_ingredient["amount"] = f"{amount} {unit}"
         # write changes to the recipe 
         self.write_to_yaml(file = INGREDIENT_FILE, data = Parser.yaml_dictionary)

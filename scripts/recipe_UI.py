@@ -354,12 +354,7 @@ class Recipe(ctk.CTk, Parser):
         # check if the flag is set, that means the base for the recipe dictionary is initialized 
         if not self.flag:
             # validate the variables 
-            # self.validate_inputs()
-            if not all([self.validate_input(var) for var in\
-            [self.vars[0].get(), self.combvars[1].get()]]):
-                messagebox.showwarning("Warning", "Do not use any special characters or numbers!")
-                return
-
+            self.validate_inputs()
             # initialize recipe dictionary
             self.initialize_recipe_dictionary()
             # disable the state of the self.entries and combobox
@@ -372,10 +367,8 @@ class Recipe(ctk.CTk, Parser):
         unit = unit[1].replace("(", "").replace(")", "")
         self.amount = f"{self.vars[2].get()} {unit}"
 
-        if not all([self.validate_input(var) for var in\
-        [self.combvars[0].get(), self.vars[1].get()]]):
-            messagebox.showwarning("Warning", "Do not use any special characters or numbers!")
-            return
+        # validate inputs before adding to the recipe list
+        self.validate_inputs()
 
         entry_dictionary = {"ingredient" : self.combvars[0].get(), "subcategory" : self.vars[1].get(),
                             "amount" : self.amount}

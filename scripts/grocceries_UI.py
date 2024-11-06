@@ -1,11 +1,12 @@
-import yaml
 import tkinter as tk
+import yaml
 from PIL import Image
 from tkinter import ttk
 from tkinter import font
 import customtkinter as ctk
 from paths import INGREDIENT_FILE
 from style_template import ENTRY_COLOR, LABEL_COLOR, BUTTON_COLOR, LIGHT_GREY
+from validation import validate_input_number
 
 
 '''
@@ -55,6 +56,9 @@ class Tab_1(ctk.CTk):
         ctk.CTkLabel(master = parent, corner_radius = 5, fg_color = LABEL_COLOR, text="Meals per Day").grid(column = 1, row = 0)
 
     def open_meal_plan(self):
+        # validate the inputs and open the main window
+        validate_input_number(self.day_amount.get())
+        validate_input_number(self.meal_amount.get())
         Grocceries(self.meal_amount, self.day_amount)   
 
 class Grocceries(ctk.CTkToplevel):
