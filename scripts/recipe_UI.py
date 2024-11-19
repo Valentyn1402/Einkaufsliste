@@ -306,7 +306,7 @@ class Recipe(ctk.CTk, Parser):
         label_3.bind("<Button-1>", self.highlight_frame)
 
     def add_to_list(self) -> None:
-        string_entry = f"ingredient: {self.combvars[0].get()} {self.vars[1].get()} {self.amount}"
+        string_entry = f"ingredient: {self.combvars[0].get().lower()} {self.vars[1].get().lower()} {self.amount}"
         #updates the ingredients list asweel as the ingredientsvar
         self.ingredients.append(string_entry)
         print(string_entry)
@@ -370,7 +370,7 @@ class Recipe(ctk.CTk, Parser):
         # validate inputs before adding to the recipe list
         self.validate_inputs()
 
-        entry_dictionary = {"ingredient" : self.combvars[0].get(), "subcategory" : self.vars[1].get(),
+        entry_dictionary = {"ingredient" : self.combvars[0].get().lower(), "subcategory" : self.vars[1].get().lower(),
                             "amount" : self.amount}
         self.recipe_dict["ingredients"].append(entry_dictionary)
 

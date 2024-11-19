@@ -223,3 +223,54 @@
   - ingredient: cheese
     subcategory: gouda
     amount: 50 g
+- recipe: Chilli Con Carne
+  author: Valentyn
+  category: dinner
+  description: '
+
+    '
+  date: '2024-11-19'
+  rating: 0
+  ingredients:
+  - ingredient: onion
+    subcategory: ''
+    amount: 1 u
+  - ingredient: garlic
+    subcategory: ''
+    amount: 2 u
+  - ingredient: spices
+    subcategory: cayenne
+    amount: 1 Tsp
+  - ingredient: spices
+    subcategory: paprika
+    amount: 2 Tsp
+  - ingredient: spices
+    subcategory: cumin
+    amount: 2 Tsp
+  - ingredient: meat
+    subcategory: ground
+    amount: 500 g
+  - ingredient: stock
+    subcategory: beef
+    amount: 30 g
+  - ingredient: tomatoes
+    subcategory: canned
+    amount: 400 g
+  - ingredient: spices
+    subcategory: majoran
+    amount: 1 Tsp
+  - ingredient: spices
+    subcategory: oregano
+    amount: 1 Tsp
+  - ingredient: beans
+    subcategory: kidney
+    amount: 400 g
+  - ingredient: corn
+    subcategory: ''
+    amount: 400 g
+  - ingredient: tomato
+    subcategory: puree
+    amount: 2 Tbsp
+  - ingredient: sour cream
+    subcategory: ''
+    amount: 1 Tbsp
