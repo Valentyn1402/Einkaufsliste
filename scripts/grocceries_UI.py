@@ -154,12 +154,30 @@ class Grocceries(ctk.CTkToplevel):
 
         self.generate_groccerie_list()
 
+    def convert_amount(self, amount: str):
+        try: 
+             # Check if the value is a fraction
+            if '/' in amount:
+                numerator, denominator = amount.split('/')
+                return float(numerator) / float(denominator)
+        
+            # Check if the amount is a decimal
+            if '.' in amount:
+                return float(amount)
+        
+            # Default case for integers
+            return int(amount)
+        
+        except ValueError:
+            raise ValueError("invalid input value")
+
+
     def parse_ingredients(self, ingredients):
         for ingredient in ingredients:
             ingredient_name = f"{ingredient["subcategory"]} {ingredient["ingredient"]}"
             # get the amount for an ingredient by splitting it
             ingredient_amount = ingredient["amount"].split(" ")
-            ingredient_amount[0] = int(ingredient_amount[0])
+            ingredient_amount[0] = self.convert_amount(ingredient_amount[0])
             if ingredient_name in self.ingredient_dict.keys():
                 amount = self.ingredient_dict[ingredient_name]
                 if ingredient_amount[1] == amount[1]:
