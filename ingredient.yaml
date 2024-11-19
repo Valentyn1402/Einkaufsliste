@@ -40,24 +40,6 @@
     - ingredient: sauce
       subcategory: ""
       amount: 10 g
-- recipe: Pasta
-  rating: 4
-  author: Valentyn
-  category: breakfast
-  description: "
-
-    "
-  date: "2024-10-29"
-  ingredients:
-    - ingredient: oil
-      subcategory: ""
-      amount: 5 ml
-    - ingredient: garlic
-      subcategory: ""
-      amount: 2 u
-    - ingredient: eggs
-      subcategory: ""
-      amount: 3 u
 - recipe: Overnight Oats
   author: Valentyn
   category: breakfast
@@ -142,3 +124,102 @@
     - ingredient: "cheese "
       subcategory: gouda
       amount: 30 g
+- recipe: Lentil Curry
+  author: Valentyn
+  category: dinner
+  description: '
+
+    '
+  date: '2024-11-19'
+  rating: 0
+  ingredients:
+  - ingredient: butter
+    subcategory: ''
+    amount: 50 g
+  - ingredient: garlic
+    subcategory: ''
+    amount: 4 u
+  - ingredient: 'ginger '
+    subcategory: ''
+    amount: 1 u
+  - ingredient: onion
+    subcategory: ''
+    amount: 1 u
+  - ingredient: spices
+    subcategory: curry
+    amount: 2 Tbsp
+  - ingredient: spices
+    subcategory: tumeric
+    amount: 1 Tsp
+  - ingredient: spices
+    subcategory: cayenne
+    amount: 1 Tsp
+  - ingredient: salt
+    subcategory: ''
+    amount: 1 Tsp
+  - ingredient: spices
+    subcategory: black pepper
+    amount: 1 Tsp
+  - ingredient: lentils
+    subcategory: brown
+    amount: 200 g
+  - ingredient: coconut
+    subcategory: milk
+    amount: 400 ml
+  - ingredient: tomatoe
+    subcategory: canned
+    amount: 400 g
+  - ingredient: rice
+    subcategory: basmati
+    amount: 200 g
+  - ingredient: coriander
+    subcategory: ''
+    amount: 1 u
+- recipe: Yoghurt Muesli
+  author: Valentyn
+  category: breakfast
+  description: '
+
+    '
+  date: '2024-11-19'
+  rating: 0
+  ingredients:
+  - ingredient: yoghurt
+    subcategory: ''
+    amount: 200 g
+  - ingredient: nuts
+    subcategory: mix
+    amount: 50 g
+  - ingredient: fruit
+    subcategory: dried
+    amount: 50 g
+  - ingredient: jam
+    subcategory: berry
+    amount: 10 g
+  - ingredient: oats
+    subcategory: ''
+    amount: 50 g
+- recipe: Eierspaetzle
+  author: Valentyn
+  category: dinner
+  description: '
+
+    '
+  date: '2024-11-19'
+  rating: 0
+  ingredients:
+  - ingredient: spaetzle
+    subcategory: ''
+    amount: 200 g
+  - ingredient: eggs
+    subcategory: ''
+    amount: 3 u
+  - ingredient: 'spices '
+    subcategory: black pepper
+    amount: 1/4 Tsp
+  - ingredient: salt
+    subcategory: ''
+    amount: 1/4 Tsp
+  - ingredient: cheese
+    subcategory: gouda
+    amount: 50 g
