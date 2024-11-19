@@ -274,3 +274,69 @@
   - ingredient: sour cream
     subcategory: ''
     amount: 1 Tbsp
+- recipe: French Toast
+  author: Valentyn
+  category: breakfast
+  description: '
+
+    '
+  date: '2024-11-19'
+  rating: 0
+  ingredients:
+  - ingredient: toast
+    subcategory: ''
+    amount: 4 u
+  - ingredient: sugar
+    subcategory: ''
+    amount: 3 Tbsp
+  - ingredient: eggs
+    subcategory: ''
+    amount: 2 u
+  - ingredient: cinnamon
+    subcategory: ''
+    amount: 1 Tsp
+  - ingredient: vanilla
+    subcategory: ''
+    amount: 1/4 Tsp
+  - ingredient: sugar
+    subcategory: powder
+    amount: 10 g
+- recipe: Pasta Bolognese
+  author: Valentyn
+  category: dinner
+  description: '
+
+    '
+  date: '2024-11-19'
+  rating: 0
+  ingredients:
+  - ingredient: pasta
+    subcategory: ''
+    amount: 200 g
+  - ingredient: wine
+    subcategory: red
+    amount: 100 ml
+  - ingredient: ground meat
+    subcategory: beef
+    amount: 250 g
+  - ingredient: stock
+    subcategory: beef
+    amount: 10 g
+  - ingredient: tomato
+    subcategory: puree
+    amount: 2 Tbsp
+  - ingredient: spices
+    subcategory: black pepper
+    amount: 1/2 Tsp
+  - ingredient: spices
+    subcategory: paprika
+    amount: 1/2 Tsp
+  - ingredient: carrots
+    subcategory: ''
+    amount: 1 u
+  - ingredient: celery
+    subcategory: ''
+    amount: 1 u
+  - ingredient: onion
+    subcategory: ''
+    amount: 1 u
