@@ -340,3 +340,54 @@
   - ingredient: onion
     subcategory: ''
     amount: 1 u
+- recipe: Fluffy Pancakes
+  author: Valentyn
+  category: breakfast
+  description: '
+
+    '
+  date: '2024-11-26'
+  rating: 0
+  ingredients:
+  - ingredient: milk
+    subcategory: ''
+    amount: 400 g
+  - ingredient: egg
+    subcategory: ''
+    amount: 1 u
+  - ingredient: 'flour '
+    subcategory: ''
+    amount: 300 g
+  - ingredient: sugar
+    subcategory: ''
+    amount: 62 g
+  - ingredient: salt
+    subcategory: ''
+    amount: 1 Tsp
+  - ingredient: baking soda
+    subcategory: ''
+    amount: 1/4 Tsp
+  - ingredient: baking powder
+    subcategory: ''
+    amount: 1 Tbsp
+  - ingredient: butter
+    subcategory: ''
+    amount: 21 g
+- recipe: Grilled Cheese Sandwich
+  author: Valentyn
+  category: dinner
+  description: '
+
+    '
+  date: '2024-11-26'
+  rating: 0
+  ingredients:
+  - ingredient: toast
+    subcategory: ''
+    amount: 4 u
+  - ingredient: butter
+    subcategory: ''
+    amount: 10 g
+  - ingredient: cheese
+    subcategory: gouda
+    amount: 70 g
