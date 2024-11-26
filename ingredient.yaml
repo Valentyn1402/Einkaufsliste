@@ -391,3 +391,21 @@
   - ingredient: cheese
     subcategory: gouda
     amount: 70 g
+- recipe: Bacon and Eggs
+  author: Valentyn
+  category: breakfast
+  description: '
+
+    '
+  date: '2024-11-26'
+  rating: 0
+  ingredients:
+  - ingredient: bacon
+    subcategory: ''
+    amount: 3 u
+  - ingredient: eggs
+    subcategory: ''
+    amount: 2 u
+  - ingredient: toast
+    subcategory: ''
+    amount: 2 u
