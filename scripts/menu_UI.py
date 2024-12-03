@@ -47,12 +47,12 @@ class App(ctk.CTk):
         self.mainloop()
 
     def create_tabview(self):
-        self.tabview = ctk.CTkTabview(master=self, width=600, height=300, anchor="w")
+        self.tabview = ctk.CTkTabview(master=self, width=400, height=300, anchor="n")
         self.tabview.pack(padx=20, pady=20)
 
         self.tab_1 = self.tabview.add("Generate Groccerie List")  # add tab at the end
         self.tab_2 = self.tabview.add("Add Recipe")  # add tab at the end
-        self.tab_3 = self.tabview.add("Edit Recipe")  # add tab at the end
+        self.tab_3 = self.tabview.add("Edit/View Recipes")  # add tab at the end
         self.tabview.set("Generate Groccerie List")  # set currently visible tab
 
 

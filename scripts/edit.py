@@ -15,13 +15,205 @@ create a dictionary which maps the entries of the list entries to recipe names
 
 '''
 
+class EditorWindow(ctk.CTk, Parser):
+
+    def __init__(self, parent, current_recipe, current_label, value_list) -> None:
+        super().__init__()
+        
+        self.current_recipe: str = current_recipe
+        self.current_label: tk.Label = current_label
+        self.value_list = value_list
+
+        self.define_variables()
+        self.padx = 10
+        self.parent = parent
+
+        self.create_widgets()
+
+    def define_variables(self):
+        self.combvars = [tk.StringVar() for var in range(2)]
+        self.vars = [tk.StringVar() for var in range(3)]
+
+    def create_widgets(self) -> None:
+        # define buttons
+        self.create_buttons()
+
+        # create labels
+        self.create_labels()
+
+        # create entries
+        self.create_entries()
+        
+        # create combobox
+        self.create_combobox()
+        
+        # place butt
+        self.place_buttons()
+        
+        # place labels
+        self.place_labels()
+
+        # place entries
+        self.place_entries()
+        
+        # place combobox
+        self.place_combobox()
+
+    def change_name(self) -> None:
+        '''
+        add the function to change the label text in the edit tab 
+        '''
+        # get new recipe name 
+        new_name = self.vars[0].get()
+        # validate the recipe name
+        validate_input_string(new_name)
+        # get the recipe name and position
+        id = Parser.recipe_to_id[self.current_recipe]
+        recipe = Parser.yaml_dictionary[id]
+        recipe["recipe"] = new_name
+        # set the label to new_name
+        self.current_label.configure(text = new_name)
+        # write new name to the recipe
+        self.write_to_yaml(file = INGREDIENT_FILE, data = Parser.yaml_dictionary)
+    
+    def change_ingredient(self) -> None: 
+         # get new recipe name 
+        ingredient_name = self.combobox_1.get()
+        # get the recipe name and position
+        id = Parser.recipe_to_id[self.current_recipe]
+        # load the recipe
+        recipe = Parser.yaml_dictionary[id]
+        # get the ingredient list
+        ingredients = recipe["ingredients"]
+        # set ingredient id to 0
+        ingredient_id = 0
+        for i, ingredient in enumerate(ingredients):
+            if ingredient["ingredient"] == ingredient_name:
+                ingredient_id = i
+                break
+        # removes ingredient at specified position
+        new_ingredient = ingredients[ingredient_id]
+        new_ingredient["ingredient"] = self.combobox_1.get()
+        amount = self.vars[1].get()
+        unit = self.combobox_2.get().split(" ")
+        unit = unit[1].replace("(", "").replace(")", "")
+        # check if the amount is valid number
+        validate_input_number(unit)
+        # define the new amount 
+        new_ingredient["amount"] = f"{amount} {unit}"
+        # write changes to the recipe 
+        self.write_to_yaml(file = INGREDIENT_FILE, data = Parser.yaml_dictionary)
+
+    def load_widgets(self, event):
+        ingredient_name = self.combobox_1.get()
+        amount, unit, subcategory = self.current_ingredients[ingredient_name]
+        self.vars[1].set(amount)
+        self.vars[2].set(subcategory)
+        self.combobox_2.set(Parser.MEASUREMENT_MAP[unit])
+    
+    def reset_ingredients(self) -> None:
+        self.combobox_1.set("")
+        self.combobox_2.set("")
+        self.vars[1].set("")
+
+    def remove_ingredient(self) -> None:
+        # get new recipe name 
+        ingredient_name = self.combobox_1.get()
+        # get the recipe name and position
+        id = Parser.recipe_to_id[self.current_recipe]
+        # load the recipe
+        recipe = Parser.yaml_dictionary[id]
+        # get the ingredient list
+        ingredients = recipe["ingredients"]
+        # set ingredient id to 0
+        ingredient_id = 0
+        for i, ingredient in enumerate(ingredients):
+            if ingredient["ingredient"] == ingredient_name:
+                ingredient_id = i
+                break
+        # removes ingredient at specified position
+        ingredients.pop(ingredient_id)
+        self.value_list.remove(ingredient_name)
+        self.combobox_1.configure(values = self.value_list)
+        # reset ingredients
+        self.reset_ingredients()
+
+        # write changes to the recipe 
+        self.write_to_yaml(file = INGREDIENT_FILE, data = Parser.yaml_dictionary)
+
+
+    def create_buttons(self) -> None:
+        # define 4 Buttons for the header
+        self.button_6 = ctk.CTkButton(master=self.parent, text= "Remove Recipe", hover_color="red")
+        self.button_7 = ctk.CTkButton(master=self.parent, text= "Change Name", hover_color="red", command=self.change_name)
+        self.button_8 = ctk.CTkButton(master=self.parent, text= "Remove Ingredient", hover_color="red", command=self.remove_ingredient)
+        self.button_9 = ctk.CTkButton(master=self.parent, text= "Apply Changes ", hover_color="red", command = self.change_ingredient)
+
+    def create_combobox(self) -> None:
+        self.combobox_1 = ctk.CTkComboBox(self.parent, variable=self.combvars[0], values=self.value_list, command= self.load_widgets)
+        self.combobox_2 = ctk.CTkComboBox(self.parent, values=Parser.MEASUREMENT_OPTIONS,variable=self.combvars[1])
+
+    def create_labels(self) -> None:
+        # labels for editor menu
+        self.label_4 = ctk.CTkLabel(master=self.parent, text= "Subcategory", text_color="white")
+        self.label_5 = ctk.CTkLabel(master=self.parent, text= "Recipe Name", text_color="white")
+        self.label_6 = ctk.CTkLabel(master=self.parent, text= "Ingredients", text_color="white")
+        self.label_7 = ctk.CTkLabel(master=self.parent, text= "Amount", text_color="white")
+        self.label_8 = ctk.CTkLabel(master=self.parent, text= "Measurement", text_color="white")
+     
+    def create_entries(self) -> None: 
+        self.entry_1 = ctk.CTkEntry(self.parent, textvariable=self.vars[0])
+        self.entry_2 = ctk.CTkEntry(self.parent, textvariable=self.vars[1])
+        self.entry_3 = ctk.CTkEntry(self.parent, textvariable=self.vars[2])
+
+    
+    def place_entries(self) -> None:
+        self.entry_1.grid(column = 0, row = 1, padx = self.padx, pady = 10)
+        self.entry_2.grid(column = 0, row = 7, padx = self.padx, pady = 10)
+        self.entry_3.grid(column = 0, row = 5, padx = self.padx, pady = 10)
+        
+    def place_combobox(self) -> None:
+        self.combobox_1.grid(column = 0, row = 3, padx = self.padx, pady = 10)
+        self.combobox_2.grid(column = 1, row = 7, padx = self.padx, pady = 10)
+        
+    def place_labels(self) -> None:
+        # place main edit menu labels
+        self.label_4.grid(column = 1, row = 5, padx = self.padx, pady = 10)
+        self.label_5.grid(column = 0, row = 0, padx = self.padx, pady = 10)
+        self.label_6.grid(column = 0, row = 2, padx = self.padx, pady = 10)
+        self.label_7.grid(column = 0, row = 6, padx = self.padx, pady = 10)
+        self.label_8.grid(column = 1, row = 6, padx = self.padx, pady = 10)
+        
+    def place_buttons(self) -> None:
+        # place on the scrollable frame 
+        self.button_6.grid(column = 1, row = 8, padx = self.padx, pady = 10)
+        self.button_7.grid(column = 1, row = 1, padx = self.padx, pady = 10)
+        self.button_8.grid(column = 1, row = 3, padx = self.padx, pady = 10)
+        self.button_9.grid(column = 0, row = 8, padx = self.padx, pady = 10)
+class RecipeView(ctk.CTk, Parser):
+    
+    def __init__(self, parent) -> None:
+        super().__init__()
+        pass
+    pass
 class Editor(ctk.CTk, Parser):
 
 
     def __init__(self, parent) -> None: 
+
         # initialize the dunder method 
         super(Editor, self).__init__()
-        # ctk.set_appearance_mode("dark")
+
+        # define parent window
+        self.parent = parent
+        # define the grid of main window frame 
+        self.define_grid() 
+        # define the two frames
+        # create frames 
+        self.define_frame()
+        self.define_scrollable_frame()
+        self.create_tabview()
+
         self.padx = 5
 
         self.value_list: list[str] = []
@@ -33,6 +225,10 @@ class Editor(ctk.CTk, Parser):
         self.current_label: tk.Label = None
 
         self.current_ingredients: dict[str, list[str]] = {}
+
+        EditorWindow(parent=self.tab_1, current_label=self.current_label, current_recipe=self.current_recipe,
+                     value_list = self.value_list)
+        RecipeView(parent=self.tab_2)
  
         # loads yaml data to Parser.yaml_dictionary
         self.load_yaml_data()
@@ -46,8 +242,6 @@ class Editor(ctk.CTk, Parser):
         # define variables
         self.define_variables()
 
-        # define parent window
-        self.parent = parent
 
         # define the grid of main window frame 
         self.define_grid() 
@@ -60,6 +254,14 @@ class Editor(ctk.CTk, Parser):
 
         # append list entries
         self.add_recipes_to_list()
+
+    def create_tabview(self):
+        self.tabview = ctk.CTkTabview(master=self.frame_2, width=300, height=600, anchor="w")
+        self.tabview.pack(padx=20, pady=20)
+
+        self.tab_1 = self.tabview.add("Edit Recipe")  # add tab at the end
+        self.tab_2 = self.tabview.add("View Recipes")  # add tab at the end
+        self.tabview.set("View Recipes")  # set currently visible tab
 
     def define_variables(self):
         self.combvars = [tk.StringVar() for var in range(2)]
@@ -259,8 +461,8 @@ class Editor(ctk.CTk, Parser):
         
         self.frame_2 = ctk.CTkFrame(master=self.parent)
         self.frame_2.grid(column = 1, row = 0)
-        self.frame_2.columnconfigure((0, 1), weight=1)
-        self.frame_2.rowconfigure((0, 1, 2, 3, 4), weight=1, minsize=20)
+        # self.frame_2.columnconfigure((0, 1), weight=1)
+        # self.frame_2.rowconfigure((0, 1, 2, 3, 4), weight=1, minsize=20)
         
     
     def define_header(self) -> None:
@@ -341,32 +543,35 @@ class Editor(ctk.CTk, Parser):
         self.define_frame()
         self.define_scrollable_frame()
 
-        # define buttons
-        self.create_buttons()
+        # create tab view
+        self.create_tabview()
 
-        # create labels
-        self.create_labels()
+        # # define buttons
+        # self.create_buttons()
 
-        # create entries
-        self.create_entries()
-        
-        # create combobox
-        self.create_combobox()
-        
-        # define canvas 
-        self.define_canvas()
-        
-        # place butt
-        self.place_buttons()
-        
-        # place labels
-        self.place_labels()
+        # # create labels
+        # self.create_labels()
 
-        # place entries
-        self.place_entries()
+        # # create entries
+        # self.create_entries()
         
-        # place combobox
-        self.place_combobox()
+        # # create combobox
+        # self.create_combobox()
+        
+        # # define canvas 
+        # self.define_canvas()
+        
+        # # place butt
+        # self.place_buttons()
+        
+        # # place labels
+        # self.place_labels()
+
+        # # place entries
+        # self.place_entries()
+        
+        # # place combobox
+        # self.place_combobox()
 
 if __name__ == "__main__":
     Editor()
