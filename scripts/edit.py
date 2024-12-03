@@ -18,17 +18,23 @@ create a dictionary which maps the entries of the list entries to recipe names
 class EditorWindow(ctk.CTk, Parser):
 
     def __init__(self, parent, current_recipe, current_label, value_list) -> None:
-        super().__init__()
+        super(EditorWindow, self).__init__()
         
+        self.parent = parent
         self.current_recipe: str = current_recipe
         self.current_label: tk.Label = current_label
         self.value_list = value_list
 
+        self.define_grid()
+
         self.define_variables()
         self.padx = 10
-        self.parent = parent
 
         self.create_widgets()
+
+    def define_grid(self) -> None:
+        self.parent.columnconfigure((0, 1), weight=1)
+        self.parent.rowconfigure((0, 1, 2, 3, 4), weight=1, minsize=20) 
 
     def define_variables(self):
         self.combvars = [tk.StringVar() for var in range(2)]
@@ -241,19 +247,18 @@ class Editor(ctk.CTk, Parser):
 
         # define variables
         self.define_variables()
-
-
-        # define the grid of main window frame 
-        self.define_grid() 
-
-        # define variables
-        self.ingredientsvar = tk.StringVar()
         
-        # define all the widgets
-        self.create_widgets()
+        # # define the grid of main window frame 
+        # self.define_grid() 
 
-        # append list entries
-        self.add_recipes_to_list()
+        # # define variables
+        # self.ingredientsvar = tk.StringVar()
+        
+        # # define all the widgets
+        # self.create_widgets()
+
+        # # append list entries
+        # self.add_recipes_to_list()
 
     def create_tabview(self):
         self.tabview = ctk.CTkTabview(master=self.frame_2, width=300, height=600, anchor="w")
