@@ -127,285 +127,285 @@
 - recipe: Lentil Curry
   author: Valentyn
   category: dinner
-  description: '
+  description: "
 
-    '
-  date: '2024-11-19'
+    "
+  date: "2024-11-19"
   rating: 0
   ingredients:
-  - ingredient: butter
-    subcategory: ''
-    amount: 50 g
-  - ingredient: garlic
-    subcategory: ''
-    amount: 4 u
-  - ingredient: 'ginger '
-    subcategory: ''
-    amount: 1 u
-  - ingredient: onion
-    subcategory: ''
-    amount: 1 u
-  - ingredient: spices
-    subcategory: curry
-    amount: 2 Tbsp
-  - ingredient: spices
-    subcategory: tumeric
-    amount: 1 Tsp
-  - ingredient: spices
-    subcategory: cayenne
-    amount: 1 Tsp
-  - ingredient: salt
-    subcategory: ''
-    amount: 1 Tsp
-  - ingredient: spices
-    subcategory: black pepper
-    amount: 1 Tsp
-  - ingredient: lentils
-    subcategory: brown
-    amount: 200 g
-  - ingredient: coconut
-    subcategory: milk
-    amount: 400 ml
-  - ingredient: tomatoe
-    subcategory: canned
-    amount: 400 g
-  - ingredient: rice
-    subcategory: basmati
-    amount: 200 g
-  - ingredient: coriander
-    subcategory: ''
-    amount: 1 u
+    - ingredient: butter
+      subcategory: ""
+      amount: 50 g
+    - ingredient: garlic
+      subcategory: ""
+      amount: 4 u
+    - ingredient: "ginger "
+      subcategory: ""
+      amount: 1 u
+    - ingredient: onion
+      subcategory: ""
+      amount: 1 u
+    - ingredient: spices
+      subcategory: curry
+      amount: 2 Tbsp
+    - ingredient: spices
+      subcategory: tumeric
+      amount: 1 Tsp
+    - ingredient: spices
+      subcategory: cayenne
+      amount: 1 Tsp
+    - ingredient: salt
+      subcategory: ""
+      amount: 1 Tsp
+    - ingredient: spices
+      subcategory: black pepper
+      amount: 1 Tsp
+    - ingredient: lentils
+      subcategory: brown
+      amount: 200 g
+    - ingredient: coconut
+      subcategory: milk
+      amount: 400 ml
+    - ingredient: tomatoe
+      subcategory: canned
+      amount: 400 g
+    - ingredient: rice
+      subcategory: basmati
+      amount: 200 g
+    - ingredient: coriander
+      subcategory: ""
+      amount: 1 u
 - recipe: Yoghurt Muesli
   author: Valentyn
   category: breakfast
-  description: '
+  description: "
 
-    '
-  date: '2024-11-19'
+    "
+  date: "2024-11-19"
   rating: 0
   ingredients:
-  - ingredient: yoghurt
-    subcategory: ''
-    amount: 200 g
-  - ingredient: nuts
-    subcategory: mix
-    amount: 50 g
-  - ingredient: fruit
-    subcategory: dried
-    amount: 50 g
-  - ingredient: jam
-    subcategory: berry
-    amount: 10 g
-  - ingredient: oats
-    subcategory: ''
-    amount: 50 g
+    - ingredient: yoghurt
+      subcategory: ""
+      amount: 200 g
+    - ingredient: nuts
+      subcategory: mix
+      amount: 50 g
+    - ingredient: fruit
+      subcategory: dried
+      amount: 50 g
+    - ingredient: jam
+      subcategory: berry
+      amount: 10 g
+    - ingredient: oats
+      subcategory: ""
+      amount: 50 g
 - recipe: Eierspaetzle
   author: Valentyn
   category: dinner
-  description: '
+  description: "
 
-    '
-  date: '2024-11-19'
+    "
+  date: "2024-11-19"
   rating: 0
   ingredients:
-  - ingredient: spaetzle
-    subcategory: ''
-    amount: 200 g
-  - ingredient: eggs
-    subcategory: ''
-    amount: 3 u
-  - ingredient: 'spices '
-    subcategory: black pepper
-    amount: 1/4 Tsp
-  - ingredient: salt
-    subcategory: ''
-    amount: 1/4 Tsp
-  - ingredient: cheese
-    subcategory: gouda
-    amount: 50 g
+    - ingredient: spaetzle
+      subcategory: ""
+      amount: 200 g
+    - ingredient: eggs
+      subcategory: ""
+      amount: 3 u
+    - ingredient: "spices "
+      subcategory: black pepper
+      amount: 1/4 Tsp
+    - ingredient: salt
+      subcategory: ""
+      amount: 1/4 Tsp
+    - ingredient: cheese
+      subcategory: gouda
+      amount: 50 g
 - recipe: Chilli Con Carne
   author: Valentyn
   category: dinner
-  description: '
+  description: "
 
-    '
-  date: '2024-11-19'
+    "
+  date: "2024-11-19"
   rating: 0
   ingredients:
-  - ingredient: onion
-    subcategory: ''
-    amount: 1 u
-  - ingredient: garlic
-    subcategory: ''
-    amount: 2 u
-  - ingredient: spices
-    subcategory: cayenne
-    amount: 1 Tsp
-  - ingredient: spices
-    subcategory: paprika
-    amount: 2 Tsp
-  - ingredient: spices
-    subcategory: cumin
-    amount: 2 Tsp
-  - ingredient: meat
-    subcategory: ground
-    amount: 500 g
-  - ingredient: stock
-    subcategory: beef
-    amount: 30 g
-  - ingredient: tomatoes
-    subcategory: canned
-    amount: 400 g
-  - ingredient: spices
-    subcategory: majoran
-    amount: 1 Tsp
-  - ingredient: spices
-    subcategory: oregano
-    amount: 1 Tsp
-  - ingredient: beans
-    subcategory: kidney
-    amount: 400 g
-  - ingredient: corn
-    subcategory: ''
-    amount: 400 g
-  - ingredient: tomato
-    subcategory: puree
-    amount: 2 Tbsp
-  - ingredient: sour cream
-    subcategory: ''
-    amount: 1 Tbsp
+    - ingredient: onion
+      subcategory: ""
+      amount: 1 u
+    - ingredient: garlic
+      subcategory: ""
+      amount: 2 u
+    - ingredient: spices
+      subcategory: cayenne
+      amount: 1 Tsp
+    - ingredient: spices
+      subcategory: paprika
+      amount: 2 Tsp
+    - ingredient: spices
+      subcategory: cumin
+      amount: 2 Tsp
+    - ingredient: meat
+      subcategory: ground
+      amount: 500 g
+    - ingredient: stock
+      subcategory: beef
+      amount: 30 g
+    - ingredient: tomatoes
+      subcategory: canned
+      amount: 400 g
+    - ingredient: spices
+      subcategory: majoran
+      amount: 1 Tsp
+    - ingredient: spices
+      subcategory: oregano
+      amount: 1 Tsp
+    - ingredient: beans
+      subcategory: kidney
+      amount: 400 g
+    - ingredient: corn
+      subcategory: ""
+      amount: 400 g
+    - ingredient: tomato
+      subcategory: puree
+      amount: 2 Tbsp
+    - ingredient: sour cream
+      subcategory: ""
+      amount: 1 Tbsp
 - recipe: French Toast
   author: Valentyn
   category: breakfast
-  description: '
+  description: "
 
-    '
-  date: '2024-11-19'
+    "
+  date: "2024-11-19"
   rating: 0
   ingredients:
-  - ingredient: toast
-    subcategory: ''
-    amount: 4 u
-  - ingredient: sugar
-    subcategory: ''
-    amount: 3 Tbsp
-  - ingredient: eggs
-    subcategory: ''
-    amount: 2 u
-  - ingredient: cinnamon
-    subcategory: ''
-    amount: 1 Tsp
-  - ingredient: vanilla
-    subcategory: ''
-    amount: 1/4 Tsp
-  - ingredient: sugar
-    subcategory: powder
-    amount: 10 g
+    - ingredient: toast
+      subcategory: ""
+      amount: 4 u
+    - ingredient: sugar
+      subcategory: ""
+      amount: 3 Tbsp
+    - ingredient: eggs
+      subcategory: ""
+      amount: 2 u
+    - ingredient: cinnamon
+      subcategory: ""
+      amount: 1 Tsp
+    - ingredient: vanilla
+      subcategory: ""
+      amount: 1/4 Tsp
+    - ingredient: sugar
+      subcategory: powder
+      amount: 10 g
 - recipe: Pasta Bolognese
   author: Valentyn
   category: dinner
-  description: '
+  description: "
 
-    '
-  date: '2024-11-19'
+    "
+  date: "2024-11-19"
   rating: 0
   ingredients:
-  - ingredient: pasta
-    subcategory: ''
-    amount: 200 g
-  - ingredient: wine
-    subcategory: red
-    amount: 100 ml
-  - ingredient: ground meat
-    subcategory: beef
-    amount: 250 g
-  - ingredient: stock
-    subcategory: beef
-    amount: 10 g
-  - ingredient: tomato
-    subcategory: puree
-    amount: 2 Tbsp
-  - ingredient: spices
-    subcategory: black pepper
-    amount: 1/2 Tsp
-  - ingredient: spices
-    subcategory: paprika
-    amount: 1/2 Tsp
-  - ingredient: carrots
-    subcategory: ''
-    amount: 1 u
-  - ingredient: celery
-    subcategory: ''
-    amount: 1 u
-  - ingredient: onion
-    subcategory: ''
-    amount: 1 u
+    - ingredient: pasta
+      subcategory: ""
+      amount: 200 g
+    - ingredient: wine
+      subcategory: red
+      amount: 100 ml
+    - ingredient: ground meat
+      subcategory: beef
+      amount: 250 g
+    - ingredient: stock
+      subcategory: beef
+      amount: 10 g
+    - ingredient: tomato
+      subcategory: puree
+      amount: 2 Tbsp
+    - ingredient: spices
+      subcategory: black pepper
+      amount: 1/2 Tsp
+    - ingredient: spices
+      subcategory: paprika
+      amount: 1/2 Tsp
+    - ingredient: carrots
+      subcategory: ""
+      amount: 1 u
+    - ingredient: celery
+      subcategory: ""
+      amount: 1 u
+    - ingredient: onion
+      subcategory: ""
+      amount: 1 u
 - recipe: Fluffy Pancakes
   author: Valentyn
   category: breakfast
-  description: '
+  description: "
 
-    '
-  date: '2024-11-26'
+    "
+  date: "2024-11-26"
   rating: 0
   ingredients:
-  - ingredient: milk
-    subcategory: ''
-    amount: 400 g
-  - ingredient: egg
-    subcategory: ''
-    amount: 1 u
-  - ingredient: 'flour '
-    subcategory: ''
-    amount: 300 g
-  - ingredient: sugar
-    subcategory: ''
-    amount: 62 g
-  - ingredient: salt
-    subcategory: ''
-    amount: 1 Tsp
-  - ingredient: baking soda
-    subcategory: ''
-    amount: 1/4 Tsp
-  - ingredient: baking powder
-    subcategory: ''
-    amount: 1 Tbsp
-  - ingredient: butter
-    subcategory: ''
-    amount: 21 g
+    - ingredient: milk
+      subcategory: ""
+      amount: 400 g
+    - ingredient: egg
+      subcategory: ""
+      amount: 1 u
+    - ingredient: "flour "
+      subcategory: ""
+      amount: 300 g
+    - ingredient: sugar
+      subcategory: ""
+      amount: 62 g
+    - ingredient: salt
+      subcategory: ""
+      amount: 1 Tsp
+    - ingredient: baking soda
+      subcategory: ""
+      amount: 1/4 Tsp
+    - ingredient: baking powder
+      subcategory: ""
+      amount: 1 Tbsp
+    - ingredient: butter
+      subcategory: ""
+      amount: 21 g
 - recipe: Grilled Cheese Sandwich
   author: Valentyn
   category: dinner
-  description: '
+  description: "
 
-    '
-  date: '2024-11-26'
+    "
+  date: "2024-11-26"
   rating: 0
   ingredients:
-  - ingredient: toast
-    subcategory: ''
-    amount: 4 u
-  - ingredient: butter
-    subcategory: ''
-    amount: 10 g
-  - ingredient: cheese
-    subcategory: gouda
-    amount: 70 g
+    - ingredient: toast
+      subcategory: ""
+      amount: 4 u
+    - ingredient: butter
+      subcategory: ""
+      amount: 10 g
+    - ingredient: cheese
+      subcategory: gouda
+      amount: 70 g
 - recipe: Bacon and Eggs
   author: Valentyn
   category: breakfast
-  description: '
+  description: "
 
-    '
-  date: '2024-11-26'
+    "
+  date: "2024-11-26"
   rating: 0
   ingredients:
-  - ingredient: bacon
-    subcategory: ''
-    amount: 3 u
-  - ingredient: eggs
-    subcategory: ''
-    amount: 2 u
-  - ingredient: toast
-    subcategory: ''
-    amount: 2 u
+    - ingredient: bacon
+      subcategory: ""
+      amount: 3 u
+    - ingredient: eggs
+      subcategory: ""
+      amount: 2 u
+    - ingredient: toast
+      subcategory: ""
+      amount: 2 u

@@ -22,6 +22,7 @@ class Editor(ctk.CTk, Parser):
         # initialize the dunder method 
         super(Editor, self).__init__()
         # ctk.set_appearance_mode("dark")
+        self.padx = 5
 
         self.value_list: list[str] = []
 
@@ -62,7 +63,7 @@ class Editor(ctk.CTk, Parser):
 
     def define_variables(self):
         self.combvars = [tk.StringVar() for var in range(2)]
-        self.vars = [tk.StringVar() for var in range(2)]
+        self.vars = [tk.StringVar() for var in range(3)]
 
     def define_grid(self):
         # define grid for the window
@@ -116,8 +117,9 @@ class Editor(ctk.CTk, Parser):
 
     def load_widgets(self, event):
         ingredient_name = self.combobox_1.get()
-        amount, unit = self.current_ingredients[ingredient_name]
+        amount, unit, subcategory = self.current_ingredients[ingredient_name]
         self.vars[1].set(amount)
+        self.vars[2].set(subcategory)
         self.combobox_2.set(Parser.MEASUREMENT_MAP[unit])
 
     def load_recipe_data(self, recipe_name: str):
@@ -130,8 +132,9 @@ class Editor(ctk.CTk, Parser):
         ingredients = recipe["ingredients"]
         for ingredient in ingredients:
             name = ingredient["ingredient"]
+            subcategory = ingredient["subcategory"]
             amount, unit = ingredient["amount"].split()
-            self.current_ingredients[name] = [amount, unit]
+            self.current_ingredients[name] = [amount, unit, subcategory]
             self.value_list.append(name)
 
         self.combobox_1.configure(values = self.value_list)
@@ -281,6 +284,7 @@ class Editor(ctk.CTk, Parser):
     def create_entries(self) -> None: 
         self.entry_1 = ctk.CTkEntry(self.frame_2, textvariable=self.vars[0])
         self.entry_2 = ctk.CTkEntry(self.frame_2, textvariable=self.vars[1])
+        self.entry_3 = ctk.CTkEntry(self.frame_2, textvariable=self.vars[2])
         
     def create_combobox(self) -> None:
         self.combobox_1 = ctk.CTkComboBox(self.frame_2, variable=self.combvars[0], values=self.value_list, command= self.load_widgets)
@@ -298,32 +302,35 @@ class Editor(ctk.CTk, Parser):
         
     def create_labels(self) -> None:
         # labels for editor menu
+        self.label_4 = ctk.CTkLabel(master=self.frame_2, text= "Subcategory", text_color="white")
         self.label_5 = ctk.CTkLabel(master=self.frame_2, text= "Recipe Name", text_color="white")
         self.label_6 = ctk.CTkLabel(master=self.frame_2, text= "Ingredients", text_color="white")
         self.label_7 = ctk.CTkLabel(master=self.frame_2, text= "Amount", text_color="white")
         self.label_8 = ctk.CTkLabel(master=self.frame_2, text= "Measurement", text_color="white")
 
     def place_entries(self) -> None:
-        self.entry_1.grid(column = 0, row = 1, padx = 10, pady = 10)
-        self.entry_2.grid(column = 0, row = 5, padx = 10, pady = 10)
+        self.entry_1.grid(column = 0, row = 1, padx = self.padx, pady = 10)
+        self.entry_2.grid(column = 0, row = 7, padx = self.padx, pady = 10)
+        self.entry_3.grid(column = 0, row = 5, padx = self.padx, pady = 10)
         
     def place_combobox(self) -> None:
-        self.combobox_1.grid(column = 0, row = 3, padx = 10, pady = 10)
-        self.combobox_2.grid(column = 1, row = 5, padx = 10, pady = 10)
+        self.combobox_1.grid(column = 0, row = 3, padx = self.padx, pady = 10)
+        self.combobox_2.grid(column = 1, row = 7, padx = self.padx, pady = 10)
         
     def place_labels(self) -> None:
         # place main edit menu labels
-        self.label_5.grid(column = 0, row = 0, padx = 10, pady = 10)
-        self.label_6.grid(column = 0, row = 2, padx = 10, pady = 10)
-        self.label_7.grid(column = 0, row = 4, padx = 10, pady = 10)
-        self.label_8.grid(column = 1, row = 4, padx = 10, pady = 10)
+        self.label_4.grid(column = 1, row = 5, padx = self.padx, pady = 10)
+        self.label_5.grid(column = 0, row = 0, padx = self.padx, pady = 10)
+        self.label_6.grid(column = 0, row = 2, padx = self.padx, pady = 10)
+        self.label_7.grid(column = 0, row = 6, padx = self.padx, pady = 10)
+        self.label_8.grid(column = 1, row = 6, padx = self.padx, pady = 10)
         
     def place_buttons(self) -> None:
         # place on the scrollable frame 
-        self.button_6.grid(column = 1, row = 7, padx = 10, pady = 10)
-        self.button_7.grid(column = 1, row = 1, padx = 10, pady = 10)
-        self.button_8.grid(column = 1, row = 3, padx = 10, pady = 10)
-        self.button_9.grid(column = 0, row = 7, padx = 10, pady = 10)
+        self.button_6.grid(column = 1, row = 8, padx = self.padx, pady = 10)
+        self.button_7.grid(column = 1, row = 1, padx = self.padx, pady = 10)
+        self.button_8.grid(column = 1, row = 3, padx = self.padx, pady = 10)
+        self.button_9.grid(column = 0, row = 8, padx = self.padx, pady = 10)
 
     def define_canvas(self) -> None:
         # add canvas to the frame 
