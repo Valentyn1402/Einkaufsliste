@@ -34,7 +34,7 @@ class EditorWindow(ctk.CTk, Parser):
 
     def define_grid(self) -> None:
         self.parent.columnconfigure((0, 1), weight=1)
-        self.parent.rowconfigure((0, 1, 2, 3, 4), weight=1, minsize=20) 
+        self.parent.rowconfigure((0, 1, 2, 3, 4, 5, 6, 7), weight=1, minsize=20) 
 
     def define_variables(self):
         self.combvars = [tk.StringVar() for var in range(2)]
@@ -175,27 +175,27 @@ class EditorWindow(ctk.CTk, Parser):
     
     def place_entries(self) -> None:
         self.entry_1.grid(column = 0, row = 1, padx = self.padx, pady = 10)
-        self.entry_2.grid(column = 0, row = 7, padx = self.padx, pady = 10)
-        self.entry_3.grid(column = 0, row = 5, padx = self.padx, pady = 10)
+        self.entry_2.grid(column = 0, row = 6, padx = self.padx, pady = 10)
+        self.entry_3.grid(column = 0, row = 4, padx = self.padx, pady = 10)
         
     def place_combobox(self) -> None:
         self.combobox_1.grid(column = 0, row = 3, padx = self.padx, pady = 10)
-        self.combobox_2.grid(column = 1, row = 7, padx = self.padx, pady = 10)
+        self.combobox_2.grid(column = 1, row = 6, padx = self.padx, pady = 10)
         
     def place_labels(self) -> None:
         # place main edit menu labels
-        self.label_4.grid(column = 1, row = 5, padx = self.padx, pady = 10)
+        self.label_4.grid(column = 1, row = 4, padx = self.padx, pady = 10)
         self.label_5.grid(column = 0, row = 0, padx = self.padx, pady = 10)
         self.label_6.grid(column = 0, row = 2, padx = self.padx, pady = 10)
-        self.label_7.grid(column = 0, row = 6, padx = self.padx, pady = 10)
-        self.label_8.grid(column = 1, row = 6, padx = self.padx, pady = 10)
+        self.label_7.grid(column = 0, row = 5, padx = self.padx, pady = 10)
+        self.label_8.grid(column = 1, row = 5, padx = self.padx, pady = 10)
         
     def place_buttons(self) -> None:
         # place on the scrollable frame 
-        self.button_6.grid(column = 1, row = 8, padx = self.padx, pady = 10)
+        self.button_6.grid(column = 1, row = 7, padx = self.padx, pady = 10)
         self.button_7.grid(column = 1, row = 1, padx = self.padx, pady = 10)
         self.button_8.grid(column = 1, row = 3, padx = self.padx, pady = 10)
-        self.button_9.grid(column = 0, row = 8, padx = self.padx, pady = 10)
+        self.button_9.grid(column = 0, row = 7, padx = self.padx, pady = 10)
 class RecipeView(ctk.CTk, Parser):
     
     def __init__(self, parent) -> None:
