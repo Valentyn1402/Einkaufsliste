@@ -132,6 +132,7 @@ class Grocceries(ctk.CTkToplevel):
             self.recipes = yaml.safe_load(file)
         self.recipe_name_to_recipe(self.recipes)
         self.recipe_list = [recipe["recipe"] for recipe in self.recipes]
+        self.recipe_list.insert(0, "")
 
     def recipe_name_to_recipe(self, recipes: list):
         for index, entry in enumerate(recipes):
