@@ -33,8 +33,9 @@ class EditorWindow(ctk.CTk, Parser):
         self.create_widgets()
 
     def define_grid(self) -> None:
-        self.parent.columnconfigure((0, 1), weight=1)
-        self.parent.rowconfigure((0, 1, 2, 3, 4, 5, 6, 7), weight=1, minsize=20) 
+        pass
+        # self.parent.columnconfigure((0, 1), weight=1)
+        # self.parent.rowconfigure((0, 1, 2, 3, 4, 5, 6, 7), weight=1) # , minsize=20) 
 
     def define_variables(self):
         self.combvars = [tk.StringVar() for var in range(2)]
@@ -213,7 +214,7 @@ class Editor(ctk.CTk, Parser):
         # define parent window
         self.parent = parent
         # define the grid of main window frame 
-        self.define_grid() 
+        # self.define_grid() 
         # define the two frames
         # create frames 
         self.define_frame()
@@ -464,7 +465,7 @@ class Editor(ctk.CTk, Parser):
 
     def define_frame(self) -> None:
         
-        self.frame_2 = ctk.CTkFrame(master=self.parent)
+        self.frame_2 = ctk.CTkFrame(master=self.parent, height=200)
         self.frame_2.grid(column = 1, row = 0)
         # self.frame_2.columnconfigure((0, 1), weight=1)
         # self.frame_2.rowconfigure((0, 1, 2, 3, 4), weight=1, minsize=20)
@@ -485,7 +486,7 @@ class Editor(ctk.CTk, Parser):
     def define_scrollable_frame(self) -> None: 
         # create frames 
         self.frame = ctk.CTkScrollableFrame(master=self.parent, width = 600, height=400, fg_color="white")
-        self.frame.grid(column = 0, row = 0)    
+        self.frame.grid(column = 0, row = 0, sticky = "nsew")    
         self.define_header()
     
     def create_entries(self) -> None: 

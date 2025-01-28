@@ -36,7 +36,7 @@ class App(ctk.CTk):
 
         ctk.set_appearance_mode("dark")
     
-        self.geometry('1200x500')
+        self.geometry('1200x600')
         self.configure(font = self.font_1)
         self.title("Food App")
 
