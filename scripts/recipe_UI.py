@@ -20,7 +20,7 @@ as the value
 - remove ingredient at the start of the listbox entry 
 ''' 
 
-class Recipe(ctk.CTk, Parser):
+class Recipe(ctk.CTkFrame, Parser):
 
     entries: list[ctk.CTkEntry]
     ingredient_list: list[str]
@@ -30,7 +30,7 @@ class Recipe(ctk.CTk, Parser):
 
     def __init__(self, parent: ctk.CTkFrame) -> None:
         
-        super(Recipe, self).__init__()
+        super(Recipe, self).__init__(parent)
 
         # define parent window
         self.parent = parent

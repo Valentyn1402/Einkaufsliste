@@ -17,43 +17,52 @@ TO DO:
 - Issue with similar entries which have same ingredient but different units 
 '''
 
-class Tab_1(ctk.CTk):
+class Tab_1(ctk.CTkFrame):
 
     meal_amount: tk.StringVar
     day_amount: tk.StringVar
 
-    def __init__(self, parent) -> None:
+    def __init__(self, parent: ctk.CTkFrame) -> None:
 
-        super().__init__()
+        super().__init__(parent)
 
         # define integer variables
         self.meal_amount = tk.StringVar()
         self.day_amount = tk.StringVar()
 
         # define frame 
-        parent.columnconfigure((0, 1, 2, 3), weight = 1)
-        parent.rowconfigure((0, 1, 2, 3), weight = 1)
+        self.columnconfigure((0, 1, 2, 3), weight = 1)
+        self.rowconfigure((0, 1, 2, 3), weight = 1)
+
+        ctk.CTkLabel(self, text="THis is a lable").grid(column = 0, row = 1)
 
         # define labels
-        self.create_labels(parent)
+        self.create_labels()
 
         # define entries 
-        self.create_entries(parent)
+        self.create_entries()
 
         # define buttons
-        self.create_buttons(parent)
+        self.create_buttons()
+
+        self.pack()
     
-    def create_buttons(self, parent):
-        ctk.CTkButton(master = parent, text = "Open Editor", hover_color="red", fg_color=BUTTON_COLOR, 
-                      border_color="white", border_width = 2, command=self.open_meal_plan).grid(column = 0, row = 3)
+    def create_buttons(self):
+        self.button_1 = ctk.CTkButton(master = self, text = "Open Editor", hover_color="red", fg_color=BUTTON_COLOR, 
+                      border_color="white", border_width = 2, command=self.open_meal_plan)
+        self.button_1.grid(column = 0, row = 3, padx = 20, pady = 20)
 
-    def create_entries(self, parent):
-        ctk.CTkEntry(master = parent, textvariable=self.day_amount).grid(column = 0, row = 1)
-        ctk.CTkEntry(master = parent, textvariable=self.meal_amount).grid(column = 1, row = 1)
+    def create_entries(self):
+        self.entry_1 = ctk.CTkEntry(master = self, textvariable=self.day_amount).\
+        grid(column = 0, row = 1, padx = 10, pady = 10)
+        self.entry_2 = ctk.CTkEntry(master = self, textvariable=self.meal_amount).\
+        grid(column = 1, row = 1, padx = 10, pady = 10)
 
-    def create_labels(self, parent):
-        ctk.CTkLabel(master = parent, corner_radius = 5, fg_color= LABEL_COLOR, text="Amount of Days").grid(column = 0, row = 0)
-        ctk.CTkLabel(master = parent, corner_radius = 5, fg_color = LABEL_COLOR, text="Meals per Day").grid(column = 1, row = 0)
+    def create_labels(self):
+        self.label_1 = ctk.CTkLabel(master = self, corner_radius = 5, fg_color= LABEL_COLOR, text="Amount of Days").\
+        grid(column = 0, row = 0, padx = 10, pady = 10)
+        self.label_2 = ctk.CTkLabel(master = self, corner_radius = 5, fg_color = LABEL_COLOR, text="Meals per Day").\
+        grid(column = 1, row = 0, padx = 10, pady = 10)
 
     def open_meal_plan(self):
         # validate the inputs and open the main window
@@ -132,7 +141,7 @@ class Grocceries(ctk.CTkToplevel):
             self.recipes = yaml.safe_load(file)
         self.recipe_name_to_recipe(self.recipes)
         self.recipe_list = [recipe["recipe"] for recipe in self.recipes]
-        self.recipe_list.insert(0, "")
+        self.recipe_list.insert(0, "---")
 
     def recipe_name_to_recipe(self, recipes: list):
         for index, entry in enumerate(recipes):
@@ -145,6 +154,8 @@ class Grocceries(ctk.CTkToplevel):
         self.sort_grocceries()
         print(self.recipe_amount)
         for key, value in self.recipe_amount.items():
+            if key == "---":
+                continue
             # get the recipe index from the recipe map for a given key
             recipe_index = self.recipe_map[key]
             # get the recipe at the given index 

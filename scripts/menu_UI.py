@@ -3,7 +3,7 @@ from tkinter import ttk
 import customtkinter as ctk
 from grocceries_UI import Grocceries, Tab_1
 from recipe_UI import Recipe
-from edit import Editor
+from edit import EditorWindow
 
 '''
 Important Widgets
@@ -30,7 +30,7 @@ class App(ctk.CTk):
         Recipe(parent=self.tab_2)
 
         # create layout for tab 3
-        Editor(parent=self.tab_3)
+        EditorWindow(parent=self.tab_3)
 
         # create labels 
 
