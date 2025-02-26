@@ -16,90 +16,16 @@ create a dictionary which maps the entries of the list entries to recipe names
 
 '''
 
-
-
-
 class EditorFunctions(Parser):
 
     def __init__(self) -> None:
                 
         pass
         # self.parent = parent
-        # self.current_recipe: str = current_recipe
-        # self.current_label: tk.Label = current_label
-        # self.value_list = value_list
-
         # self.define_grid()
 
         # self.define_variables()
         # self.padx = 10
-
-    def change_name(self, recipe_name: str, current_recipe: str, current_label: tk.Label) -> None:
-        '''
-        add the function to change the label text in the edit tab 
-        '''
-        # get new recipe name 
-        new_name = recipe_name
-        # validate the recipe name
-        validate_input_string(new_name)
-        # get the recipe name and position
-        id = Parser.recipe_to_id[current_recipe]
-        recipe = Parser.yaml_dictionary[id]
-        recipe["recipe"] = new_name
-        # set the label to new_name
-        current_label.configure(text = new_name)
-        # write new name to the recipe
-        self.write_to_yaml(file = INGREDIENT_FILE, data = Parser.yaml_dictionary)
-    
-    def change_ingredient(self, ingredient_name: str, current_recipe: str, unit_parts: str, amount: str) -> None: 
-        # get the recipe name and position
-        id = Parser.recipe_to_id[current_recipe]
-        # load the recipe
-        recipe = Parser.yaml_dictionary[id]
-        # get the ingredient list
-        ingredients = recipe["ingredients"]
-        # set ingredient id to 0
-        ingredient_id = 0
-        for i, ingredient in enumerate(ingredients):
-            if ingredient["ingredient"] == ingredient_name:
-                ingredient_id = i
-                break
-        # removes ingredient at specified position
-        new_ingredient = ingredients[ingredient_id]
-        new_ingredient["ingredient"] = ingredient_name
-        unit = unit_parts.split(" ")
-        unit = unit[1].replace("(", "").replace(")", "")
-        # check if the amount is valid number
-        validate_input_number(unit)
-        # define the new amount 
-        new_ingredient["amount"] = f"{amount} {unit}"
-        # write changes to the recipe 
-        self.write_to_yaml(file = INGREDIENT_FILE, data = Parser.yaml_dictionary)
-
-    def remove_ingredient(self, combobox_1: ctk.CTkComboBox, combobox_2: ctk.CTkComboBox, var_1: ctk.StringVar, 
-                           ingredient_name: str, current_recipe: str, value_list: list) -> None:
-        # get the recipe name and position
-        id = Parser.recipe_to_id[current_recipe]
-        # load the recipe
-        recipe = Parser.yaml_dictionary[id]
-        # get the ingredient list
-        ingredients = recipe["ingredients"]
-        # set ingredient id to 0
-        ingredient_id = 0
-        for i, ingredient in enumerate(ingredients):
-            if ingredient["ingredient"] == ingredient_name:
-                ingredient_id = i
-                break
-        # removes ingredient at specified position
-        ingredients.pop(ingredient_id)
-        value_list.remove(ingredient_name)
-        combobox_1.configure(values = value_list)
-        # reset ingredients
-        self.reset_ingredients(combobox_1, combobox_2, var_1)
-
-        # write changes to the recipe 
-        self.write_to_yaml(file = INGREDIENT_FILE, data = Parser.yaml_dictionary)
-
     def reset_recipe_view(self, recipe_view_frame: ctk.CTkFrame):
         # Destroy all child widgets of the frame
         for widget in recipe_view_frame.winfo_children():
@@ -111,17 +37,18 @@ class EditorFunctions(Parser):
         var_1.set("")
 
 class EditRecipe(ctk.CTkFrame, EditorFunctions):
-    def __init__(self, value_list: list[str], parent: ctk.CTkFrame) -> None:
+    def __init__(self, current_label: ctk.CTkLabel, current_recipe: str, value_list: list[str], parent: ctk.CTkFrame) -> None:
         # initialize the parent class 
         super().__init__(parent)
 
         print("This is the self of EditRecipe: ", self)
 
+        # configure the edit recipe window 
         self.configure(width = 300, height = 400)
 
-        # self.current_recipe: str = current_recipe
-        # self.current_label: tk.Label = current_label
-        self.value_list = value_list
+        self.current_recipe: str = current_recipe
+        self.current_label: ctk.CTkLabel = current_label
+        self.value_list: list[str] = value_list
 
         self.current_ingredients: dict = {}
         self.padx = 10
@@ -173,6 +100,82 @@ class EditRecipe(ctk.CTkFrame, EditorFunctions):
         self.vars[2].set(subcategory)
         self.combobox_2.set(Parser.MEASUREMENT_MAP[unit])
 
+    def change_name(self) -> None:
+        '''
+        add the function to change the label text in the edit tab 
+        '''
+        print("Calling change name ")
+        # get new recipe name 
+        new_name = self.vars[0].get()
+        # validate the recipe name
+        validate_input_string(new_name)
+        # get the recipe name and position
+        id = Parser.recipe_to_id[self.current_recipe]
+        recipe = Parser.yaml_dictionary[id]
+        recipe["recipe"] = new_name
+        # set the label to new_name
+        self.current_label.configure(text = new_name)
+        # write new name to the recipe
+        self.write_to_yaml(file = INGREDIENT_FILE, data = Parser.yaml_dictionary)
+    
+    # def change_ingredient(self) -> None: 
+    #      # get new recipe name 
+    #     ingredient_name = self.combobox_1.get()
+    #     # get the recipe name and position
+    #     id = Parser.recipe_to_id[self.current_recipe]
+    #     # load the recipe
+    #     recipe = Parser.yaml_dictionary[id]
+    #     # get the ingredient list
+    #     ingredients = recipe["ingredients"]
+    #     # set ingredient id to 0
+    #     ingredient_id = 0
+    #     for i, ingredient in enumerate(ingredients):
+    #         if ingredient["ingredient"] == ingredient_name:
+    #             ingredient_id = i
+    #             break
+    #     # removes ingredient at specified position
+    #     new_ingredient = ingredients[ingredient_id]
+    #     new_ingredient["ingredient"] = self.combobox_1.get()
+    #     amount = self.vars[1].get()
+    #     unit = self.combobox_2.get().split(" ")
+    #     unit = unit[1].replace("(", "").replace(")", "")
+    #     # check if the amount is valid number
+    #     validate_input_number(unit)
+    #     # define the new amount 
+    #     new_ingredient["amount"] = f"{amount} {unit}"
+    #     # write changes to the recipe 
+    #     self.write_to_yaml(file = INGREDIENT_FILE, data = Parser.yaml_dictionary)
+    
+    # def reset_ingredients(self) -> None:
+    #     self.combobox_1.set("")
+    #     self.combobox_2.set("")
+    #     self.vars[1].set("")
+
+    # def remove_ingredient(self) -> None:
+    #     # get new recipe name 
+    #     ingredient_name = self.combobox_1.get()
+    #     # get the recipe name and position
+    #     id = Parser.recipe_to_id[self.current_recipe]
+    #     # load the recipe
+    #     recipe = Parser.yaml_dictionary[id]
+    #     # get the ingredient list
+    #     ingredients = recipe["ingredients"]
+    #     # set ingredient id to 0
+    #     ingredient_id = 0
+    #     for i, ingredient in enumerate(ingredients):
+    #         if ingredient["ingredient"] == ingredient_name:
+    #             ingredient_id = i
+    #             break
+    #     # removes ingredient at specified position
+    #     ingredients.pop(ingredient_id)
+    #     self.value_list.remove(ingredient_name)
+    #     self.combobox_1.configure(values = self.value_list)
+    #     # reset ingredients
+    #     self.reset_ingredients()
+
+    #     # write changes to the recipe 
+    #     self.write_to_yaml(file = INGREDIENT_FILE, data = Parser.yaml_dictionary)
+
     def define_grid(self) -> None:
         self.columnconfigure((0, 1), weight=1)
         self.rowconfigure((0, 1, 2, 3, 4, 5, 6, 7), weight=1) # , minsize=20) 
@@ -203,15 +206,9 @@ class EditRecipe(ctk.CTkFrame, EditorFunctions):
     def create_buttons(self) -> None:
         # define 4 Buttons for the header
         self.button_6 = ctk.CTkButton(master=self, text= "Remove Recipe", hover_color="red")
-        self.button_7 = ctk.CTkButton(master=self, text= "Change Name", hover_color="red", 
-                                      command=lambda: self.change_name(recipe_name = self.vars[0].get(), current_recipe = self.current_recipe,\
-                                                                       current_label = self.current_label))
-        self.button_8 = ctk.CTkButton(master=self, text= "Remove Ingredient", hover_color="red", command= lambda: 
-                                      self.remove_ingredient(combobox_1 = self.combobox_1, combobox_2 = self.combobox_2, var_1 = self.vars[1], ingredient_name = self.combobox_1.get()
-                                                             ,current_recipe = self.current_recipe, value_list = self.value_list))
-        self.button_9 = ctk.CTkButton(master=self, text= "Apply Changes ", hover_color="red", command = lambda: 
-                                      self.change_ingredient(ingredient_name = self.combobox_1.get(), current_recipe = self.current_recipe
-                                                             ,unit_parts = self.combobox_2.get(), amount = self.vars[1].get()))
+        self.button_7 = ctk.CTkButton(master=self, text= "Change Name", hover_color="red", command = self.change_name)
+        self.button_8 = ctk.CTkButton(master=self, text= "Remove Ingredient", hover_color="red") #,  command = self.remove_ingredient)
+        self.button_9 = ctk.CTkButton(master=self, text= "Apply Changes ", hover_color="red") #, command = self.change_ingredient)
 
     def place_buttons(self) -> None:
         # place on the scrollable frame 
@@ -320,7 +317,7 @@ class EditorWindow(ctk.CTkFrame, EditorFunctions):
 
         self.current_recipe: str = None
 
-        self.current_label: tk.Label = None
+        self.current_label: ctk.CTkLabel = None
 
         self.recipe: dict = None
 
@@ -349,7 +346,8 @@ class EditorWindow(ctk.CTkFrame, EditorFunctions):
         # append list entries
         self.add_recipes_to_list()
 
-        self.edit_recipe = EditRecipe(value_list = self.value_list, parent=self.tab_1)
+        self.edit_recipe = EditRecipe(current_label = self.current_label,
+                                      current_recipe= self.current_recipe, value_list = self.value_list, parent=self.tab_1)
         self.recipe_view = ViewRecipe(parent=self.tab_2)
         self.pack(fill = ctk.BOTH, expand = True)
 
@@ -445,86 +443,10 @@ class EditorWindow(ctk.CTkFrame, EditorFunctions):
             print("this is the current label: ", self.current_label.cget("text"))
             self.load_recipe_data(recipe_name=self.current_label.cget("text"))
 
-            
+            # get name of the label widget 
             self.current_recipe = self.current_label.cget("text")
 
             self.parent_frame = parent_widget
-
-
-    # def change_name(self) -> None:
-    #     '''
-    #     add the function to change the label text in the edit tab 
-    #     '''
-    #     # get new recipe name 
-    #     new_name = self.vars[0].get()
-    #     # validate the recipe name
-    #     validate_input_string(new_name)
-    #     # get the recipe name and position
-    #     id = Parser.recipe_to_id[self.current_recipe]
-    #     recipe = Parser.yaml_dictionary[id]
-    #     recipe["recipe"] = new_name
-    #     # set the label to new_name
-    #     self.current_label.configure(text = new_name)
-    #     # write new name to the recipe
-    #     self.write_to_yaml(file = INGREDIENT_FILE, data = Parser.yaml_dictionary)
-    
-    # def change_ingredient(self) -> None: 
-    #      # get new recipe name 
-    #     ingredient_name = self.combobox_1.get()
-    #     # get the recipe name and position
-    #     id = Parser.recipe_to_id[self.current_recipe]
-    #     # load the recipe
-    #     recipe = Parser.yaml_dictionary[id]
-    #     # get the ingredient list
-    #     ingredients = recipe["ingredients"]
-    #     # set ingredient id to 0
-    #     ingredient_id = 0
-    #     for i, ingredient in enumerate(ingredients):
-    #         if ingredient["ingredient"] == ingredient_name:
-    #             ingredient_id = i
-    #             break
-    #     # removes ingredient at specified position
-    #     new_ingredient = ingredients[ingredient_id]
-    #     new_ingredient["ingredient"] = self.combobox_1.get()
-    #     amount = self.vars[1].get()
-    #     unit = self.combobox_2.get().split(" ")
-    #     unit = unit[1].replace("(", "").replace(")", "")
-    #     # check if the amount is valid number
-    #     validate_input_number(unit)
-    #     # define the new amount 
-    #     new_ingredient["amount"] = f"{amount} {unit}"
-    #     # write changes to the recipe 
-    #     self.write_to_yaml(file = INGREDIENT_FILE, data = Parser.yaml_dictionary)
-    
-    # def reset_ingredients(self) -> None:
-    #     self.combobox_1.set("")
-    #     self.combobox_2.set("")
-    #     self.vars[1].set("")
-
-    # def remove_ingredient(self) -> None:
-    #     # get new recipe name 
-    #     ingredient_name = self.combobox_1.get()
-    #     # get the recipe name and position
-    #     id = Parser.recipe_to_id[self.current_recipe]
-    #     # load the recipe
-    #     recipe = Parser.yaml_dictionary[id]
-    #     # get the ingredient list
-    #     ingredients = recipe["ingredients"]
-    #     # set ingredient id to 0
-    #     ingredient_id = 0
-    #     for i, ingredient in enumerate(ingredients):
-    #         if ingredient["ingredient"] == ingredient_name:
-    #             ingredient_id = i
-    #             break
-    #     # removes ingredient at specified position
-    #     ingredients.pop(ingredient_id)
-    #     self.value_list.remove(ingredient_name)
-    #     self.combobox_1.configure(values = self.value_list)
-    #     # reset ingredients
-    #     self.reset_ingredients()
-
-    #     # write changes to the recipe 
-    #     self.write_to_yaml(file = INGREDIENT_FILE, data = Parser.yaml_dictionary)
 
     # loads recipe data
     def load_recipe_data(self, recipe_name: str):
@@ -555,14 +477,6 @@ class EditorWindow(ctk.CTkFrame, EditorFunctions):
         self.edit_recipe.set_combobox(values = self.value_list)
 
         print("This is editor value_list: ", self.value_list)
-
-
-    # def load_recipe_view(self, ingredients: list):
-    #     for ingredient in ingredients:
-    #         text = f"Ingredient: {ingredient["ingredient"]}, Subcategory: {ingredient["subcategory"]}, Amount: {ingredient["amount"]}"
-    #         print("This is the text: ", text)
-    #         label = ctk.CTkLabel(master=self.tab_2, text=text, text_color="White")
-    #         label.pack(pady=5, padx=10, fill="x")
 
     def highlight_frame_widgets(self, color: str, frame_path: tk.Frame):
         frame_path.configure(fg_color = color)

@@ -6,7 +6,8 @@ from tkinter import font
 import customtkinter as ctk
 from paths import INGREDIENT_FILE
 from style_template import ENTRY_COLOR, LABEL_COLOR, BUTTON_COLOR, LIGHT_GREY
-from validation import validate_input_number
+from validation import validate_input_number, validate_integer
+from tkinter import messagebox
 
 
 '''
@@ -66,9 +67,18 @@ class Tab_1(ctk.CTkFrame):
 
     def open_meal_plan(self):
         # validate the inputs and open the main window
-        validate_input_number(self.day_amount.get())
-        validate_input_number(self.meal_amount.get())
-        Grocceries(self.meal_amount, self.day_amount)   
+        day_amount = validate_integer(self.day_amount.get())
+        meal_amount = validate_integer(self.meal_amount.get())
+
+        print("THis is day amount: ", day_amount)
+        print("THis is meal amount: ", meal_amount)
+
+        if day_amount and meal_amount:
+            Grocceries(meal_amount, day_amount)
+
+        else:
+            messagebox.showwarning("Warning", "Please fill all entry fields!")
+
 
 class Grocceries(ctk.CTkToplevel):
 
@@ -78,7 +88,7 @@ class Grocceries(ctk.CTkToplevel):
     ingredient_dict: dict[str : int]
     recipes: dict
 
-    def __init__(self, meal_amount: tk.StringVar, day_amount: tk.StringVar) -> None:
+    def __init__(self, meal_amount: int, day_amount: int) -> None:
 
         super().__init__()
         #create the main window 
@@ -95,9 +105,9 @@ class Grocceries(ctk.CTkToplevel):
         self.combvars = [tk.StringVar() for var in range(21)]
 
         # retrieve integers from the meal_amount and day_amount 
-        values = self.retrieve_integers(meal_amount, day_amount)
-        self.meal_amount = values[0]
-        self.day_amount = values[1]
+        # values = self.retrieve_integers(meal_amount, day_amount)
+        self.meal_amount = meal_amount 
+        self.day_amount = day_amount
 
         #generate recipe list
         self.generate_entries()
@@ -211,8 +221,6 @@ class Grocceries(ctk.CTkToplevel):
             elif recipe.get() != "":
                 self.recipe_amount[recipe.get()] = 1
             # else increase the ammount of the recipe occurance   
-
-
 class GroccerieList(ctk.CTkToplevel):
 
     def __init__(self, ingredient_dict: dict) -> None:

@@ -1,5 +1,9 @@
+# import customtkinter as ctk
+
 # font configuration
 FONT = "Calibri"
+# create modern fonts
+# MODERN_FONT = ctk.CTkFont("Anona", 16, "bold")
 
 # colors 
 ENTRY_COLOR = "#42a4f5"

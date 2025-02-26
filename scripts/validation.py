@@ -27,6 +27,18 @@ def validate_input_string(input_string: str):
         print(e)
         messagebox.showwarning("Warning", "Do not use any special characters or numbers!")
 
+
+def validate_integer(input_number: int):
+    if input_number:
+        try:
+            return int(input_number)
+
+        except ValueError:
+            messagebox.showerror("Error", "Wrong input value!")
+            return None 
+    else:
+        return None
+
 def validate_input_number(input_number: str):
     def try_parse_int(s):
         try:

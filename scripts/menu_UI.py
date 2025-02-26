@@ -1,5 +1,3 @@
-import tkinter as tk
-from tkinter import ttk
 import customtkinter as ctk
 from grocceries_UI import Grocceries, Tab_1
 from recipe_UI import Recipe
@@ -33,20 +31,19 @@ class App(ctk.CTk):
         EditorWindow(parent=self.tab_3)
 
         # create labels 
-
         ctk.set_appearance_mode("dark")
     
+        # set the layout of the main UI window
         self.geometry('1200x600')
         self.configure(font = self.font_1)
         self.title("Food App")
-
-        # initialize variables 
-        self.groccerie_ui = None
         
         # initialize mainloop
         self.mainloop()
 
     def create_tabview(self):
+        """creates the main tabview for the UI
+        """
         self.tabview = ctk.CTkTabview(master=self, width=400, height=300, anchor="n")
         self.tabview.pack(padx=20, pady=20)
 
@@ -54,8 +51,6 @@ class App(ctk.CTk):
         self.tab_2 = self.tabview.add("Add Recipe")  # add tab at the end
         self.tab_3 = self.tabview.add("Edit/View Recipes")  # add tab at the end
         self.tabview.set("Generate Groccerie List")  # set currently visible tab
-
-
 
 if  __name__ == "__main__" :
     ui = App()
