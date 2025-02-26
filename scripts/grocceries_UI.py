@@ -70,15 +70,8 @@ class Tab_1(ctk.CTkFrame):
         day_amount = validate_integer(self.day_amount.get())
         meal_amount = validate_integer(self.meal_amount.get())
 
-        print("THis is day amount: ", day_amount)
-        print("THis is meal amount: ", meal_amount)
-
         if day_amount and meal_amount:
             Grocceries(meal_amount, day_amount)
-
-        else:
-            messagebox.showwarning("Warning", "Please fill all entry fields!")
-
 
 class Grocceries(ctk.CTkToplevel):
 
@@ -115,14 +108,6 @@ class Grocceries(ctk.CTkToplevel):
         self.define_combobox()
         self.define_labels()
 
-    def retrieve_integers(self, var1: tk.StringVar, var2: tk.StringVar):
-        try: 
-            meal_amount = int(var1.get())
-            day_amount = int(var2.get())
-            return meal_amount, day_amount
-        except ValueError as exc: 
-            raise ValueError("Both StringVars must contain only integers") from exc
-            
     def define_buttons(self):
         #define a button 
         button_0 = ctk.CTkButton(self, text="Generate List", command=self.generate_grocceries)
@@ -157,24 +142,29 @@ class Grocceries(ctk.CTkToplevel):
         for index, entry in enumerate(recipes):
             self.recipe_map[entry["recipe"]] = index
 
-    def generate_groccerie_list(self):
-        GroccerieList(ingredient_dict=self.ingredient_dict)
-
     def generate_grocceries(self):
-        self.sort_grocceries()
-        print(self.recipe_amount)
-        for key, value in self.recipe_amount.items():
-            if key == "---":
-                continue
-            # get the recipe index from the recipe map for a given key
-            recipe_index = self.recipe_map[key]
-            # get the recipe at the given index 
-            recipe = self.recipes[recipe_index]
-            ingredients = recipe["ingredients"]
-            for i in range(value):
-                self.parse_ingredients(ingredients)
 
-        self.generate_groccerie_list()
+        flag = self.sort_grocceries()
+        # flag which is set once an entry is not from recipe list
+        if flag:  
+            for key, value in self.recipe_amount.items():
+                # get the recipe index from the recipe map for a given key
+                # check if the key is in the recipe_list
+                if key not in self.recipe_list:
+                    flag = False
+
+                recipe_index = self.recipe_map[key]
+                # get the recipe at the given index 
+                recipe = self.recipes[recipe_index]
+                ingredients = recipe["ingredients"]
+                for i in range(value):
+                    self.parse_ingredients(ingredients)
+            
+            GroccerieList(ingredient_dict=self.ingredient_dict)
+        
+        else: 
+            messagebox.showwarning("Warning","Some entries in the entry fields are not contained in recipe list!")
+
 
     def convert_amount(self, amount: str):
         try: 
@@ -211,16 +201,20 @@ class Grocceries(ctk.CTkToplevel):
             else:
                 self.ingredient_dict[ingredient_name] = ingredient_amount
 
-        print(self.ingredient_dict)
-
-    def sort_grocceries(self):
+    def sort_grocceries(self, flag = True) -> bool:
         for recipe in self.combvars:
             # if the recipe is not in the dictionary -> create dictionary entry 
-            if recipe.get() in self.recipe_amount:
+            if recipe.get() not in self.recipe_list:
+                flag = False
+                continue
+            elif recipe.get() == "---":
+                continue
+            elif recipe.get() in self.recipe_amount:
                 self.recipe_amount[recipe.get()] += 1
             elif recipe.get() != "":
                 self.recipe_amount[recipe.get()] = 1
-            # else increase the ammount of the recipe occurance   
+
+        return flag
 class GroccerieList(ctk.CTkToplevel):
 
     def __init__(self, ingredient_dict: dict) -> None:

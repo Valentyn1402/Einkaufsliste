@@ -37,6 +37,7 @@ def validate_integer(input_number: int):
             messagebox.showerror("Error", "Wrong input value!")
             return None 
     else:
+        messagebox.showwarning("Warning", "Not all entry fields are filled in!")
         return None
 
 def validate_input_number(input_number: str):
