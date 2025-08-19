@@ -17,7 +17,10 @@ TO DO: add a button which indicates when recipe is complete and can be added to 
 - Add possibility to remove a recipe from the list
 - Possible to change the list of dictionaries to a dictionary which has the recipe name as the key and everything else
 as the value
-- remove ingredient at the start of the listbox entry 
+- remove ingredient at the start of the listbox entry  
+- add a function where the ingredients can only be selected from the list and if there is no ingredients 
+matching the one written in the entry box 
+
 ''' 
 
 class Recipe(ctk.CTkFrame, Parser):
@@ -390,6 +393,11 @@ class Recipe(ctk.CTkFrame, Parser):
             [self.vars[0].get(), self.combvars[1].get(), self.combvars[0].get()]]):
             messagebox.showwarning("Warning", "Please fill in all fields!")
             return
+        
+        else:
+            
+
+
         # creates a recipe entry in the dictionary 
         self.add_to_recipes()
 
